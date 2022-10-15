@@ -21,4 +21,3 @@
  * Utilities around artifacts and artifact type registries.
  */
 package org.eclipse.aether.util.artifact;
-

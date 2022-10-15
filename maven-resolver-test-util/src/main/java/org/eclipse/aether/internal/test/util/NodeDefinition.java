@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.test.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.test.util;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.test.util;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.test.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,8 +31,7 @@ import java.util.regex.Pattern;
  * 
  * @see DependencyGraphParser
  */
-class NodeDefinition
-{
+class NodeDefinition {
 
     static final String ID = "\\(([-_a-zA-Z0-9]+)\\)";
 
@@ -60,7 +58,7 @@ class NodeDefinition
     static final String COORDSX = "(" + COORDS_NC + ")" + RANGE + "?(?:<((?:" + RANGE_NC + ")|\\S+))?";
 
     static final String NODE = COORDSX + "(?:\\s+" + PROPS + ")?" + "(?:\\s+" + SCOPE + ")?" + "(?:\\s+" + OPTIONAL
-        + ")?" + "(?:\\s+" + RELOCATIONS + ")?" + "(?:\\s+" + ID + ")?";
+            + ")?" + "(?:\\s+" + RELOCATIONS + ")?" + "(?:\\s+" + ID + ")?";
 
     static final String LINE = "(?:" + IDREF + ")|(?:" + NODE + ")";
 
@@ -88,19 +86,16 @@ class NodeDefinition
 
     String reference;
 
-    NodeDefinition( String definition )
-    {
+    NodeDefinition( String definition ) {
         def = definition.trim();
 
         Matcher m = PATTERN.matcher( def );
-        if ( !m.matches() )
-        {
+        if( !m.matches() ) {
             throw new IllegalArgumentException( "bad syntax: " + def );
         }
 
         reference = m.group( 1 );
-        if ( reference != null )
-        {
+        if( reference != null ) {
             return;
         }
 
@@ -109,11 +104,9 @@ class NodeDefinition
         premanagedVersion = m.group( 4 );
 
         String props = m.group( 5 );
-        if ( props != null )
-        {
+        if( props != null ) {
             properties = new LinkedHashMap<>();
-            for ( String prop : props.split( "\\s*,\\s*" ) )
-            {
+            for( String prop : props.split( "\\s*,\\s*" ) ) {
                 int sep = prop.indexOf( ':' );
                 String key = prop.substring( 0, sep );
                 String val = prop.substring( sep + 1 );
@@ -126,8 +119,7 @@ class NodeDefinition
         optional = ( m.group( 8 ) != null ) ? !m.group( 8 ).startsWith( "!" ) : Boolean.FALSE;
 
         String relocs = m.group( 9 );
-        if ( relocs != null )
-        {
+        if( relocs != null ) {
             relocations = new ArrayList<>();
             Collections.addAll( relocations, relocs.split( "\\s*,\\s*" ) );
         }
@@ -136,8 +128,7 @@ class NodeDefinition
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return def;
     }
 

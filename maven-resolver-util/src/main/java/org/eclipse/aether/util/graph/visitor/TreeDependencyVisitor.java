@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.visitor;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.visitor;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,13 +16,15 @@ package org.eclipse.aether.util.graph.visitor;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.graph.visitor;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
-import static java.util.Objects.requireNonNull;
 
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.graph.DependencyVisitor;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * A dependency visitor that delegates to another visitor if a node hasn't been visited before. In other words, this
@@ -32,7 +32,7 @@ import org.eclipse.aether.graph.DependencyVisitor;
  * cycles.
  */
 public final class TreeDependencyVisitor
-    implements DependencyVisitor
+        implements DependencyVisitor
 {
 
     private final Map<DependencyNode, Object> visitedNodes;
@@ -46,33 +46,28 @@ public final class TreeDependencyVisitor
      *
      * @param visitor The visitor to delegate to, must not be {@code null}.
      */
-    public TreeDependencyVisitor( DependencyVisitor visitor )
-    {
+    public TreeDependencyVisitor( DependencyVisitor visitor ) {
         this.visitor = requireNonNull( visitor, "dependency visitor delegate cannot be null" );
         visitedNodes = new IdentityHashMap<>( 512 );
         visits = new Stack<>();
     }
 
-    public boolean visitEnter( DependencyNode node )
-    {
+    public boolean visitEnter( DependencyNode node ) {
         boolean visited = visitedNodes.put( node, Boolean.TRUE ) != null;
 
         visits.push( visited );
 
-        if ( visited )
-        {
+        if( visited ) {
             return false;
         }
 
         return visitor.visitEnter( node );
     }
 
-    public boolean visitLeave( DependencyNode node )
-    {
+    public boolean visitLeave( DependencyNode node ) {
         Boolean visited = visits.pop();
 
-        if ( visited )
-        {
+        if( visited ) {
             return true;
         }
 

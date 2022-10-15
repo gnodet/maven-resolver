@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl.collect.bf;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl.collect.bf;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,12 +16,12 @@ package org.eclipse.aether.internal.impl.collect.bf;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl.collect.bf;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
 
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.eclipse.aether.collection.CollectRequest;
@@ -48,11 +46,11 @@ import static org.junit.Assert.assertEquals;
  * UT for {@link BfDependencyCollector}.
  */
 @RunWith( Parameterized.class )
-public class BfDependencyCollectorTest extends DependencyCollectorDelegateTestSupport
+public class BfDependencyCollectorTest
+        extends DependencyCollectorDelegateTestSupport
 {
     @Parameterized.Parameters
-    public static List<Boolean> parameters()
-    {
+    public static List<Boolean> parameters() {
         return Arrays.asList( Boolean.TRUE, Boolean.FALSE );
     }
 
@@ -60,8 +58,7 @@ public class BfDependencyCollectorTest extends DependencyCollectorDelegateTestSu
     public boolean useSkipper;
 
     @Override
-    protected void setupCollector()
-    {
+    protected void setupCollector() {
         session.setConfigProperty( BfDependencyCollector.CONFIG_PROP_SKIPPER, useSkipper );
 
         collector = new BfDependencyCollector();
@@ -70,14 +67,14 @@ public class BfDependencyCollectorTest extends DependencyCollectorDelegateTestSu
         collector.setRemoteRepositoryManager( new StubRemoteRepositoryManager() );
     }
 
-    private Dependency newDep( String coords, String scope, Collection<Exclusion> exclusions )
-    {
+    private Dependency newDep( String coords, String scope, Collection<Exclusion> exclusions ) {
         Dependency d = new Dependency( new DefaultArtifact( coords ), scope );
         return d.setExclusions( exclusions );
     }
 
     @Test
-    public void testSkipperWithDifferentExclusion() throws DependencyCollectionException
+    public void testSkipperWithDifferentExclusion()
+            throws DependencyCollectionException
     {
         Assume.assumeTrue( useSkipper );
         collector.setArtifactDescriptorReader( newReader( "managed/" ) );
@@ -102,10 +99,10 @@ public class BfDependencyCollectorTest extends DependencyCollectorDelegateTestSu
         assertEquals( 2, result.getRoot().getChildren().size() );
         assertEquals( root1, dep( result.getRoot(), 0 ) );
         assertEquals( root2, dep( result.getRoot(), 1 ) );
-        //the winner has transitive-1 excluded
+        // the winner has transitive-1 excluded
         assertEquals( 1, path( result.getRoot(), 0 ).getChildren().size() );
         assertEquals( 0, path( result.getRoot(), 0, 0 ).getChildren().size() );
-        //skipped
+        // skipped
         assertEquals( 0, path( result.getRoot(), 1 ).getChildren().size() );
     }
 

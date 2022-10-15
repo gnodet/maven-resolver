@@ -21,4 +21,3 @@
  * Utilities for concurrent task processing.
  */
 package org.eclipse.aether.util.concurrency;
-

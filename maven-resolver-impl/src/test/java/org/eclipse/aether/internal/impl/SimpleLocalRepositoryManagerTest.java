@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.impl;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.internal.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.internal.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,10 +33,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+
 /**
+ *
  */
-public class SimpleLocalRepositoryManagerTest
-{
+public class SimpleLocalRepositoryManagerTest {
 
     private File basedir;
 
@@ -49,7 +50,7 @@ public class SimpleLocalRepositoryManagerTest
 
     @Before
     public void setup()
-        throws IOException
+            throws IOException
     {
         basedir = TestFileUtils.createTempDir( "simple-repo" );
         manager = new SimpleLocalRepositoryManager( basedir, "simple", new DefaultLocalPathComposer() );
@@ -58,7 +59,7 @@ public class SimpleLocalRepositoryManagerTest
 
     @After
     public void tearDown()
-        throws Exception
+            throws Exception
     {
         TestFileUtils.deleteFile( basedir );
         manager = null;
@@ -66,8 +67,7 @@ public class SimpleLocalRepositoryManagerTest
     }
 
     @Test
-    public void testGetPathForLocalArtifact()
-    {
+    public void testGetPathForLocalArtifact() {
         Artifact artifact = new DefaultArtifact( "g.i.d:a.i.d:1.0-SNAPSHOT" );
         assertEquals( "1.0-SNAPSHOT", artifact.getBaseVersion() );
         assertEquals( "g/i/d/a.i.d/1.0-SNAPSHOT/a.i.d-1.0-SNAPSHOT.jar", manager.getPathForLocalArtifact( artifact ) );
@@ -81,24 +81,23 @@ public class SimpleLocalRepositoryManagerTest
     }
 
     @Test
-    public void testGetPathForRemoteArtifact()
-    {
+    public void testGetPathForRemoteArtifact() {
         RemoteRepository remoteRepo = new RemoteRepository.Builder( "repo", "default", "ram:/void" ).build();
 
         Artifact artifact = new DefaultArtifact( "g.i.d:a.i.d:1.0-SNAPSHOT" );
         assertEquals( "1.0-SNAPSHOT", artifact.getBaseVersion() );
         assertEquals( "g/i/d/a.i.d/1.0-SNAPSHOT/a.i.d-1.0-SNAPSHOT.jar",
-                      manager.getPathForRemoteArtifact( artifact, remoteRepo, "" ) );
+                manager.getPathForRemoteArtifact( artifact, remoteRepo, "" ) );
 
         artifact = new DefaultArtifact( "g.i.d:a.i.d:1.0-20110329.221805-4" );
         assertEquals( "1.0-SNAPSHOT", artifact.getBaseVersion() );
         assertEquals( "g/i/d/a.i.d/1.0-SNAPSHOT/a.i.d-1.0-20110329.221805-4.jar",
-                      manager.getPathForRemoteArtifact( artifact, remoteRepo, "" ) );
+                manager.getPathForRemoteArtifact( artifact, remoteRepo, "" ) );
     }
 
     @Test
     public void testFindArtifactUsesTimestampedVersion()
-        throws Exception
+            throws Exception
     {
         Artifact artifact = new DefaultArtifact( "g.i.d:a.i.d:1.0-SNAPSHOT" );
         File file = new File( basedir, manager.getPathForLocalArtifact( artifact ) );

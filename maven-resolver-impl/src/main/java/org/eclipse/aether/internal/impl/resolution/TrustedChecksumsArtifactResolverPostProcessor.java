@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl.resolution;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl.resolution;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.impl.resolution;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl.resolution;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -66,17 +65,16 @@ public final class TrustedChecksumsArtifactResolverPostProcessor
 
     private static final String CONF_RECORD = "record";
 
-    private static final String CHECKSUM_ALGORITHMS_CACHE_KEY =
-            TrustedChecksumsArtifactResolverPostProcessor.class.getName() + ".checksumAlgorithms";
+    private static final String CHECKSUM_ALGORITHMS_CACHE_KEY = TrustedChecksumsArtifactResolverPostProcessor.class
+            .getName() + ".checksumAlgorithms";
 
     private final ChecksumAlgorithmFactorySelector checksumAlgorithmFactorySelector;
 
     private final Map<String, TrustedChecksumsSource> trustedChecksumsSources;
 
     @Inject
-    public TrustedChecksumsArtifactResolverPostProcessor(
-            ChecksumAlgorithmFactorySelector checksumAlgorithmFactorySelector,
-            Map<String, TrustedChecksumsSource> trustedChecksumsSources )
+    public TrustedChecksumsArtifactResolverPostProcessor( ChecksumAlgorithmFactorySelector checksumAlgorithmFactorySelector,
+                                                          Map<String, TrustedChecksumsSource> trustedChecksumsSources )
     {
         super( NAME );
         this.checksumAlgorithmFactorySelector = requireNonNull( checksumAlgorithmFactorySelector );
@@ -85,29 +83,21 @@ public final class TrustedChecksumsArtifactResolverPostProcessor
 
     @SuppressWarnings( "unchecked" )
     @Override
-    protected void doProcess( RepositorySystemSession session, List<ArtifactResult> artifactResults )
-    {
+    protected void doProcess( RepositorySystemSession session, List<ArtifactResult> artifactResults ) {
         final List<ChecksumAlgorithmFactory> checksumAlgorithms = (List<ChecksumAlgorithmFactory>) session.getData()
-                .computeIfAbsent( CHECKSUM_ALGORITHMS_CACHE_KEY, () ->
-                        checksumAlgorithmFactorySelector.select(
-                                ConfigUtils.parseCommaSeparatedUniqueNames( ConfigUtils.getString(
-                                        session, DEFAULT_CHECKSUM_ALGORITHMS, CONF_CHECKSUM_ALGORITHMS ) )
-                        ) );
+                .computeIfAbsent( CHECKSUM_ALGORITHMS_CACHE_KEY,
+                        () -> checksumAlgorithmFactorySelector
+                                .select( ConfigUtils.parseCommaSeparatedUniqueNames( ConfigUtils.getString( session,
+                                        DEFAULT_CHECKSUM_ALGORITHMS, CONF_CHECKSUM_ALGORITHMS ) ) ) );
 
-        final boolean failIfMissing = ConfigUtils.getBoolean(
-                session, false, configPropKey( CONF_FAIL_IF_MISSING ) );
+        final boolean failIfMissing = ConfigUtils.getBoolean( session, false, configPropKey( CONF_FAIL_IF_MISSING ) );
         final boolean record = ConfigUtils.getBoolean( session, false, configPropKey( CONF_RECORD ) );
 
-        for ( ArtifactResult artifactResult : artifactResults )
-        {
-            if ( artifactResult.isResolved() )
-            {
-                if ( record )
-                {
+        for( ArtifactResult artifactResult : artifactResults ) {
+            if( artifactResult.isResolved() ) {
+                if( record ) {
                     recordArtifactChecksums( session, artifactResult, checksumAlgorithms );
-                }
-                else if ( !validateArtifactChecksums( session, artifactResult, checksumAlgorithms, failIfMissing ) )
-                {
+                } else if( !validateArtifactChecksums( session, artifactResult, checksumAlgorithms, failIfMissing ) ) {
                     artifactResult.setArtifact( artifactResult.getArtifact().setFile( null ) ); // make it unresolved
                 }
             }
@@ -117,33 +107,27 @@ public final class TrustedChecksumsArtifactResolverPostProcessor
     /**
      * Calculates and records checksums into trusted sources that support writing.
      */
-    private void recordArtifactChecksums( RepositorySystemSession session,
-                                          ArtifactResult artifactResult,
+    private void recordArtifactChecksums( RepositorySystemSession session, ArtifactResult artifactResult,
                                           List<ChecksumAlgorithmFactory> checksumAlgorithmFactories )
     {
         Artifact artifact = artifactResult.getArtifact();
         ArtifactRepository artifactRepository = artifactResult.getRepository();
 
-        try
-        {
-            final Map<String, String> calculatedChecksums = ChecksumAlgorithmHelper.calculate(
-                    artifact.getFile(), checksumAlgorithmFactories );
+        try {
+            final Map<String, String> calculatedChecksums = ChecksumAlgorithmHelper.calculate( artifact.getFile(),
+                    checksumAlgorithmFactories );
 
-            for ( TrustedChecksumsSource trustedChecksumsSource : trustedChecksumsSources.values() )
-            {
-                try ( TrustedChecksumsSource.Writer writer = trustedChecksumsSource
+            for( TrustedChecksumsSource trustedChecksumsSource : trustedChecksumsSources.values() ) {
+                try( TrustedChecksumsSource.Writer writer = trustedChecksumsSource
                         .getTrustedArtifactChecksumsWriter( session ) )
                 {
-                    if ( writer != null )
-                    {
+                    if( writer != null ) {
                         writer.addTrustedArtifactChecksums( artifact, artifactRepository, checksumAlgorithmFactories,
                                 calculatedChecksums );
                     }
                 }
             }
-        }
-        catch ( IOException e )
-        {
+        } catch( IOException e ) {
             throw new UncheckedIOException( "Could not calculate amd write required checksums for "
                     + artifact.getFile(), e );
         }
@@ -153,8 +137,7 @@ public final class TrustedChecksumsArtifactResolverPostProcessor
      * Validates trusted checksums against {@link ArtifactResult}, returns {@code true} denoting "valid" checksums or
      * {@code false} denoting "invalid" checksums.
      */
-    private boolean validateArtifactChecksums( RepositorySystemSession session,
-                                               ArtifactResult artifactResult,
+    private boolean validateArtifactChecksums( RepositorySystemSession session, ArtifactResult artifactResult,
                                                List<ChecksumAlgorithmFactory> checksumAlgorithmFactories,
                                                boolean failIfMissing )
     {
@@ -163,34 +146,30 @@ public final class TrustedChecksumsArtifactResolverPostProcessor
 
         boolean valid = true;
         boolean validated = false;
-        try
-        {
+        try {
             // full set: calculate all algorithms we were asked for
-            final Map<String, String> calculatedChecksums = ChecksumAlgorithmHelper.calculate(
-                    artifact.getFile(), checksumAlgorithmFactories );
+            final Map<String, String> calculatedChecksums = ChecksumAlgorithmHelper.calculate( artifact.getFile(),
+                    checksumAlgorithmFactories );
 
-            for ( Map.Entry<String, TrustedChecksumsSource> entry : trustedChecksumsSources.entrySet() )
-            {
+            for( Map.Entry<String, TrustedChecksumsSource> entry : trustedChecksumsSources.entrySet() ) {
                 final String trustedSourceName = entry.getKey();
                 final TrustedChecksumsSource trustedChecksumsSource = entry.getValue();
 
-                // upper bound set: ask source for checksums, ideally same as calculatedChecksums but may be less
-                Map<String, String> trustedChecksums = trustedChecksumsSource.getTrustedArtifactChecksums(
-                        session, artifact, artifactRepository, checksumAlgorithmFactories );
+                // upper bound set: ask source for checksums, ideally same as
+                // calculatedChecksums but may be less
+                Map<String, String> trustedChecksums = trustedChecksumsSource.getTrustedArtifactChecksums( session,
+                        artifact, artifactRepository, checksumAlgorithmFactories );
 
-                if ( trustedChecksums == null )
-                {
+                if( trustedChecksums == null ) {
                     continue; // not enabled
                 }
                 validated = true;
 
-                if ( !calculatedChecksums.equals( trustedChecksums ) )
-                {
+                if( !calculatedChecksums.equals( trustedChecksums ) ) {
                     Set<String> missingTrustedAlg = new HashSet<>( calculatedChecksums.keySet() );
                     missingTrustedAlg.removeAll( trustedChecksums.keySet() );
 
-                    if ( !missingTrustedAlg.isEmpty() && failIfMissing )
-                    {
+                    if( !missingTrustedAlg.isEmpty() && failIfMissing ) {
                         artifactResult.addException( new ChecksumFailureException( "Missing from " + trustedSourceName
                                 + " trusted checksum(s) " + missingTrustedAlg + " for artifact "
                                 + ArtifactIdUtils.toId( artifact ) ) );
@@ -199,31 +178,26 @@ public final class TrustedChecksumsArtifactResolverPostProcessor
 
                     // compare values but only present ones, failIfMissing handled above
                     // we still want to report all: algX - missing, algY - mismatch, etc
-                    for ( ChecksumAlgorithmFactory checksumAlgorithmFactory : checksumAlgorithmFactories )
-                    {
+                    for( ChecksumAlgorithmFactory checksumAlgorithmFactory : checksumAlgorithmFactories ) {
                         String calculatedChecksum = calculatedChecksums.get( checksumAlgorithmFactory.getName() );
                         String trustedChecksum = trustedChecksums.get( checksumAlgorithmFactory.getName() );
-                        if ( trustedChecksum != null && !Objects.equals( calculatedChecksum, trustedChecksum ) )
-                        {
-                            artifactResult.addException( new ChecksumFailureException( "Artifact "
-                                    + ArtifactIdUtils.toId( artifact ) + " trusted checksum mismatch: "
-                                    + trustedSourceName + "=" + trustedChecksum + "; calculated="
-                                    + calculatedChecksum ) );
+                        if( trustedChecksum != null && !Objects.equals( calculatedChecksum, trustedChecksum ) ) {
+                            artifactResult.addException(
+                                    new ChecksumFailureException( "Artifact " + ArtifactIdUtils.toId( artifact )
+                                            + " trusted checksum mismatch: " + trustedSourceName + "=" + trustedChecksum
+                                            + "; calculated=" + calculatedChecksum ) );
                             valid = false;
                         }
                     }
                 }
             }
 
-            if ( !validated && failIfMissing )
-            {
+            if( !validated && failIfMissing ) {
                 artifactResult.addException( new ChecksumFailureException( "There are no enabled trusted checksums"
                         + " source(s) to validate against." ) );
                 valid = false;
             }
-        }
-        catch ( IOException e )
-        {
+        } catch( IOException e ) {
             throw new UncheckedIOException( e );
         }
         return valid;

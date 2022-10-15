@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.impl;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,25 +16,26 @@ package org.eclipse.aether.internal.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.internal.impl;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.aether.internal.impl.DefaultFileProcessor;
 import org.eclipse.aether.internal.test.util.TestFileUtils;
 import org.eclipse.aether.spi.io.FileProcessor.ProgressListener;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 /**
+ *
  */
-public class DefaultFileProcessorTest
-{
+public class DefaultFileProcessorTest {
 
     private File targetDir;
 
@@ -44,7 +43,7 @@ public class DefaultFileProcessorTest
 
     @Before
     public void setup()
-        throws IOException
+            throws IOException
     {
         targetDir = TestFileUtils.createTempDir( getClass().getSimpleName() );
         fileProcessor = new DefaultFileProcessor();
@@ -52,7 +51,7 @@ public class DefaultFileProcessorTest
 
     @After
     public void teardown()
-        throws Exception
+            throws Exception
     {
         TestFileUtils.deleteFile( targetDir );
         fileProcessor = null;
@@ -60,7 +59,7 @@ public class DefaultFileProcessorTest
 
     @Test
     public void testCopy()
-        throws IOException
+            throws IOException
     {
         String data = "testCopy\nasdf";
         File file = TestFileUtils.createTempFile( data );
@@ -75,13 +74,12 @@ public class DefaultFileProcessorTest
 
     @Test
     public void testOverwrite()
-        throws IOException
+            throws IOException
     {
         String data = "testCopy\nasdf";
         File file = TestFileUtils.createTempFile( data );
 
-        for ( int i = 0; i < 5; i++ )
-        {
+        for( int i = 0; i < 5; i++ ) {
             File target = new File( targetDir, "testCopy.txt" );
             fileProcessor.copy( file, target );
             assertEquals( data, TestFileUtils.readString( file ) );
@@ -92,7 +90,7 @@ public class DefaultFileProcessorTest
 
     @Test
     public void testCopyEmptyFile()
-        throws IOException
+            throws IOException
     {
         File file = TestFileUtils.createTempFile( "" );
         File target = new File( targetDir, "testCopyEmptyFile" );
@@ -104,16 +102,14 @@ public class DefaultFileProcessorTest
 
     @Test
     public void testProgressingChannel()
-        throws IOException
+            throws IOException
     {
         File file = TestFileUtils.createTempFile( "test" );
         File target = new File( targetDir, "testProgressingChannel" );
         target.delete();
         final AtomicInteger progressed = new AtomicInteger();
-        ProgressListener listener = new ProgressListener()
-        {
-            public void progressed( ByteBuffer buffer )
-            {
+        ProgressListener listener = new ProgressListener() {
+            public void progressed( ByteBuffer buffer ) {
                 progressed.addAndGet( buffer.remaining() );
             }
         };

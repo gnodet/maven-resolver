@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl.collect.bf;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl.collect.bf;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.impl.collect.bf;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl.collect.bf;
 
 import java.util.List;
 
@@ -34,30 +33,31 @@ import org.eclipse.aether.repository.RemoteRepository;
  *
  * @since 1.8.0
  */
-final class DependencyProcessingContext
-{
+final class DependencyProcessingContext {
     final DependencySelector depSelector;
+
     final DependencyManager depManager;
+
     final DependencyTraverser depTraverser;
+
     final VersionFilter verFilter;
+
     final List<RemoteRepository> repositories;
+
     final List<Dependency> managedDependencies;
 
     /**
      * All parents of the dependency in the top > down order.
      */
     final List<DependencyNode> parents;
+
     Dependency dependency;
 
     @SuppressWarnings( "checkstyle:parameternumber" )
-    DependencyProcessingContext( DependencySelector depSelector,
-                                 DependencyManager depManager,
-                                 DependencyTraverser depTraverser,
-                                 VersionFilter verFilter,
-                                 List<RemoteRepository> repositories,
-                                 List<Dependency> managedDependencies,
-                                 List<DependencyNode> parents,
-                                 Dependency dependency )
+    DependencyProcessingContext( DependencySelector depSelector, DependencyManager depManager,
+                                 DependencyTraverser depTraverser, VersionFilter verFilter,
+                                 List<RemoteRepository> repositories, List<Dependency> managedDependencies,
+                                 List<DependencyNode> parents, Dependency dependency )
     {
         this.depSelector = depSelector;
         this.depManager = depManager;
@@ -69,14 +69,12 @@ final class DependencyProcessingContext
         this.parents = parents;
     }
 
-    DependencyProcessingContext withDependency( Dependency dependency )
-    {
+    DependencyProcessingContext withDependency( Dependency dependency ) {
         this.dependency = dependency;
         return this;
     }
 
-    DependencyNode getParent()
-    {
+    DependencyNode getParent() {
         return parents.get( parents.size() - 1 );
     }
 }

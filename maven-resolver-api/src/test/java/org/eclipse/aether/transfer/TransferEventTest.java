@@ -1,5 +1,3 @@
-package org.eclipse.aether.transfer;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.transfer;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,29 +16,26 @@ package org.eclipse.aether.transfer;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.transfer;
 
 import java.nio.ByteBuffer;
 
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystemSession;
-import org.eclipse.aether.transfer.TransferEvent;
-import org.eclipse.aether.transfer.TransferResource;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  */
-public class TransferEventTest
-{
+public class TransferEventTest {
 
     private static TransferResource res = new TransferResource( "none", "file://nil", "void", null, null );
 
     private static RepositorySystemSession session = new DefaultRepositorySystemSession();
 
     @Test
-    public void testByteArrayConversion()
-    {
+    public void testByteArrayConversion() {
         byte[] buffer = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         int length = buffer.length - 2;
         int offset = 1;
@@ -56,8 +51,7 @@ public class TransferEventTest
     }
 
     @Test
-    public void testRepeatableReadingOfDataBuffer()
-    {
+    public void testRepeatableReadingOfDataBuffer() {
         byte[] data = { 0, 1, 2, 3, 4, 5, 6, 7 };
         ByteBuffer buffer = ByteBuffer.wrap( data );
 

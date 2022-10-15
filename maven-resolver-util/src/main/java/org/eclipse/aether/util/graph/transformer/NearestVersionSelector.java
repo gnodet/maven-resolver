@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.transformer;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.transformer;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.util.graph.transformer;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.graph.transformer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,55 +41,44 @@ import static java.util.Objects.requireNonNull;
  * strategy. If there is no single node that satisfies all encountered version ranges, the selector will fail.
  */
 public final class NearestVersionSelector
-    extends VersionSelector
+        extends VersionSelector
 {
 
     /**
      * Creates a new instance of this version selector.
      */
-    public NearestVersionSelector()
-    {
+    public NearestVersionSelector() {
     }
 
     @Override
     public void selectVersion( ConflictContext context )
-        throws RepositoryException
+            throws RepositoryException
     {
         ConflictGroup group = new ConflictGroup();
-        for ( ConflictItem item : context.getItems() )
-        {
+        for( ConflictItem item : context.getItems() ) {
             DependencyNode node = item.getNode();
             VersionConstraint constraint = node.getVersionConstraint();
 
             boolean backtrack = false;
             boolean hardConstraint = constraint.getRange() != null;
 
-            if ( hardConstraint )
-            {
-                if ( group.constraints.add( constraint ) )
-                {
-                    if ( group.winner != null && !constraint.containsVersion( group.winner.getNode().getVersion() ) )
-                    {
+            if( hardConstraint ) {
+                if( group.constraints.add( constraint ) ) {
+                    if( group.winner != null && !constraint.containsVersion( group.winner.getNode().getVersion() ) ) {
                         backtrack = true;
                     }
                 }
             }
 
-            if ( isAcceptable( group, node.getVersion() ) )
-            {
+            if( isAcceptable( group, node.getVersion() ) ) {
                 group.candidates.add( item );
 
-                if ( backtrack )
-                {
+                if( backtrack ) {
                     backtrack( group, context );
-                }
-                else if ( group.winner == null || isNearer( item, group.winner ) )
-                {
+                } else if( group.winner == null || isNearer( item, group.winner ) ) {
                     group.winner = item;
                 }
-            }
-            else if ( backtrack )
-            {
+            } else if( backtrack ) {
                 backtrack( group, context );
             }
         }
@@ -98,58 +86,44 @@ public final class NearestVersionSelector
     }
 
     private void backtrack( ConflictGroup group, ConflictContext context )
-        throws UnsolvableVersionConflictException
+            throws UnsolvableVersionConflictException
     {
         group.winner = null;
 
-        for ( Iterator<ConflictItem> it = group.candidates.iterator(); it.hasNext(); )
-        {
+        for( Iterator<ConflictItem> it = group.candidates.iterator(); it.hasNext(); ) {
             ConflictItem candidate = it.next();
 
-            if ( !isAcceptable( group, candidate.getNode().getVersion() ) )
-            {
+            if( !isAcceptable( group, candidate.getNode().getVersion() ) ) {
                 it.remove();
-            }
-            else if ( group.winner == null || isNearer( candidate, group.winner ) )
-            {
+            } else if( group.winner == null || isNearer( candidate, group.winner ) ) {
                 group.winner = candidate;
             }
         }
 
-        if ( group.winner == null )
-        {
+        if( group.winner == null ) {
             throw newFailure( context );
         }
     }
 
-    private boolean isAcceptable( ConflictGroup group, Version version )
-    {
-        for ( VersionConstraint constraint : group.constraints )
-        {
-            if ( !constraint.containsVersion( version ) )
-            {
+    private boolean isAcceptable( ConflictGroup group, Version version ) {
+        for( VersionConstraint constraint : group.constraints ) {
+            if( !constraint.containsVersion( version ) ) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isNearer( ConflictItem item1, ConflictItem item2 )
-    {
-        if ( item1.isSibling( item2 ) )
-        {
+    private boolean isNearer( ConflictItem item1, ConflictItem item2 ) {
+        if( item1.isSibling( item2 ) ) {
             return item1.getNode().getVersion().compareTo( item2.getNode().getVersion() ) > 0;
-        }
-        else
-        {
+        } else {
             return item1.getDepth() < item2.getDepth();
         }
     }
 
-    private UnsolvableVersionConflictException newFailure( final ConflictContext context )
-    {
-        DependencyFilter filter = ( node, parents ) ->
-        {
+    private UnsolvableVersionConflictException newFailure( final ConflictContext context ) {
+        DependencyFilter filter = ( node, parents ) -> {
             requireNonNull( node, "node cannot be null" );
             requireNonNull( parents, "parents cannot be null" );
             return context.isIncluded( node );
@@ -159,8 +133,7 @@ public final class NearestVersionSelector
         return new UnsolvableVersionConflictException( visitor.getPaths() );
     }
 
-    static final class ConflictGroup
-    {
+    static final class ConflictGroup {
 
         final Collection<VersionConstraint> constraints;
 
@@ -168,15 +141,13 @@ public final class NearestVersionSelector
 
         ConflictItem winner;
 
-        ConflictGroup()
-        {
+        ConflictGroup() {
             constraints = new HashSet<>();
             candidates = new ArrayList<>( 64 );
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return String.valueOf( winner );
         }
 

@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.versions;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.versions;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.util.graph.versions;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.util.graph.versions;
 
 import org.eclipse.aether.collection.VersionFilter;
 import org.eclipse.aether.collection.VersionFilter.VersionFilterContext;
@@ -27,13 +24,15 @@ import org.eclipse.aether.util.graph.version.ContextualSnapshotVersionFilter;
 import org.eclipse.aether.util.graph.version.SnapshotVersionFilter;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 public class ContextualSnapshotVersionFilterTest
-    extends AbstractVersionFilterTest
+        extends AbstractVersionFilterTest
 {
 
     @Test
     public void testFilterVersions()
-        throws Exception
+            throws Exception
     {
         VersionFilter filter = new ContextualSnapshotVersionFilter();
         VersionFilterContext ctx = newContext( "g:a:[1,9]", "1", "2-SNAPSHOT" );
@@ -51,8 +50,7 @@ public class ContextualSnapshotVersionFilterTest
     }
 
     @Test
-    public void testDeriveChildFilter()
-    {
+    public void testDeriveChildFilter() {
         ContextualSnapshotVersionFilter filter = new ContextualSnapshotVersionFilter();
         assertTrue( derive( filter, "g:a:1" ) instanceof SnapshotVersionFilter );
         assertSame( null, derive( filter, "g:a:1-SNAPSHOT" ) );
@@ -62,8 +60,7 @@ public class ContextualSnapshotVersionFilterTest
 
     @SuppressWarnings( "EqualsWithItself" )
     @Test
-    public void testEquals()
-    {
+    public void testEquals() {
         ContextualSnapshotVersionFilter filter = new ContextualSnapshotVersionFilter();
         assertNotEquals( null, filter );
         assertEquals( filter, filter );

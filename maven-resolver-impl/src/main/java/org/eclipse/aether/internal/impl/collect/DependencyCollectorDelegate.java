@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl.collect;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl.collect;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.impl.collect;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl.collect;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -68,7 +67,8 @@ import static java.util.Objects.requireNonNull;
  *
  * @since 1.8.0
  */
-public abstract class DependencyCollectorDelegate implements DependencyCollector
+public abstract class DependencyCollectorDelegate
+        implements DependencyCollector
 {
     protected static final String CONFIG_PROP_MAX_EXCEPTIONS = "aether.dependencyCollector.maxExceptions";
 
@@ -92,44 +92,38 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
      * @deprecated Will be dropped once SL gone.
      */
     @Deprecated
-    protected DependencyCollectorDelegate()
-    {
+    protected DependencyCollectorDelegate() {
         // enables default constructor
     }
 
     protected DependencyCollectorDelegate( RemoteRepositoryManager remoteRepositoryManager,
-                           ArtifactDescriptorReader artifactDescriptorReader,
-                           VersionRangeResolver versionRangeResolver )
+                                           ArtifactDescriptorReader artifactDescriptorReader,
+                                           VersionRangeResolver versionRangeResolver )
     {
         setRemoteRepositoryManager( remoteRepositoryManager );
         setArtifactDescriptorReader( artifactDescriptorReader );
         setVersionRangeResolver( versionRangeResolver );
     }
 
-    public void initService( ServiceLocator locator )
-    {
+    public void initService( ServiceLocator locator ) {
         setRemoteRepositoryManager( locator.getService( RemoteRepositoryManager.class ) );
         setArtifactDescriptorReader( locator.getService( ArtifactDescriptorReader.class ) );
         setVersionRangeResolver( locator.getService( VersionRangeResolver.class ) );
     }
 
-    public DependencyCollector setRemoteRepositoryManager( RemoteRepositoryManager remoteRepositoryManager )
-    {
-        this.remoteRepositoryManager =
-                requireNonNull( remoteRepositoryManager, "remote repository manager cannot be null" );
+    public DependencyCollector setRemoteRepositoryManager( RemoteRepositoryManager remoteRepositoryManager ) {
+        this.remoteRepositoryManager = requireNonNull( remoteRepositoryManager,
+                "remote repository manager cannot be null" );
         return this;
     }
 
-    public DependencyCollector setArtifactDescriptorReader( ArtifactDescriptorReader artifactDescriptorReader )
-    {
+    public DependencyCollector setArtifactDescriptorReader( ArtifactDescriptorReader artifactDescriptorReader ) {
         descriptorReader = requireNonNull( artifactDescriptorReader, "artifact descriptor reader cannot be null" );
         return this;
     }
 
-    public DependencyCollector setVersionRangeResolver( VersionRangeResolver versionRangeResolver )
-    {
-        this.versionRangeResolver =
-                requireNonNull( versionRangeResolver, "version range resolver cannot be null" );
+    public DependencyCollector setVersionRangeResolver( VersionRangeResolver versionRangeResolver ) {
+        this.versionRangeResolver = requireNonNull( versionRangeResolver, "version range resolver cannot be null" );
         return this;
     }
 
@@ -158,21 +152,17 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
         long time1 = System.nanoTime();
 
         DefaultDependencyNode node;
-        if ( root != null )
-        {
+        if( root != null ) {
             List<? extends Version> versions;
             VersionRangeResult rangeResult;
-            try
-            {
-                VersionRangeRequest rangeRequest =
-                        new VersionRangeRequest( root.getArtifact(), request.getRepositories(),
-                                request.getRequestContext() );
+            try {
+                VersionRangeRequest rangeRequest = new VersionRangeRequest( root.getArtifact(),
+                                                                            request.getRepositories(),
+                                                                            request.getRequestContext() );
                 rangeRequest.setTrace( trace );
                 rangeResult = versionRangeResolver.resolveVersionRange( session, rangeRequest );
                 versions = filterVersions( root, rangeResult, verFilter, new DefaultVersionFilterContext( session ) );
-            }
-            catch ( VersionRangeResolutionException e )
-            {
+            } catch( VersionRangeResolutionException e ) {
                 result.addException( e );
                 throw new DependencyCollectionException( result, e.getMessage() );
             }
@@ -181,35 +171,27 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
             root = root.setArtifact( root.getArtifact().setVersion( version.toString() ) );
 
             ArtifactDescriptorResult descriptorResult;
-            try
-            {
+            try {
                 ArtifactDescriptorRequest descriptorRequest = new ArtifactDescriptorRequest();
                 descriptorRequest.setArtifact( root.getArtifact() );
                 descriptorRequest.setRepositories( request.getRepositories() );
                 descriptorRequest.setRequestContext( request.getRequestContext() );
                 descriptorRequest.setTrace( trace );
-                if ( isLackingDescriptor( root.getArtifact() ) )
-                {
+                if( isLackingDescriptor( root.getArtifact() ) ) {
                     descriptorResult = new ArtifactDescriptorResult( descriptorRequest );
-                }
-                else
-                {
+                } else {
                     descriptorResult = descriptorReader.readArtifactDescriptor( session, descriptorRequest );
                 }
-            }
-            catch ( ArtifactDescriptorException e )
-            {
+            } catch( ArtifactDescriptorException e ) {
                 result.addException( e );
                 throw new DependencyCollectionException( result, e.getMessage() );
             }
 
             root = root.setArtifact( descriptorResult.getArtifact() );
 
-            if ( !session.isIgnoreArtifactDescriptorRepositories() )
-            {
+            if( !session.isIgnoreArtifactDescriptorRepositories() ) {
                 repositories = remoteRepositoryManager.aggregateRepositories( session, repositories,
-                        descriptorResult.getRepositories(),
-                        true );
+                        descriptorResult.getRepositories(), true );
             }
             dependencies = mergeDeps( dependencies, descriptorResult.getDependencies() );
             managedDependencies = mergeDeps( managedDependencies, descriptorResult.getManagedDependencies() );
@@ -221,9 +203,7 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
             node.setVersion( version );
             node.setAliases( descriptorResult.getAliases() );
             node.setRepositories( request.getRepositories() );
-        }
-        else
-        {
+        } else {
             node = new DefaultDependencyNode( request.getRootArtifact() );
             node.setRequestContext( request.getRequestContext() );
             node.setRepositories( request.getRepositories() );
@@ -233,21 +213,18 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
 
         boolean traverse = root == null || depTraverser == null || depTraverser.traverseDependency( root );
         String errorPath = null;
-        if ( traverse && !dependencies.isEmpty() )
-        {
+        if( traverse && !dependencies.isEmpty() ) {
             DataPool pool = new DataPool( session );
 
-            DefaultDependencyCollectionContext context = new DefaultDependencyCollectionContext(
-                    session, request.getRootArtifact(), root, managedDependencies );
+            DefaultDependencyCollectionContext context = new DefaultDependencyCollectionContext( session, request
+                    .getRootArtifact(), root, managedDependencies );
 
             DefaultVersionFilterContext versionContext = new DefaultVersionFilterContext( session );
 
             Results results = new Results( result, session );
 
-            doCollectDependencies(
-                    session, trace, pool, context, versionContext, request, node, repositories, dependencies,
-                    managedDependencies, results
-            );
+            doCollectDependencies( session, trace, pool, context, versionContext, request, node, repositories,
+                    dependencies, managedDependencies, results );
 
             errorPath = results.getErrorPath();
         }
@@ -255,35 +232,27 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
         long time2 = System.nanoTime();
 
         DependencyGraphTransformer transformer = session.getDependencyGraphTransformer();
-        if ( transformer != null )
-        {
-            try
-            {
-                DefaultDependencyGraphTransformationContext context =
-                        new DefaultDependencyGraphTransformationContext( session );
+        if( transformer != null ) {
+            try {
+                DefaultDependencyGraphTransformationContext context = new DefaultDependencyGraphTransformationContext( session );
                 context.put( TransformationContextKeys.STATS, stats );
                 result.setRoot( transformer.transformGraph( node, context ) );
-            }
-            catch ( RepositoryException e )
-            {
+            } catch( RepositoryException e ) {
                 result.addException( e );
             }
         }
 
         long time3 = System.nanoTime();
-        if ( logger.isDebugEnabled() )
-        {
+        if( logger.isDebugEnabled() ) {
             stats.put( getClass().getSimpleName() + ".collectTime", time2 - time1 );
             stats.put( getClass().getSimpleName() + ".transformTime", time3 - time2 );
             logger.debug( "Dependency collection stats {}", stats );
         }
 
-        if ( errorPath != null )
-        {
+        if( errorPath != null ) {
             throw new DependencyCollectionException( result, "Failed to collect dependencies at " + errorPath );
         }
-        if ( !result.getExceptions().isEmpty() )
-        {
+        if( !result.getExceptions().isEmpty() ) {
             throw new DependencyCollectionException( result );
         }
 
@@ -292,9 +261,9 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
 
     /**
      * Creates child {@link RequestTrace} instance from passed in {@link RequestTrace} and parameters by creating
-     * {@link CollectStepDataImpl} instance out of passed in data. Caller must ensure that passed in parameters are
-     * NOT affected by threading (or that there is no multi threading involved). In other words, the passed in values
-     * should be immutable.
+     * {@link CollectStepDataImpl} instance out of passed in data. Caller must ensure that passed in parameters are NOT
+     * affected by threading (or that there is no multi threading involved). In other words, the passed in values should
+     * be immutable.
      *
      * @param trace   The current trace instance.
      * @param context The context from {@link CollectRequest#getRequestContext()}, never {@code null}.
@@ -307,56 +276,39 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
     protected RequestTrace collectStepTrace( RequestTrace trace, String context, List<DependencyNode> path,
                                              Dependency node )
     {
-        return RequestTrace.newChild(
-                trace,
-                new CollectStepDataImpl(
-                        context,
-                        path,
-                        node
-                )
-        );
+        return RequestTrace.newChild( trace, new CollectStepDataImpl( context, path, node ) );
     }
 
     @SuppressWarnings( "checkstyle:parameternumber" )
     protected abstract void doCollectDependencies( RepositorySystemSession session, RequestTrace trace, DataPool pool,
                                                    DefaultDependencyCollectionContext context,
-                                                   DefaultVersionFilterContext versionContext,
-                                                   CollectRequest request, DependencyNode node,
-                                                   List<RemoteRepository> repositories, List<Dependency> dependencies,
-                                                   List<Dependency> managedDependencies, Results results );
+                                                   DefaultVersionFilterContext versionContext, CollectRequest request,
+                                                   DependencyNode node, List<RemoteRepository> repositories,
+                                                   List<Dependency> dependencies, List<Dependency> managedDependencies,
+                                                   Results results );
 
-    protected RepositorySystemSession optimizeSession( RepositorySystemSession session )
-    {
+    protected RepositorySystemSession optimizeSession( RepositorySystemSession session ) {
         DefaultRepositorySystemSession optimized = new DefaultRepositorySystemSession( session );
         optimized.setArtifactTypeRegistry( CachingArtifactTypeRegistry.newInstance( session ) );
         return optimized;
     }
 
-    protected List<Dependency> mergeDeps( List<Dependency> dominant, List<Dependency> recessive )
-    {
+    protected List<Dependency> mergeDeps( List<Dependency> dominant, List<Dependency> recessive ) {
         List<Dependency> result;
-        if ( dominant == null || dominant.isEmpty() )
-        {
+        if( dominant == null || dominant.isEmpty() ) {
             result = recessive;
-        }
-        else if ( recessive == null || recessive.isEmpty() )
-        {
+        } else if( recessive == null || recessive.isEmpty() ) {
             result = dominant;
-        }
-        else
-        {
+        } else {
             int initialCapacity = dominant.size() + recessive.size();
             result = new ArrayList<>( initialCapacity );
             Collection<String> ids = new HashSet<>( initialCapacity, 1.0f );
-            for ( Dependency dependency : dominant )
-            {
+            for( Dependency dependency : dominant ) {
                 ids.add( getId( dependency.getArtifact() ) );
                 result.add( dependency );
             }
-            for ( Dependency dependency : recessive )
-            {
-                if ( !ids.contains( getId( dependency.getArtifact() ) ) )
-                {
+            for( Dependency dependency : recessive ) {
+                if( !ids.contains( getId( dependency.getArtifact() ) ) ) {
                     result.add( dependency );
                 }
             }
@@ -364,8 +316,7 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
         return result;
     }
 
-    protected static String getId( Artifact a )
-    {
+    protected static String getId( Artifact a ) {
         return a.getGroupId() + ':' + a.getArtifactId() + ':' + a.getClassifier() + ':' + a.getExtension();
     }
 
@@ -394,9 +345,8 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
                                                                  ArtifactDescriptorResult descriptorResult,
                                                                  DependencyNode cycleNode )
     {
-        DefaultDependencyNode child =
-                createDependencyNode( relocations, preManaged, rangeResult, version, d, descriptorResult.getAliases(),
-                        cycleNode.getRepositories(), cycleNode.getRequestContext() );
+        DefaultDependencyNode child = createDependencyNode( relocations, preManaged, rangeResult, version, d,
+                descriptorResult.getAliases(), cycleNode.getRepositories(), cycleNode.getRequestContext() );
         child.setChildren( cycleNode.getChildren() );
         return child;
     }
@@ -414,8 +364,7 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
         return descriptorRequest;
     }
 
-    protected static VersionRangeRequest createVersionRangeRequest( String requestContext,
-                                                                    RequestTrace requestTrace,
+    protected static VersionRangeRequest createVersionRangeRequest( String requestContext, RequestTrace requestTrace,
                                                                     List<RemoteRepository> repositories,
                                                                     Dependency dependency )
     {
@@ -433,28 +382,24 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
     {
         Object key = pool.toKey( rangeRequest );
         VersionRangeResult rangeResult = pool.getConstraint( key, rangeRequest );
-        if ( rangeResult == null )
-        {
+        if( rangeResult == null ) {
             rangeResult = versionRangeResolver.resolveVersionRange( session, rangeRequest );
             pool.putConstraint( key, rangeResult );
         }
         return rangeResult;
     }
 
-    protected static boolean isLackingDescriptor( Artifact artifact )
-    {
+    protected static boolean isLackingDescriptor( Artifact artifact ) {
         return artifact.getProperty( ArtifactProperties.LOCAL_PATH, null ) != null;
     }
 
-    protected  static List<RemoteRepository> getRemoteRepositories( ArtifactRepository repository,
-                                                                    List<RemoteRepository> repositories )
+    protected static List<RemoteRepository> getRemoteRepositories( ArtifactRepository repository,
+                                                                   List<RemoteRepository> repositories )
     {
-        if ( repository instanceof RemoteRepository )
-        {
+        if( repository instanceof RemoteRepository ) {
             return Collections.singletonList( (RemoteRepository) repository );
         }
-        if ( repository != null )
-        {
+        if( repository != null ) {
             return Collections.emptyList();
         }
         return repositories;
@@ -465,35 +410,27 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
                                                              DefaultVersionFilterContext verContext )
             throws VersionRangeResolutionException
     {
-        if ( rangeResult.getVersions().isEmpty() )
-        {
-            throw new VersionRangeResolutionException( rangeResult,
-                    "No versions available for " + dependency.getArtifact()
-                            + " within specified range" );
+        if( rangeResult.getVersions().isEmpty() ) {
+            throw new VersionRangeResolutionException( rangeResult, "No versions available for "
+                    + dependency.getArtifact() + " within specified range" );
         }
 
         List<? extends Version> versions;
-        if ( verFilter != null && rangeResult.getVersionConstraint().getRange() != null )
-        {
+        if( verFilter != null && rangeResult.getVersionConstraint().getRange() != null ) {
             verContext.set( dependency, rangeResult );
-            try
-            {
+            try {
                 verFilter.filterVersions( verContext );
-            }
-            catch ( RepositoryException e )
-            {
+            } catch( RepositoryException e ) {
                 throw new VersionRangeResolutionException( rangeResult,
-                        "Failed to filter versions for " + dependency.getArtifact(), e );
+                                                           "Failed to filter versions for " + dependency.getArtifact(),
+                                                           e );
             }
             versions = verContext.get();
-            if ( versions.isEmpty() )
-            {
-                throw new VersionRangeResolutionException( rangeResult,
-                        "No acceptable versions for " + dependency.getArtifact() + ": " + rangeResult.getVersions() );
+            if( versions.isEmpty() ) {
+                throw new VersionRangeResolutionException( rangeResult, "No acceptable versions for "
+                        + dependency.getArtifact() + ": " + rangeResult.getVersions() );
             }
-        }
-        else
-        {
+        } else {
             versions = rangeResult.getVersions();
         }
         return versions;
@@ -502,8 +439,7 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
     /**
      * Helper class used during collection.
      */
-    protected static class Results
-    {
+    protected static class Results {
 
         private final CollectResult result;
 
@@ -513,43 +449,34 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
 
         String errorPath;
 
-        public Results( CollectResult result, RepositorySystemSession session )
-        {
+        public Results( CollectResult result, RepositorySystemSession session ) {
             this.result = result;
 
-            maxExceptions =
-                    ConfigUtils.getInteger( session, CONFIG_PROP_MAX_EXCEPTIONS_DEFAULT, CONFIG_PROP_MAX_EXCEPTIONS );
+            maxExceptions = ConfigUtils.getInteger( session, CONFIG_PROP_MAX_EXCEPTIONS_DEFAULT,
+                    CONFIG_PROP_MAX_EXCEPTIONS );
 
             maxCycles = ConfigUtils.getInteger( session, CONFIG_PROP_MAX_CYCLES_DEFAULT, CONFIG_PROP_MAX_CYCLES );
         }
 
-        public String getErrorPath()
-        {
+        public String getErrorPath() {
             return errorPath;
         }
 
-        public void addException( Dependency dependency, Exception e, List<DependencyNode> nodes )
-        {
-            if ( maxExceptions < 0 || result.getExceptions().size() < maxExceptions )
-            {
+        public void addException( Dependency dependency, Exception e, List<DependencyNode> nodes ) {
+            if( maxExceptions < 0 || result.getExceptions().size() < maxExceptions ) {
                 result.addException( e );
-                if ( errorPath == null )
-                {
+                if( errorPath == null ) {
                     StringBuilder buffer = new StringBuilder( 256 );
-                    for ( DependencyNode node : nodes )
-                    {
-                        if ( buffer.length() > 0 )
-                        {
+                    for( DependencyNode node : nodes ) {
+                        if( buffer.length() > 0 ) {
                             buffer.append( " -> " );
                         }
                         Dependency dep = node.getDependency();
-                        if ( dep != null )
-                        {
+                        if( dep != null ) {
                             buffer.append( dep.getArtifact() );
                         }
                     }
-                    if ( buffer.length() > 0 )
-                    {
+                    if( buffer.length() > 0 ) {
                         buffer.append( " -> " );
                     }
                     buffer.append( dependency.getArtifact() );
@@ -558,10 +485,8 @@ public abstract class DependencyCollectorDelegate implements DependencyCollector
             }
         }
 
-        public void addCycle( List<DependencyNode> nodes, int cycleEntry, Dependency dependency )
-        {
-            if ( maxCycles < 0 || result.getCycles().size() < maxCycles )
-            {
+        public void addCycle( List<DependencyNode> nodes, int cycleEntry, Dependency dependency ) {
+            if( maxCycles < 0 || result.getCycles().size() < maxCycles ) {
                 result.addCycle( new DefaultDependencyCycle( nodes, cycleEntry, dependency ) );
             }
         }

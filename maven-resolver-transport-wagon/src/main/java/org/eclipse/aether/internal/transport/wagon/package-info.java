@@ -18,8 +18,6 @@
  * under the License.
  */
 /**
- * Integration with the IoC container which is the native runtime environment expected by many wagon
- * implementations.
+ * Integration with the IoC container which is the native runtime environment expected by many wagon implementations.
  */
 package org.eclipse.aether.internal.transport.wagon;
-

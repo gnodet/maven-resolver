@@ -1,5 +1,3 @@
-package org.eclipse.aether.transport.classpath;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.transport.classpath;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.transport.classpath;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.transport.classpath;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.Buffer;
@@ -27,7 +26,7 @@ import org.eclipse.aether.spi.connector.transport.TransportListener;
 import org.eclipse.aether.transfer.TransferCancelledException;
 
 class RecordingTransportListener
-    extends TransportListener
+        extends TransportListener
 {
 
     public final ByteArrayOutputStream baos = new ByteArrayOutputStream( 1024 );
@@ -46,27 +45,25 @@ class RecordingTransportListener
 
     @Override
     public void transportStarted( long dataOffset, long dataLength )
-        throws TransferCancelledException
+            throws TransferCancelledException
     {
         startedCount++;
         progressedCount = 0;
         this.dataLength = dataLength;
         this.dataOffset = dataOffset;
         baos.reset();
-        if ( cancelStart )
-        {
+        if( cancelStart ) {
             throw new TransferCancelledException();
         }
     }
 
     @Override
     public void transportProgressed( ByteBuffer data )
-        throws TransferCancelledException
+            throws TransferCancelledException
     {
         progressedCount++;
         baos.write( data.array(), data.arrayOffset() + ( (Buffer) data ).position(), data.remaining() );
-        if ( cancelProgress )
-        {
+        if( cancelProgress ) {
             throw new TransferCancelledException();
         }
     }

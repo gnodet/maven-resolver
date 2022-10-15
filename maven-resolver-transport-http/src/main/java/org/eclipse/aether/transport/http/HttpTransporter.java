@@ -1,5 +1,3 @@
-package org.eclipse.aether.transport.http;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.transport.http;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,22 @@ package org.eclipse.aether.transport.http;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.transport.http;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InterruptedIOException;
+import java.io.OutputStream;
+import java.io.UncheckedIOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -68,32 +82,17 @@ import org.eclipse.aether.util.ConfigUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InterruptedIOException;
-import java.io.OutputStream;
-import java.io.UncheckedIOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import static java.util.Objects.requireNonNull;
 
 /**
  * A transporter for HTTP/HTTPS.
  */
 final class HttpTransporter
-    extends AbstractTransporter
+        extends AbstractTransporter
 {
 
-    private static final Pattern CONTENT_RANGE_PATTERN =
-        Pattern.compile( "\\s*bytes\\s+([0-9]+)\\s*-\\s*([0-9]+)\\s*/.*" );
+    private static final Pattern CONTENT_RANGE_PATTERN = Pattern
+            .compile( "\\s*bytes\\s+([0-9]+)\\s*-\\s*([0-9]+)\\s*/.*" );
 
     private static final Logger LOGGER = LoggerFactory.getLogger( HttpTransporter.class );
 
@@ -115,32 +114,26 @@ final class HttpTransporter
 
     private final LocalState state;
 
-    HttpTransporter( Map<String, ChecksumExtractor> checksumExtractors,
-                     RemoteRepository repository,
+    HttpTransporter( Map<String, ChecksumExtractor> checksumExtractors, RemoteRepository repository,
                      RepositorySystemSession session )
-        throws NoTransporterException
+            throws NoTransporterException
     {
-        if ( !"http".equalsIgnoreCase( repository.getProtocol() )
-            && !"https".equalsIgnoreCase( repository.getProtocol() ) )
+        if( !"http".equalsIgnoreCase( repository.getProtocol() )
+                && !"https".equalsIgnoreCase( repository.getProtocol() ) )
         {
             throw new NoTransporterException( repository );
         }
         this.checksumExtractors = requireNonNull( checksumExtractors, "checksum extractors must not be null" );
-        try
-        {
+        try {
             this.baseUri = new URI( repository.getUrl() ).parseServerAuthority();
-            if ( baseUri.isOpaque() )
-            {
+            if( baseUri.isOpaque() ) {
                 throw new URISyntaxException( repository.getUrl(), "URL must not be opaque" );
             }
             this.server = URIUtils.extractHost( baseUri );
-            if ( server == null )
-            {
+            if( server == null ) {
                 throw new URISyntaxException( repository.getUrl(), "URL lacks host name" );
             }
-        }
-        catch ( URISyntaxException e )
-        {
+        } catch( URISyntaxException e ) {
             throw new NoTransporterException( repository, e.getMessage(), e );
         }
         this.proxy = toHost( repository.getProxy() );
@@ -151,23 +144,19 @@ final class HttpTransporter
         this.state = new LocalState( session, repository, new SslConfig( session, repoAuthContext ) );
 
         this.headers = ConfigUtils.getMap( session, Collections.emptyMap(),
-                ConfigurationProperties.HTTP_HEADERS + "." + repository.getId(),
-                ConfigurationProperties.HTTP_HEADERS );
+                ConfigurationProperties.HTTP_HEADERS + "." + repository.getId(), ConfigurationProperties.HTTP_HEADERS );
 
         String credentialEncoding = ConfigUtils.getString( session,
                 ConfigurationProperties.DEFAULT_HTTP_CREDENTIAL_ENCODING,
                 ConfigurationProperties.HTTP_CREDENTIAL_ENCODING + "." + repository.getId(),
                 ConfigurationProperties.HTTP_CREDENTIAL_ENCODING );
-        int connectTimeout = ConfigUtils.getInteger( session,
-                ConfigurationProperties.DEFAULT_CONNECT_TIMEOUT,
+        int connectTimeout = ConfigUtils.getInteger( session, ConfigurationProperties.DEFAULT_CONNECT_TIMEOUT,
                 ConfigurationProperties.CONNECT_TIMEOUT + "." + repository.getId(),
                 ConfigurationProperties.CONNECT_TIMEOUT );
-        int requestTimeout = ConfigUtils.getInteger( session,
-                ConfigurationProperties.DEFAULT_REQUEST_TIMEOUT,
+        int requestTimeout = ConfigUtils.getInteger( session, ConfigurationProperties.DEFAULT_REQUEST_TIMEOUT,
                 ConfigurationProperties.REQUEST_TIMEOUT + "." + repository.getId(),
                 ConfigurationProperties.REQUEST_TIMEOUT );
-        String userAgent = ConfigUtils.getString( session,
-                ConfigurationProperties.DEFAULT_USER_AGENT,
+        String userAgent = ConfigUtils.getString( session, ConfigurationProperties.DEFAULT_USER_AGENT,
                 ConfigurationProperties.USER_AGENT );
 
         Charset credentialsCharset = Charset.forName( credentialEncoding );
@@ -177,36 +166,24 @@ final class HttpTransporter
                 .register( AuthSchemes.DIGEST, new DigestSchemeFactory( credentialsCharset ) )
                 .register( AuthSchemes.NTLM, new NTLMSchemeFactory() )
                 .register( AuthSchemes.SPNEGO, new SPNegoSchemeFactory() )
-                .register( AuthSchemes.KERBEROS, new KerberosSchemeFactory() )
-                .build();
+                .register( AuthSchemes.KERBEROS, new KerberosSchemeFactory() ).build();
 
-        SocketConfig socketConfig = SocketConfig.custom()
-                 .setSoTimeout( requestTimeout ).build();
+        SocketConfig socketConfig = SocketConfig.custom().setSoTimeout( requestTimeout ).build();
 
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectTimeout( connectTimeout )
-                .setConnectionRequestTimeout( connectTimeout )
-                .setSocketTimeout( requestTimeout ).build();
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout( connectTimeout )
+                .setConnectionRequestTimeout( connectTimeout ).setSocketTimeout( requestTimeout ).build();
 
-        this.client = HttpClientBuilder.create()
-                .setUserAgent( userAgent )
-                .setDefaultSocketConfig( socketConfig )
-                .setDefaultRequestConfig( requestConfig )
-                .setDefaultAuthSchemeRegistry( authSchemeRegistry )
-                .setConnectionManager( state.getConnectionManager() )
-                .setConnectionManagerShared( true )
+        this.client = HttpClientBuilder.create().setUserAgent( userAgent ).setDefaultSocketConfig( socketConfig )
+                .setDefaultRequestConfig( requestConfig ).setDefaultAuthSchemeRegistry( authSchemeRegistry )
+                .setConnectionManager( state.getConnectionManager() ).setConnectionManagerShared( true )
                 .setDefaultCredentialsProvider(
-                       toCredentialsProvider( server, repoAuthContext, proxy, proxyAuthContext )
-                )
-                .setProxy( proxy )
-                .build();
+                        toCredentialsProvider( server, repoAuthContext, proxy, proxyAuthContext ) )
+                .setProxy( proxy ).build();
     }
 
-    private static HttpHost toHost( Proxy proxy )
-    {
+    private static HttpHost toHost( Proxy proxy ) {
         HttpHost host = null;
-        if ( proxy != null )
-        {
+        if( proxy != null ) {
             host = new HttpHost( proxy.getHost(), proxy.getPort() );
         }
         return host;
@@ -216,19 +193,16 @@ final class HttpTransporter
                                                               HttpHost proxy, AuthenticationContext proxyAuthCtx )
     {
         CredentialsProvider provider = toCredentialsProvider( server.getHostName(), AuthScope.ANY_PORT, serverAuthCtx );
-        if ( proxy != null )
-        {
+        if( proxy != null ) {
             CredentialsProvider p = toCredentialsProvider( proxy.getHostName(), proxy.getPort(), proxyAuthCtx );
             provider = new DemuxCredentialsProvider( provider, p, proxy );
         }
         return provider;
     }
 
-    private static CredentialsProvider toCredentialsProvider( String host, int port, AuthenticationContext ctx )
-    {
+    private static CredentialsProvider toCredentialsProvider( String host, int port, AuthenticationContext ctx ) {
         DeferredCredentialsProvider provider = new DeferredCredentialsProvider();
-        if ( ctx != null )
-        {
+        if( ctx != null ) {
             AuthScope basicScope = new AuthScope( host, port );
             provider.setCredentials( basicScope, new DeferredCredentialsProvider.BasicFactory( ctx ) );
 
@@ -238,21 +212,18 @@ final class HttpTransporter
         return provider;
     }
 
-    LocalState getState()
-    {
+    LocalState getState() {
         return state;
     }
 
-    private URI resolve( TransportTask task )
-    {
+    private URI resolve( TransportTask task ) {
         return UriUtils.resolve( baseUri, task.getLocation() );
     }
 
     @Override
-    public int classify( Throwable error )
-    {
-        if ( error instanceof HttpResponseException
-            && ( (HttpResponseException) error ).getStatusCode() == HttpStatus.SC_NOT_FOUND )
+    public int classify( Throwable error ) {
+        if( error instanceof HttpResponseException
+                && ( (HttpResponseException) error ).getStatusCode() == HttpStatus.SC_NOT_FOUND )
         {
             return ERROR_NOT_FOUND;
         }
@@ -261,7 +232,7 @@ final class HttpTransporter
 
     @Override
     protected void implPeek( PeekTask task )
-        throws Exception
+            throws Exception
     {
         HttpHead request = commonHeaders( new HttpHead( resolve( task ) ) );
         execute( request, null );
@@ -269,53 +240,42 @@ final class HttpTransporter
 
     @Override
     protected void implGet( GetTask task )
-        throws Exception
+            throws Exception
     {
         boolean resume = true;
         boolean applyChecksumExtractors = true;
 
         EntityGetter getter = new EntityGetter( task );
         HttpGet request = commonHeaders( new HttpGet( resolve( task ) ) );
-        while ( true )
-        {
-            try
-            {
-                if ( resume )
-                {
+        while( true ) {
+            try {
+                if( resume ) {
                     resume( request, task );
                 }
-                if ( applyChecksumExtractors )
-                {
-                    for ( ChecksumExtractor checksumExtractor : checksumExtractors.values() )
-                    {
+                if( applyChecksumExtractors ) {
+                    for( ChecksumExtractor checksumExtractor : checksumExtractors.values() ) {
                         checksumExtractor.prepareRequest( request );
                     }
                 }
                 execute( request, getter );
                 break;
-            }
-            catch ( HttpResponseException e )
-            {
-                if ( resume && e.getStatusCode() == HttpStatus.SC_PRECONDITION_FAILED
+            } catch( HttpResponseException e ) {
+                if( resume && e.getStatusCode() == HttpStatus.SC_PRECONDITION_FAILED
                         && request.containsHeader( HttpHeaders.RANGE ) )
                 {
                     request = commonHeaders( new HttpGet( resolve( task ) ) );
                     resume = false;
                     continue;
                 }
-                if ( applyChecksumExtractors )
-                {
+                if( applyChecksumExtractors ) {
                     boolean retryWithoutExtractors = false;
-                    for ( ChecksumExtractor checksumExtractor : checksumExtractors.values() )
-                    {
-                        if ( checksumExtractor.retryWithoutExtractor( e ) )
-                        {
+                    for( ChecksumExtractor checksumExtractor : checksumExtractors.values() ) {
+                        if( checksumExtractor.retryWithoutExtractor( e ) ) {
                             retryWithoutExtractors = true;
                             break;
                         }
                     }
-                    if ( retryWithoutExtractors )
-                    {
+                    if( retryWithoutExtractors ) {
                         request = commonHeaders( new HttpGet( resolve( task ) ) );
                         applyChecksumExtractors = false;
                         continue;
@@ -328,17 +288,15 @@ final class HttpTransporter
 
     @Override
     protected void implPut( PutTask task )
-        throws Exception
+            throws Exception
     {
         PutTaskEntity entity = new PutTaskEntity( task );
         HttpPut request = commonHeaders( entity( new HttpPut( resolve( task ) ), entity ) );
-        try
-        {
+        try {
             execute( request, null );
-        }
-        catch ( HttpResponseException e )
-        {
-            if ( e.getStatusCode() == HttpStatus.SC_EXPECTATION_FAILED && request.containsHeader( HttpHeaders.EXPECT ) )
+        } catch( HttpResponseException e ) {
+            if( e.getStatusCode() == HttpStatus.SC_EXPECTATION_FAILED
+                    && request.containsHeader( HttpHeaders.EXPECT ) )
             {
                 state.setExpectContinue( false );
                 request = commonHeaders( entity( new HttpPut( request.getURI() ), entity ) );
@@ -350,167 +308,123 @@ final class HttpTransporter
     }
 
     private void execute( HttpUriRequest request, EntityGetter getter )
-        throws Exception
+            throws Exception
     {
-        try
-        {
+        try {
             SharingHttpContext context = new SharingHttpContext( state );
             prepare( request, context );
             HttpResponse response = client.execute( server, request, context );
-            try
-            {
+            try {
                 context.close();
                 handleStatus( response );
-                if ( getter != null )
-                {
+                if( getter != null ) {
                     getter.handle( response );
                 }
-            }
-            finally
-            {
+            } finally {
                 EntityUtils.consumeQuietly( response.getEntity() );
             }
-        }
-        catch ( IOException e )
-        {
-            if ( e.getCause() instanceof TransferCancelledException )
-            {
+        } catch( IOException e ) {
+            if( e.getCause() instanceof TransferCancelledException ) {
                 throw (Exception) e.getCause();
             }
             throw e;
         }
     }
 
-    private void prepare( HttpUriRequest request, SharingHttpContext context )
-    {
+    private void prepare( HttpUriRequest request, SharingHttpContext context ) {
         boolean put = HttpPut.METHOD_NAME.equalsIgnoreCase( request.getMethod() );
-        if ( state.getWebDav() == null && ( put || isPayloadPresent( request ) ) )
-        {
-            try
-            {
+        if( state.getWebDav() == null && ( put || isPayloadPresent( request ) ) ) {
+            try {
                 HttpOptions req = commonHeaders( new HttpOptions( request.getURI() ) );
                 HttpResponse response = client.execute( server, req, context );
                 state.setWebDav( isWebDav( response ) );
                 EntityUtils.consumeQuietly( response.getEntity() );
-            }
-            catch ( IOException e )
-            {
+            } catch( IOException e ) {
                 LOGGER.debug( "Failed to prepare HTTP context", e );
             }
         }
-        if ( put && Boolean.TRUE.equals( state.getWebDav() ) )
-        {
+        if( put && Boolean.TRUE.equals( state.getWebDav() ) ) {
             mkdirs( request.getURI(), context );
         }
     }
 
-    private boolean isWebDav( HttpResponse response )
-    {
+    private boolean isWebDav( HttpResponse response ) {
         return response.containsHeader( HttpHeaders.DAV );
     }
 
     @SuppressWarnings( "checkstyle:magicnumber" )
-    private void mkdirs( URI uri, SharingHttpContext context )
-    {
+    private void mkdirs( URI uri, SharingHttpContext context ) {
         List<URI> dirs = UriUtils.getDirectories( baseUri, uri );
         int index = 0;
-        for ( ; index < dirs.size(); index++ )
-        {
-            try
-            {
-                HttpResponse response =
-                    client.execute( server, commonHeaders( new HttpMkCol( dirs.get( index ) ) ), context );
-                try
-                {
+        for( ; index < dirs.size(); index++ ) {
+            try {
+                HttpResponse response = client.execute( server, commonHeaders( new HttpMkCol( dirs.get( index ) ) ),
+                        context );
+                try {
                     int status = response.getStatusLine().getStatusCode();
-                    if ( status < 300 || status == HttpStatus.SC_METHOD_NOT_ALLOWED )
-                    {
+                    if( status < 300 || status == HttpStatus.SC_METHOD_NOT_ALLOWED ) {
                         break;
-                    }
-                    else if ( status == HttpStatus.SC_CONFLICT )
-                    {
+                    } else if( status == HttpStatus.SC_CONFLICT ) {
                         continue;
                     }
                     handleStatus( response );
-                }
-                finally
-                {
+                } finally {
                     EntityUtils.consumeQuietly( response.getEntity() );
                 }
-            }
-            catch ( IOException e )
-            {
+            } catch( IOException e ) {
                 LOGGER.debug( "Failed to create parent directory {}", dirs.get( index ), e );
                 return;
             }
         }
-        for ( index--; index >= 0; index-- )
-        {
-            try
-            {
-                HttpResponse response =
-                    client.execute( server, commonHeaders( new HttpMkCol( dirs.get( index ) ) ), context );
-                try
-                {
+        for( index--; index >= 0; index-- ) {
+            try {
+                HttpResponse response = client.execute( server, commonHeaders( new HttpMkCol( dirs.get( index ) ) ),
+                        context );
+                try {
                     handleStatus( response );
-                }
-                finally
-                {
+                } finally {
                     EntityUtils.consumeQuietly( response.getEntity() );
                 }
-            }
-            catch ( IOException e )
-            {
+            } catch( IOException e ) {
                 LOGGER.debug( "Failed to create parent directory {}", dirs.get( index ), e );
                 return;
             }
         }
     }
 
-    private <T extends HttpEntityEnclosingRequest> T entity( T request, HttpEntity entity )
-    {
+    private <T extends HttpEntityEnclosingRequest> T entity( T request, HttpEntity entity ) {
         request.setEntity( entity );
         return request;
     }
 
-    private boolean isPayloadPresent( HttpUriRequest request )
-    {
-        if ( request instanceof HttpEntityEnclosingRequest )
-        {
+    private boolean isPayloadPresent( HttpUriRequest request ) {
+        if( request instanceof HttpEntityEnclosingRequest ) {
             HttpEntity entity = ( (HttpEntityEnclosingRequest) request ).getEntity();
             return entity != null && entity.getContentLength() != 0;
         }
         return false;
     }
 
-    private <T extends HttpUriRequest> T commonHeaders( T request )
-    {
+    private <T extends HttpUriRequest> T commonHeaders( T request ) {
         request.setHeader( HttpHeaders.CACHE_CONTROL, "no-cache, no-store" );
         request.setHeader( HttpHeaders.PRAGMA, "no-cache" );
 
-        if ( state.isExpectContinue() && isPayloadPresent( request ) )
-        {
+        if( state.isExpectContinue() && isPayloadPresent( request ) ) {
             request.setHeader( HttpHeaders.EXPECT, "100-continue" );
         }
 
-        for ( Map.Entry<?, ?> entry : headers.entrySet() )
-        {
-            if ( !( entry.getKey() instanceof String ) )
-            {
+        for( Map.Entry<?, ?> entry : headers.entrySet() ) {
+            if( !( entry.getKey() instanceof String ) ) {
                 continue;
             }
-            if ( entry.getValue() instanceof String )
-            {
+            if( entry.getValue() instanceof String ) {
                 request.setHeader( entry.getKey().toString(), entry.getValue().toString() );
-            }
-            else
-            {
+            } else {
                 request.removeHeaders( entry.getKey().toString() );
             }
         }
 
-        if ( !state.isExpectContinue() )
-        {
+        if( !state.isExpectContinue() ) {
             request.removeHeaders( HttpHeaders.EXPECT );
         }
 
@@ -518,14 +432,12 @@ final class HttpTransporter
     }
 
     @SuppressWarnings( "checkstyle:magicnumber" )
-    private <T extends HttpUriRequest> T resume( T request, GetTask task )
-    {
+    private <T extends HttpUriRequest> T resume( T request, GetTask task ) {
         long resumeOffset = task.getResumeOffset();
-        if ( resumeOffset > 0L && task.getDataFile() != null )
-        {
+        if( resumeOffset > 0L && task.getDataFile() != null ) {
             request.setHeader( HttpHeaders.RANGE, "bytes=" + resumeOffset + '-' );
             request.setHeader( HttpHeaders.IF_UNMODIFIED_SINCE,
-                               DateUtils.formatDate( new Date( task.getDataFile().lastModified() - 60L * 1000L ) ) );
+                    DateUtils.formatDate( new Date( task.getDataFile().lastModified() - 60L * 1000L ) ) );
             request.setHeader( HttpHeaders.ACCEPT_ENCODING, "identity" );
         }
         return request;
@@ -533,24 +445,19 @@ final class HttpTransporter
 
     @SuppressWarnings( "checkstyle:magicnumber" )
     private void handleStatus( HttpResponse response )
-        throws HttpResponseException
+            throws HttpResponseException
     {
         int status = response.getStatusLine().getStatusCode();
-        if ( status >= 300 )
-        {
+        if( status >= 300 ) {
             throw new HttpResponseException( status, response.getStatusLine().getReasonPhrase() + " (" + status + ")" );
         }
     }
 
     @Override
-    protected void implClose()
-    {
-        try
-        {
+    protected void implClose() {
+        try {
             client.close();
-        }
-        catch ( IOException e )
-        {
+        } catch( IOException e ) {
             throw new UncheckedIOException( e );
         }
         AuthenticationContext.close( repoAuthContext );
@@ -558,41 +465,35 @@ final class HttpTransporter
         state.close();
     }
 
-    private class EntityGetter
-    {
+    private class EntityGetter {
 
         private final GetTask task;
 
-        EntityGetter( GetTask task )
-        {
+        EntityGetter( GetTask task ) {
             this.task = task;
         }
 
         public void handle( HttpResponse response )
-            throws IOException, TransferCancelledException
+                throws IOException, TransferCancelledException
         {
             HttpEntity entity = response.getEntity();
-            if ( entity == null )
-            {
+            if( entity == null ) {
                 entity = new ByteArrayEntity( new byte[0] );
             }
 
             long offset = 0L, length = entity.getContentLength();
             Header rangeHeader = response.getFirstHeader( HttpHeaders.CONTENT_RANGE );
             String range = rangeHeader != null ? rangeHeader.getValue() : null;
-            if ( range != null )
-            {
+            if( range != null ) {
                 Matcher m = CONTENT_RANGE_PATTERN.matcher( range );
-                if ( !m.matches() )
-                {
+                if( !m.matches() ) {
                     throw new IOException( "Invalid Content-Range header for partial download: " + range );
                 }
                 offset = Long.parseLong( m.group( 1 ) );
                 length = Long.parseLong( m.group( 2 ) ) + 1L;
-                if ( offset < 0L || offset >= length || ( offset > 0L && offset != task.getResumeOffset() ) )
-                {
+                if( offset < 0L || offset >= length || ( offset > 0L && offset != task.getResumeOffset() ) ) {
                     throw new IOException( "Invalid Content-Range header for partial download from offset "
-                        + task.getResumeOffset() + ": " + range );
+                            + task.getResumeOffset() + ": " + range );
                 }
             }
 
@@ -601,13 +502,10 @@ final class HttpTransporter
             extractChecksums( response );
         }
 
-        private void extractChecksums( HttpResponse response )
-        {
-            for ( Map.Entry<String, ChecksumExtractor> extractorEntry : checksumExtractors.entrySet() )
-            {
+        private void extractChecksums( HttpResponse response ) {
+            for( Map.Entry<String, ChecksumExtractor> extractorEntry : checksumExtractors.entrySet() ) {
                 Map<String, String> checksums = extractorEntry.getValue().extractChecksums( response );
-                if ( checksums != null )
-                {
+                if( checksums != null ) {
                     checksums.forEach( task::setChecksum );
                     return;
                 }
@@ -616,51 +514,44 @@ final class HttpTransporter
     }
 
     private class PutTaskEntity
-        extends AbstractHttpEntity
+            extends AbstractHttpEntity
     {
 
         private final PutTask task;
 
-        PutTaskEntity( PutTask task )
-        {
+        PutTaskEntity( PutTask task ) {
             this.task = task;
         }
 
         @Override
-        public boolean isRepeatable()
-        {
+        public boolean isRepeatable() {
             return true;
         }
 
         @Override
-        public boolean isStreaming()
-        {
+        public boolean isStreaming() {
             return false;
         }
 
         @Override
-        public long getContentLength()
-        {
+        public long getContentLength() {
             return task.getDataLength();
         }
 
         @Override
         public InputStream getContent()
-            throws IOException
+                throws IOException
         {
             return task.newInputStream();
         }
 
         @Override
         public void writeTo( OutputStream os )
-            throws IOException
+                throws IOException
         {
-            try
-            {
+            try {
                 utilPut( task, os, false );
-            }
-            catch ( TransferCancelledException e )
-            {
+            } catch( TransferCancelledException e ) {
                 throw (IOException) new InterruptedIOException().initCause( e );
             }
         }

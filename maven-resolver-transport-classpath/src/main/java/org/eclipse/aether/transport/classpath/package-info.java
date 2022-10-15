@@ -21,4 +21,3 @@
  * Support for downloads that utilize the classpath as "remote" storage.
  */
 package org.eclipse.aether.transport.classpath;
-

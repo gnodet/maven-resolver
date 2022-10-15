@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.visitor;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.visitor;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.util.graph.visitor;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.graph.visitor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +30,7 @@ import org.eclipse.aether.graph.DependencyVisitor;
  * A dependency visitor that records all paths leading to nodes matching a certain filter criteria.
  */
 public final class PathRecordingDependencyVisitor
-    implements DependencyVisitor
+        implements DependencyVisitor
 {
 
     private final DependencyFilter filter;
@@ -48,22 +47,22 @@ public final class PathRecordingDependencyVisitor
      * 
      * @param filter The filter used to select terminal nodes of paths to record, may be {@code null} to match any node.
      */
-    public PathRecordingDependencyVisitor( DependencyFilter filter )
-    {
+    public PathRecordingDependencyVisitor( DependencyFilter filter ) {
         this( filter, true );
     }
 
     /**
      * Creates a new visitor that uses the specified filter to identify terminal nodes of interesting paths.
      * 
-     * @param filter The filter used to select terminal nodes of paths to record, may be {@code null} to match any node.
+     * @param filter                   The filter used to select terminal nodes of paths to record, may be {@code null}
+     *                                 to match any node.
      * @param excludeChildrenOfMatches Flag controlling whether children of matched nodes should be excluded from the
-     *            traversal, thereby ignoring any potential paths to other matching nodes beneath a matching ancestor
-     *            node. If {@code true}, all recorded paths will have only one matching node (namely the terminal node),
-     *            if {@code false} a recorded path can consist of multiple matching nodes.
+     *                                 traversal, thereby ignoring any potential paths to other matching nodes beneath a
+     *                                 matching ancestor node. If {@code true}, all recorded paths will have only one
+     *                                 matching node (namely the terminal node), if {@code false} a recorded path can
+     *                                 consist of multiple matching nodes.
      */
-    public PathRecordingDependencyVisitor( DependencyFilter filter, boolean excludeChildrenOfMatches )
-    {
+    public PathRecordingDependencyVisitor( DependencyFilter filter, boolean excludeChildrenOfMatches ) {
         this.filter = filter;
         this.excludeChildrenOfMatches = excludeChildrenOfMatches;
         paths = new ArrayList<>();
@@ -75,8 +74,7 @@ public final class PathRecordingDependencyVisitor
      * 
      * @return The filter being used or {@code null} if none.
      */
-    public DependencyFilter getFilter()
-    {
+    public DependencyFilter getFilter() {
         return filter;
     }
 
@@ -87,29 +85,24 @@ public final class PathRecordingDependencyVisitor
      * 
      * @return The recorded paths, never {@code null}.
      */
-    public List<List<DependencyNode>> getPaths()
-    {
+    public List<List<DependencyNode>> getPaths() {
         return paths;
     }
 
-    public boolean visitEnter( DependencyNode node )
-    {
+    public boolean visitEnter( DependencyNode node ) {
         boolean accept = filter == null || filter.accept( node, parents );
 
         boolean hasDuplicateNodeInParent = parents.contains( node );
         parents.push( node );
 
-        if ( accept )
-        {
+        if( accept ) {
             DependencyNode[] path = new DependencyNode[parents.size()];
-            for ( int i = 0, n = parents.size(); i < n; i++ )
-            {
+            for( int i = 0, n = parents.size(); i < n; i++ ) {
                 path[n - i - 1] = parents.get( i );
             }
             paths.add( Arrays.asList( path ) );
 
-            if ( excludeChildrenOfMatches )
-            {
+            if( excludeChildrenOfMatches ) {
                 return false;
             }
         }
@@ -117,8 +110,7 @@ public final class PathRecordingDependencyVisitor
         return !hasDuplicateNodeInParent;
     }
 
-    public boolean visitLeave( DependencyNode node )
-    {
+    public boolean visitLeave( DependencyNode node ) {
         parents.pop();
 
         return true;

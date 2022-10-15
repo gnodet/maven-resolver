@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.filter;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.filter;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.util.filter;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.filter;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,11 +29,9 @@ import org.eclipse.aether.util.artifact.JavaScopes;
 /**
  * A utility class assisting in the creation of dependency node filters.
  */
-public final class DependencyFilterUtils
-{
+public final class DependencyFilterUtils {
 
-    private DependencyFilterUtils()
-    {
+    private DependencyFilterUtils() {
         // hide constructor
     }
 
@@ -44,8 +41,7 @@ public final class DependencyFilterUtils
      * @param filter The filter to negate, must not be {@code null}.
      * @return The new filter, never {@code null}.
      */
-    public static DependencyFilter notFilter( DependencyFilter filter )
-    {
+    public static DependencyFilter notFilter( DependencyFilter filter ) {
         return new NotDependencyFilter( filter );
     }
 
@@ -56,14 +52,10 @@ public final class DependencyFilterUtils
      * @param filters The filters to combine, may be {@code null}.
      * @return The new filter, never {@code null}.
      */
-    public static DependencyFilter andFilter( DependencyFilter... filters )
-    {
-        if ( filters != null && filters.length == 1 )
-        {
+    public static DependencyFilter andFilter( DependencyFilter... filters ) {
+        if( filters != null && filters.length == 1 ) {
             return filters[0];
-        }
-        else
-        {
+        } else {
             return new AndDependencyFilter( filters );
         }
     }
@@ -75,14 +67,10 @@ public final class DependencyFilterUtils
      * @param filters The filters to combine, may be {@code null}.
      * @return The new filter, never {@code null}.
      */
-    public static DependencyFilter andFilter( Collection<DependencyFilter> filters )
-    {
-        if ( filters != null && filters.size() == 1 )
-        {
+    public static DependencyFilter andFilter( Collection<DependencyFilter> filters ) {
+        if( filters != null && filters.size() == 1 ) {
             return filters.iterator().next();
-        }
-        else
-        {
+        } else {
             return new AndDependencyFilter( filters );
         }
     }
@@ -94,14 +82,10 @@ public final class DependencyFilterUtils
      * @param filters The filters to combine, may be {@code null}.
      * @return The new filter, never {@code null}.
      */
-    public static DependencyFilter orFilter( DependencyFilter... filters )
-    {
-        if ( filters != null && filters.length == 1 )
-        {
+    public static DependencyFilter orFilter( DependencyFilter... filters ) {
+        if( filters != null && filters.length == 1 ) {
             return filters[0];
-        }
-        else
-        {
+        } else {
             return new OrDependencyFilter( filters );
         }
     }
@@ -113,14 +97,10 @@ public final class DependencyFilterUtils
      * @param filters The filters to combine, may be {@code null}.
      * @return The new filter, never {@code null}.
      */
-    public static DependencyFilter orFilter( Collection<DependencyFilter> filters )
-    {
-        if ( filters != null && filters.size() == 1 )
-        {
+    public static DependencyFilter orFilter( Collection<DependencyFilter> filters ) {
+        if( filters != null && filters.size() == 1 ) {
             return filters.iterator().next();
-        }
-        else
-        {
+        } else {
             return new OrDependencyFilter( filters );
         }
     }
@@ -133,8 +113,7 @@ public final class DependencyFilterUtils
      * @return The new filter, never {@code null}.
      * @see JavaScopes
      */
-    public static DependencyFilter classpathFilter( String... classpathTypes )
-    {
+    public static DependencyFilter classpathFilter( String... classpathTypes ) {
         return classpathFilter( ( classpathTypes != null ) ? Arrays.asList( classpathTypes ) : null );
     }
 
@@ -146,20 +125,15 @@ public final class DependencyFilterUtils
      * @return The new filter, never {@code null}.
      * @see JavaScopes
      */
-    public static DependencyFilter classpathFilter( Collection<String> classpathTypes )
-    {
+    public static DependencyFilter classpathFilter( Collection<String> classpathTypes ) {
         Collection<String> types = new HashSet<>();
 
-        if ( classpathTypes != null )
-        {
-            for ( String classpathType : classpathTypes )
-            {
+        if( classpathTypes != null ) {
+            for( String classpathType : classpathTypes ) {
                 String[] tokens = classpathType.split( "[+,]" );
-                for ( String token : tokens )
-                {
+                for( String token : tokens ) {
                     token = token.trim();
-                    if ( token.length() > 0 )
-                    {
+                    if( token.length() > 0 ) {
                         types.add( token );
                     }
                 }
@@ -167,30 +141,22 @@ public final class DependencyFilterUtils
         }
 
         Collection<String> included = new HashSet<>();
-        for ( String type : types )
-        {
-            if ( JavaScopes.COMPILE.equals( type ) )
-            {
+        for( String type : types ) {
+            if( JavaScopes.COMPILE.equals( type ) ) {
                 Collections.addAll( included, JavaScopes.COMPILE, JavaScopes.PROVIDED, JavaScopes.SYSTEM );
-            }
-            else if ( JavaScopes.RUNTIME.equals( type ) )
-            {
+            } else if( JavaScopes.RUNTIME.equals( type ) ) {
                 Collections.addAll( included, JavaScopes.COMPILE, JavaScopes.RUNTIME );
-            }
-            else if ( JavaScopes.TEST.equals( type ) )
-            {
+            } else if( JavaScopes.TEST.equals( type ) ) {
                 Collections.addAll( included, JavaScopes.COMPILE, JavaScopes.PROVIDED, JavaScopes.SYSTEM,
-                                    JavaScopes.RUNTIME, JavaScopes.TEST );
-            }
-            else
-            {
+                        JavaScopes.RUNTIME, JavaScopes.TEST );
+            } else {
                 included.add( type );
             }
         }
 
         Collection<String> excluded = new HashSet<>();
         Collections.addAll( excluded, JavaScopes.COMPILE, JavaScopes.PROVIDED, JavaScopes.SYSTEM, JavaScopes.RUNTIME,
-                            JavaScopes.TEST );
+                JavaScopes.TEST );
         excluded.removeAll( included );
 
         return new ScopeDependencyFilter( null, excluded );

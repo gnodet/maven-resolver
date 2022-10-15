@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.listener;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.listener;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.util.listener;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.listener;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,7 +35,7 @@ import static java.util.Objects.requireNonNull;
  * thread-safe, i.e. target listeners can be added or removed by any thread at any time.
  */
 public final class ChainedTransferListener
-    extends AbstractTransferListener
+        extends AbstractTransferListener
 {
 
     private final List<TransferListener> listeners = new CopyOnWriteArrayList<>();
@@ -50,14 +49,10 @@ public final class ChainedTransferListener
      * @param listener2 The second listener, may be {@code null}.
      * @return The chained listener or {@code null} if no listener was supplied.
      */
-    public static TransferListener newInstance( TransferListener listener1, TransferListener listener2 )
-    {
-        if ( listener1 == null )
-        {
+    public static TransferListener newInstance( TransferListener listener1, TransferListener listener2 ) {
+        if( listener1 == null ) {
             return listener2;
-        }
-        else if ( listener2 == null )
-        {
+        } else if( listener2 == null ) {
             return listener1;
         }
         return new ChainedTransferListener( listener1, listener2 );
@@ -68,10 +63,8 @@ public final class ChainedTransferListener
      * 
      * @param listeners The listeners to delegate to, may be {@code null} or empty.
      */
-    public ChainedTransferListener( TransferListener... listeners )
-    {
-        if ( listeners != null )
-        {
+    public ChainedTransferListener( TransferListener... listeners ) {
+        if( listeners != null ) {
             add( Arrays.asList( listeners ) );
         }
     }
@@ -81,8 +74,7 @@ public final class ChainedTransferListener
      * 
      * @param listeners The listeners to delegate to, may be {@code null} or empty.
      */
-    public ChainedTransferListener( Collection<? extends TransferListener> listeners )
-    {
+    public ChainedTransferListener( Collection<? extends TransferListener> listeners ) {
         add( listeners );
     }
 
@@ -91,12 +83,9 @@ public final class ChainedTransferListener
      * 
      * @param listeners The listeners to add, may be {@code null} or empty.
      */
-    public void add( Collection<? extends TransferListener> listeners )
-    {
-        if ( listeners != null )
-        {
-            for ( TransferListener listener : listeners )
-            {
+    public void add( Collection<? extends TransferListener> listeners ) {
+        if( listeners != null ) {
+            for( TransferListener listener : listeners ) {
                 add( listener );
             }
         }
@@ -107,10 +96,8 @@ public final class ChainedTransferListener
      * 
      * @param listener The listener to add, may be {@code null}.
      */
-    public void add( TransferListener listener )
-    {
-        if ( listener != null )
-        {
+    public void add( TransferListener listener ) {
+        if( listener != null ) {
             listeners.add( listener );
         }
     }
@@ -120,33 +107,26 @@ public final class ChainedTransferListener
      * 
      * @param listener The listener to remove, may be {@code null}.
      */
-    public void remove( TransferListener listener )
-    {
-        if ( listener != null )
-        {
+    public void remove( TransferListener listener ) {
+        if( listener != null ) {
             listeners.remove( listener );
         }
     }
 
     @SuppressWarnings( "EmptyMethod" )
-    protected void handleError( TransferEvent event, TransferListener listener, RuntimeException error )
-    {
+    protected void handleError( TransferEvent event, TransferListener listener, RuntimeException error ) {
         // default just swallows errors
     }
 
     @Override
     public void transferInitiated( TransferEvent event )
-        throws TransferCancelledException
+            throws TransferCancelledException
     {
         requireNonNull( event, "event cannot be null" );
-        for ( TransferListener listener : listeners )
-        {
-            try
-            {
+        for( TransferListener listener : listeners ) {
+            try {
                 listener.transferInitiated( event );
-            }
-            catch ( RuntimeException e )
-            {
+            } catch( RuntimeException e ) {
                 handleError( event, listener, e );
             }
         }
@@ -154,17 +134,13 @@ public final class ChainedTransferListener
 
     @Override
     public void transferStarted( TransferEvent event )
-        throws TransferCancelledException
+            throws TransferCancelledException
     {
         requireNonNull( event, "event cannot be null" );
-        for ( TransferListener listener : listeners )
-        {
-            try
-            {
+        for( TransferListener listener : listeners ) {
+            try {
                 listener.transferStarted( event );
-            }
-            catch ( RuntimeException e )
-            {
+            } catch( RuntimeException e ) {
                 handleError( event, listener, e );
             }
         }
@@ -172,17 +148,13 @@ public final class ChainedTransferListener
 
     @Override
     public void transferProgressed( TransferEvent event )
-        throws TransferCancelledException
+            throws TransferCancelledException
     {
         requireNonNull( event, "event cannot be null" );
-        for ( TransferListener listener : listeners )
-        {
-            try
-            {
+        for( TransferListener listener : listeners ) {
+            try {
                 listener.transferProgressed( event );
-            }
-            catch ( RuntimeException e )
-            {
+            } catch( RuntimeException e ) {
                 handleError( event, listener, e );
             }
         }
@@ -190,51 +162,37 @@ public final class ChainedTransferListener
 
     @Override
     public void transferCorrupted( TransferEvent event )
-        throws TransferCancelledException
+            throws TransferCancelledException
     {
         requireNonNull( event, "event cannot be null" );
-        for ( TransferListener listener : listeners )
-        {
-            try
-            {
+        for( TransferListener listener : listeners ) {
+            try {
                 listener.transferCorrupted( event );
-            }
-            catch ( RuntimeException e )
-            {
+            } catch( RuntimeException e ) {
                 handleError( event, listener, e );
             }
         }
     }
 
     @Override
-    public void transferSucceeded( TransferEvent event )
-    {
+    public void transferSucceeded( TransferEvent event ) {
         requireNonNull( event, "event cannot be null" );
-        for ( TransferListener listener : listeners )
-        {
-            try
-            {
+        for( TransferListener listener : listeners ) {
+            try {
                 listener.transferSucceeded( event );
-            }
-            catch ( RuntimeException e )
-            {
+            } catch( RuntimeException e ) {
                 handleError( event, listener, e );
             }
         }
     }
 
     @Override
-    public void transferFailed( TransferEvent event )
-    {
+    public void transferFailed( TransferEvent event ) {
         requireNonNull( event, "event cannot be null" );
-        for ( TransferListener listener : listeners )
-        {
-            try
-            {
+        for( TransferListener listener : listeners ) {
+            try {
                 listener.transferFailed( event );
-            }
-            catch ( RuntimeException e )
-            {
+            } catch( RuntimeException e ) {
                 handleError( event, listener, e );
             }
         }

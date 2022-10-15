@@ -1,5 +1,3 @@
-package org.eclipse.aether.repository;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.repository;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,20 +16,18 @@ package org.eclipse.aether.repository;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.repository;
+
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import org.eclipse.aether.repository.RemoteRepository;
-import org.junit.Test;
-
 /**
  */
-public class RemoteRepositoryTest
-{
+public class RemoteRepositoryTest {
 
     @Test
-    public void testGetProtocol()
-    {
+    public void testGetProtocol() {
         RemoteRepository.Builder builder = new RemoteRepository.Builder( "id", "type", "" );
         RemoteRepository repo = builder.build();
         assertEquals( "", repo.getProtocol() );
@@ -62,8 +58,7 @@ public class RemoteRepositoryTest
     }
 
     @Test
-    public void testGetHost()
-    {
+    public void testGetHost() {
         RemoteRepository.Builder builder = new RemoteRepository.Builder( "id", "type", "" );
         RemoteRepository repo = builder.build();
         assertEquals( "", repo.getHost() );

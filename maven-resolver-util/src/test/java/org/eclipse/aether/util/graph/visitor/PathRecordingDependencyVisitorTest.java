@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.visitor;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.visitor;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,9 +16,7 @@ package org.eclipse.aether.util.graph.visitor;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static java.util.Objects.requireNonNull;
-import static org.junit.Assert.*;
+package org.eclipse.aether.util.graph.visitor;
 
 import java.util.List;
 
@@ -29,20 +25,20 @@ import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.internal.test.util.DependencyGraphParser;
 import org.junit.Test;
 
-public class PathRecordingDependencyVisitorTest
-{
+import static java.util.Objects.requireNonNull;
+import static org.junit.Assert.*;
+
+public class PathRecordingDependencyVisitorTest {
 
     private DependencyNode parse( String resource )
-        throws Exception
+            throws Exception
     {
         return new DependencyGraphParser( "visitor/path-recorder/" ).parseResource( resource );
     }
 
-    private void assertPath( List<DependencyNode> actual, String... expected )
-    {
+    private void assertPath( List<DependencyNode> actual, String... expected ) {
         assertEquals( actual.toString(), expected.length, actual.size() );
-        for ( int i = 0; i < expected.length; i++ )
-        {
+        for( int i = 0; i < expected.length; i++ ) {
             DependencyNode node = actual.get( i );
             assertEquals( actual.toString(), expected[i], node.getDependency().getArtifact().getArtifactId() );
         }
@@ -50,7 +46,7 @@ public class PathRecordingDependencyVisitorTest
 
     @Test
     public void testGetPaths_RecordsMatchesBeneathUnmatchedParents()
-        throws Exception
+            throws Exception
     {
         DependencyNode root = parse( "simple.txt" );
 
@@ -65,7 +61,7 @@ public class PathRecordingDependencyVisitorTest
 
     @Test
     public void testGetPaths_DoesNotRecordMatchesBeneathMatchedParents()
-        throws Exception
+            throws Exception
     {
         DependencyNode root = parse( "nested.txt" );
 
@@ -79,7 +75,7 @@ public class PathRecordingDependencyVisitorTest
 
     @Test
     public void testGetPaths_RecordsMatchesBeneathMatchedParentsIfRequested()
-        throws Exception
+            throws Exception
     {
         DependencyNode root = parse( "nested.txt" );
 
@@ -95,19 +91,16 @@ public class PathRecordingDependencyVisitorTest
 
     @Test
     public void testFilterCalledWithProperParentStack()
-        throws Exception
+            throws Exception
     {
         DependencyNode root = parse( "parents.txt" );
 
         final StringBuilder buffer = new StringBuilder( 256 );
-        DependencyFilter filter = new DependencyFilter()
-        {
-            public boolean accept( DependencyNode node, List<DependencyNode> parents )
-            {
+        DependencyFilter filter = new DependencyFilter() {
+            public boolean accept( DependencyNode node, List<DependencyNode> parents ) {
                 requireNonNull( node, "node cannot be null" );
                 requireNonNull( parents, "parents cannot be null" );
-                for ( DependencyNode parent : parents )
-                {
+                for( DependencyNode parent : parents ) {
                     buffer.append( parent.getDependency().getArtifact().getArtifactId() );
                 }
                 buffer.append( "," );
@@ -123,7 +116,7 @@ public class PathRecordingDependencyVisitorTest
 
     @Test
     public void testGetPaths_HandlesCycles()
-        throws Exception
+            throws Exception
     {
         DependencyNode root = parse( "cycle.txt" );
 
@@ -140,7 +133,7 @@ public class PathRecordingDependencyVisitorTest
 
     @Test
     public void testGetPaths_HandlesCycles_threePaths()
-        throws Exception
+            throws Exception
     {
         DependencyNode root = parse( "cycle-3paths.txt" );
 
@@ -149,14 +142,13 @@ public class PathRecordingDependencyVisitorTest
 
         List<List<DependencyNode>> paths = visitor.getPaths();
         assertEquals( paths.toString(), 1, paths.size() );
-        assertPath( paths.get( 0 ), "a", "b");
+        assertPath( paths.get( 0 ), "a", "b" );
     }
 
     private static class ArtifactMatcher
-        implements DependencyFilter
+            implements DependencyFilter
     {
-        public boolean accept( DependencyNode node, List<DependencyNode> parents )
-        {
+        public boolean accept( DependencyNode node, List<DependencyNode> parents ) {
             return node.getDependency() != null && node.getDependency().getArtifact().getGroupId().equals( "match" );
         }
     }

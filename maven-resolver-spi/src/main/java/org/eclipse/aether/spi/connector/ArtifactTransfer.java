@@ -1,5 +1,3 @@
-package org.eclipse.aether.spi.connector;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.spi.connector;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.spi.connector;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.spi.connector;
 
 import java.io.File;
 
@@ -30,7 +29,7 @@ import org.eclipse.aether.transfer.ArtifactTransferException;
  * @noextend This class is not intended to be extended by clients.
  */
 public abstract class ArtifactTransfer
-    extends Transfer
+        extends Transfer
 {
 
     private Artifact artifact;
@@ -39,8 +38,7 @@ public abstract class ArtifactTransfer
 
     private ArtifactTransferException exception;
 
-    ArtifactTransfer()
-    {
+    ArtifactTransfer() {
         // hide
     }
 
@@ -49,8 +47,7 @@ public abstract class ArtifactTransfer
      * 
      * @return The artifact being transferred or {@code null} if not set.
      */
-    public Artifact getArtifact()
-    {
+    public Artifact getArtifact() {
         return artifact;
     }
 
@@ -60,8 +57,7 @@ public abstract class ArtifactTransfer
      * @param artifact The artifact, may be {@code null}.
      * @return This transfer for chaining, never {@code null}.
      */
-    public ArtifactTransfer setArtifact( Artifact artifact )
-    {
+    public ArtifactTransfer setArtifact( Artifact artifact ) {
         this.artifact = artifact;
         return this;
     }
@@ -73,8 +69,7 @@ public abstract class ArtifactTransfer
      * 
      * @return The local file or {@code null} if not set.
      */
-    public File getFile()
-    {
+    public File getFile() {
         return file;
     }
 
@@ -84,8 +79,7 @@ public abstract class ArtifactTransfer
      * @param file The local file, may be {@code null}.
      * @return This transfer for chaining, never {@code null}.
      */
-    public ArtifactTransfer setFile( File file )
-    {
+    public ArtifactTransfer setFile( File file ) {
         this.file = file;
         return this;
     }
@@ -95,8 +89,7 @@ public abstract class ArtifactTransfer
      * 
      * @return The exception or {@code null} if the transfer was successful.
      */
-    public ArtifactTransferException getException()
-    {
+    public ArtifactTransferException getException() {
         return exception;
     }
 
@@ -106,8 +99,7 @@ public abstract class ArtifactTransfer
      * @param exception The exception, may be {@code null} to denote a successful transfer.
      * @return This transfer for chaining, never {@code null}.
      */
-    public ArtifactTransfer setException( ArtifactTransferException exception )
-    {
+    public ArtifactTransfer setException( ArtifactTransferException exception ) {
         this.exception = exception;
         return this;
     }

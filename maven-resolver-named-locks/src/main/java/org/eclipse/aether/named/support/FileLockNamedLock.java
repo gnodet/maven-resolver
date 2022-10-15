@@ -1,5 +1,3 @@
-package org.eclipse.aether.named.support;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.named.support;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.named.support;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.named.support;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -35,20 +34,18 @@ import java.util.concurrent.locks.ReentrantLock;
 import static org.eclipse.aether.named.support.Retry.retry;
 
 /**
- * Named lock that uses {@link FileLock}. An instance of this class is about ONE LOCK (one file)
- * and is possibly used by multiple threads. Each thread (if properly coded re boxing) will try to
- * obtain either shared or exclusive lock. As file locks are JVM-scoped (so one JVM can obtain
- * same file lock only once), the threads share file lock and synchronize according to it. Still,
- * as file lock obtain operation does not block (or in other words, the method that does block
- * cannot be controlled for how long it blocks), we are "simulating" thread blocking using
- * {@link Retry} utility.
- * This implementation performs coordination not only on thread (JVM-local) level, but also on
- * process level, as long as other parties are using this same "advisory" locking mechanism.
+ * Named lock that uses {@link FileLock}. An instance of this class is about ONE LOCK (one file) and is possibly used by
+ * multiple threads. Each thread (if properly coded re boxing) will try to obtain either shared or exclusive lock. As
+ * file locks are JVM-scoped (so one JVM can obtain same file lock only once), the threads share file lock and
+ * synchronize according to it. Still, as file lock obtain operation does not block (or in other words, the method that
+ * does block cannot be controlled for how long it blocks), we are "simulating" thread blocking using {@link Retry}
+ * utility. This implementation performs coordination not only on thread (JVM-local) level, but also on process level,
+ * as long as other parties are using this same "advisory" locking mechanism.
  *
  * @since 1.7.3
  */
 public final class FileLockNamedLock
-    extends NamedLockSupport
+        extends NamedLockSupport
 {
     private static final long RETRY_SLEEP_MILLIS = 100L;
 
@@ -77,8 +74,7 @@ public final class FileLockNamedLock
      */
     private final ReentrantLock criticalRegion;
 
-    public FileLockNamedLock( final String name,
-                              final FileChannel fileChannel,
+    public FileLockNamedLock( final String name, final FileChannel fileChannel,
                               final NamedLockFactorySupport factory )
     {
         super( name, factory );
@@ -89,47 +85,39 @@ public final class FileLockNamedLock
     }
 
     @Override
-    public boolean lockShared( final long time, final TimeUnit unit ) throws InterruptedException
+    public boolean lockShared( final long time, final TimeUnit unit )
+            throws InterruptedException
     {
         return retry( time, unit, RETRY_SLEEP_MILLIS, this::doLockShared, null, false );
     }
 
     @Override
-    public boolean lockExclusively( final long time, final TimeUnit unit ) throws InterruptedException
+    public boolean lockExclusively( final long time, final TimeUnit unit )
+            throws InterruptedException
     {
         return retry( time, unit, RETRY_SLEEP_MILLIS, this::doLockExclusively, null, false );
     }
 
-    private Boolean doLockShared()
-    {
-        if ( criticalRegion.tryLock() )
-        {
-            try
-            {
+    private Boolean doLockShared() {
+        if( criticalRegion.tryLock() ) {
+            try {
                 Deque<Boolean> steps = threadSteps.computeIfAbsent( Thread.currentThread(), k -> new ArrayDeque<>() );
                 FileLock obtainedLock = fileLockRef.get();
-                if ( obtainedLock != null )
-                {
-                    if ( obtainedLock.isShared() )
-                    {
+                if( obtainedLock != null ) {
+                    if( obtainedLock.isShared() ) {
                         // TODO No counterpart in other lock impls, drop or make consistent?
                         logger.trace( "{} lock (shared={})", name(), true );
                         steps.push( Boolean.TRUE );
                         return true;
-                    }
-                    else
-                    {
+                    } else {
                         // if we own exclusive, that's still fine
                         boolean weOwnExclusive = steps.contains( Boolean.FALSE );
-                        if ( weOwnExclusive )
-                        {
+                        if( weOwnExclusive ) {
                             // TODO No counterpart in other lock impls, drop or make consistent?
                             logger.trace( "{} lock (shared={})", name(), true );
                             steps.push( Boolean.TRUE );
                             return true;
-                        }
-                        else
-                        {
+                        } else {
                             // someone else owns exclusive, let's wait
                             return null;
                         }
@@ -139,62 +127,45 @@ public final class FileLockNamedLock
                 // TODO No counterpart in other lock impls, drop or make consistent?
                 logger.trace( "{} no obtained lock: obtain shared file lock", name() );
                 FileLock fileLock = obtainFileLock( true );
-                if ( fileLock != null )
-                {
+                if( fileLock != null ) {
                     fileLockRef.set( fileLock );
                     steps.push( Boolean.TRUE );
                     return true;
                 }
-            }
-            finally
-            {
+            } finally {
                 criticalRegion.unlock();
             }
         }
         return null;
     }
 
-    private Boolean doLockExclusively()
-    {
-        if ( criticalRegion.tryLock() )
-        {
-            try
-            {
+    private Boolean doLockExclusively() {
+        if( criticalRegion.tryLock() ) {
+            try {
                 Deque<Boolean> steps = threadSteps.computeIfAbsent( Thread.currentThread(), k -> new ArrayDeque<>() );
                 FileLock obtainedLock = fileLockRef.get();
-                if ( obtainedLock != null )
-                {
-                    if ( obtainedLock.isShared() )
-                    {
+                if( obtainedLock != null ) {
+                    if( obtainedLock.isShared() ) {
                         // if we own shared, that's attempted upgrade
                         boolean weOwnShared = steps.contains( Boolean.TRUE );
-                        if ( weOwnShared )
-                        {
+                        if( weOwnShared ) {
                             // TODO No counterpart in other lock impls, drop or make consistent?
-                            logger.trace(
-                                    "{} steps not empty, has not exclusive lock: lock-upgrade not supported", name()
-                            );
+                            logger.trace( "{} steps not empty, has not exclusive lock: lock-upgrade not supported",
+                                    name() );
                             return false; // Lock upgrade not supported
-                        }
-                        else
-                        {
+                        } else {
                             // someone else owns shared, let's wait
                             return null;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         // if we own exclusive, that's fine
                         boolean weOwnExclusive = steps.contains( Boolean.FALSE );
-                        if ( weOwnExclusive )
-                        {
+                        if( weOwnExclusive ) {
                             // TODO No counterpart in other lock impls, drop or make consistent?
                             logger.trace( "{} lock (shared={})", name(), false );
                             steps.push( Boolean.FALSE );
                             return true;
-                        }
-                        else
-                        {
+                        } else {
                             // someone else owns exclusive, let's wait
                             return null;
                         }
@@ -204,15 +175,12 @@ public final class FileLockNamedLock
                 // TODO No counterpart in other lock impls, drop or make consistent?
                 logger.trace( "{} no obtained lock: obtain exclusive file lock", name() );
                 FileLock fileLock = obtainFileLock( false );
-                if ( fileLock != null )
-                {
+                if( fileLock != null ) {
                     fileLockRef.set( fileLock );
                     steps.push( Boolean.FALSE );
                     return true;
                 }
-            }
-            finally
-            {
+            } finally {
                 criticalRegion.unlock();
             }
         }
@@ -220,33 +188,24 @@ public final class FileLockNamedLock
     }
 
     @Override
-    public void unlock()
-    {
+    public void unlock() {
         criticalRegion.lock();
-        try
-        {
+        try {
             Deque<Boolean> steps = threadSteps.computeIfAbsent( Thread.currentThread(), k -> new ArrayDeque<>() );
-            if ( steps.isEmpty() )
-            {
+            if( steps.isEmpty() ) {
                 throw new IllegalStateException( "Wrong API usage: unlock without lock" );
             }
             Boolean shared = steps.pop();
             // TODO No counterpart in other lock impls, drop or make consistent?
             logger.trace( "{} unlock (shared = {})", name(), shared );
-            if ( steps.isEmpty() && !anyOtherThreadHasSteps() )
-            {
-                try
-                {
+            if( steps.isEmpty() && !anyOtherThreadHasSteps() ) {
+                try {
                     fileLockRef.getAndSet( null ).release();
-                }
-                catch ( IOException e )
-                {
+                } catch( IOException e ) {
                     throw new UncheckedIOException( e );
                 }
             }
-        }
-        finally
-        {
+        } finally {
             criticalRegion.unlock();
         }
     }
@@ -254,31 +213,22 @@ public final class FileLockNamedLock
     /**
      * Returns {@code true} if any other than this thread using this instance has any step recorded.
      */
-    private boolean anyOtherThreadHasSteps()
-    {
-        return threadSteps.entrySet().stream()
-                .filter( e -> !Thread.currentThread().equals( e.getKey() ) )
-                .map( Map.Entry::getValue )
-                .anyMatch( d -> !d.isEmpty() );
+    private boolean anyOtherThreadHasSteps() {
+        return threadSteps.entrySet().stream().filter( e -> !Thread.currentThread().equals( e.getKey() ) )
+                .map( Map.Entry::getValue ).anyMatch( d -> !d.isEmpty() );
     }
 
     /**
      * Attempts to obtain real {@link FileLock}, returns non-null value is succeeds, or {@code null} if cannot.
      */
-    private FileLock obtainFileLock( final boolean shared )
-    {
+    private FileLock obtainFileLock( final boolean shared ) {
         FileLock result;
-        try
-        {
+        try {
             result = fileChannel.tryLock( LOCK_POSITION, LOCK_SIZE, shared );
-        }
-        catch ( OverlappingFileLockException e )
-        {
+        } catch( OverlappingFileLockException e ) {
             logger.trace( "File lock overlap on '{}'", name(), e );
             return null;
-        }
-        catch ( IOException e )
-        {
+        } catch( IOException e ) {
             logger.trace( "Failure on acquire of file lock for '{}'", name(), e );
             throw new UncheckedIOException( "Failed to acquire lock file channel for '" + name() + "'", e );
         }

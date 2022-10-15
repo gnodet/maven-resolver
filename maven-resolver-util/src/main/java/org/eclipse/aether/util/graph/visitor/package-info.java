@@ -21,4 +21,3 @@
  * Various dependency visitors for inspecting a dependency graph.
  */
 package org.eclipse.aether.util.graph.visitor;
-

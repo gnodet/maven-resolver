@@ -18,7 +18,6 @@
  * under the License.
  */
 /**
- * The contract for custom local repository implementations. 
+ * The contract for custom local repository implementations.
  */
 package org.eclipse.aether.spi.localrepo;
-

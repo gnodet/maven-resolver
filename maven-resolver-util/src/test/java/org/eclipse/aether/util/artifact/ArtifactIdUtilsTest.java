@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.artifact;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.artifact;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,21 +16,20 @@ package org.eclipse.aether.util.artifact;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.util.artifact;
 
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.DefaultArtifact;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 /**
  */
-public class ArtifactIdUtilsTest
-{
+public class ArtifactIdUtilsTest {
 
     @Test
-    public void testToIdArtifact()
-    {
+    public void testToIdArtifact() {
         Artifact artifact = null;
         assertSame( null, ArtifactIdUtils.toId( artifact ) );
 
@@ -44,8 +41,7 @@ public class ArtifactIdUtilsTest
     }
 
     @Test
-    public void testToIdStrings()
-    {
+    public void testToIdStrings() {
         assertEquals( ":::", ArtifactIdUtils.toId( null, null, null, null, null ) );
 
         assertEquals( "gid:aid:ext:1", ArtifactIdUtils.toId( "gid", "aid", "ext", "", "1" ) );
@@ -54,8 +50,7 @@ public class ArtifactIdUtilsTest
     }
 
     @Test
-    public void testToBaseIdArtifact()
-    {
+    public void testToBaseIdArtifact() {
         Artifact artifact = null;
         assertSame( null, ArtifactIdUtils.toBaseId( artifact ) );
 
@@ -67,8 +62,7 @@ public class ArtifactIdUtilsTest
     }
 
     @Test
-    public void testToVersionlessIdArtifact()
-    {
+    public void testToVersionlessIdArtifact() {
         Artifact artifact = null;
         assertSame( null, ArtifactIdUtils.toId( artifact ) );
 
@@ -80,8 +74,7 @@ public class ArtifactIdUtilsTest
     }
 
     @Test
-    public void testToVersionlessIdStrings()
-    {
+    public void testToVersionlessIdStrings() {
         assertEquals( "::", ArtifactIdUtils.toVersionlessId( null, null, null, null ) );
 
         assertEquals( "gid:aid:ext", ArtifactIdUtils.toVersionlessId( "gid", "aid", "ext", "" ) );
@@ -90,8 +83,7 @@ public class ArtifactIdUtilsTest
     }
 
     @Test
-    public void testEqualsId()
-    {
+    public void testEqualsId() {
         Artifact artifact1 = null;
         Artifact artifact2 = null;
         assertFalse( ArtifactIdUtils.equalsId( artifact1, artifact2 ) );
@@ -125,8 +117,7 @@ public class ArtifactIdUtilsTest
     }
 
     @Test
-    public void testEqualsBaseId()
-    {
+    public void testEqualsBaseId() {
         Artifact artifact1 = null;
         Artifact artifact2 = null;
         assertFalse( ArtifactIdUtils.equalsBaseId( artifact1, artifact2 ) );
@@ -164,8 +155,7 @@ public class ArtifactIdUtilsTest
     }
 
     @Test
-    public void testEqualsVersionlessId()
-    {
+    public void testEqualsVersionlessId() {
         Artifact artifact1 = null;
         Artifact artifact2 = null;
         assertFalse( ArtifactIdUtils.equalsVersionlessId( artifact1, artifact2 ) );

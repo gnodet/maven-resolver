@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.transformer;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.transformer;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,19 +16,18 @@ package org.eclipse.aether.util.graph.transformer;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.util.graph.transformer;
 
 import org.eclipse.aether.util.graph.transformer.ConflictIdSorter.ConflictId;
 import org.eclipse.aether.util.graph.transformer.ConflictIdSorter.RootQueue;
 import org.junit.Test;
 
-public class RootQueueTest
-{
+import static org.junit.Assert.*;
+
+public class RootQueueTest {
 
     @Test
-    public void testIsEmpty()
-    {
+    public void testIsEmpty() {
         ConflictId id = new ConflictId( "a", 0 );
         RootQueue queue = new RootQueue( 10 );
         assertTrue( queue.isEmpty() );
@@ -41,8 +38,7 @@ public class RootQueueTest
     }
 
     @Test
-    public void testAddSortsByDepth()
-    {
+    public void testAddSortsByDepth() {
         ConflictId id1 = new ConflictId( "a", 0 );
         ConflictId id2 = new ConflictId( "b", 1 );
         ConflictId id3 = new ConflictId( "c", 2 );
@@ -70,8 +66,7 @@ public class RootQueueTest
     }
 
     @Test
-    public void testAddWithArrayCompact()
-    {
+    public void testAddWithArrayCompact() {
         ConflictId id = new ConflictId( "a", 0 );
 
         RootQueue queue = new RootQueue( 10 );
@@ -87,8 +82,7 @@ public class RootQueueTest
     }
 
     @Test
-    public void testAddMinimumAfterSomeRemoves()
-    {
+    public void testAddMinimumAfterSomeRemoves() {
         ConflictId id1 = new ConflictId( "a", 0 );
         ConflictId id2 = new ConflictId( "b", 1 );
         ConflictId id3 = new ConflictId( "c", 2 );

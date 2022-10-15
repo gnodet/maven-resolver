@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.test.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.test.util;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.test.util;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.test.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -35,43 +34,35 @@ import java.util.UUID;
 /**
  * Provides utility methods to read and write (temporary) files.
  */
-public class TestFileUtils
-{
+public class TestFileUtils {
 
-    private static final File TMP = new File( System.getProperty( "java.io.tmpdir" ), "aether-"
-        + UUID.randomUUID().toString().substring( 0, 8 ) );
+    private static final File TMP = new File( System.getProperty( "java.io.tmpdir" ),
+                                              "aether-" + UUID.randomUUID().toString().substring( 0, 8 ) );
 
-    static
-    {
-        Runtime.getRuntime().addShutdownHook( new Thread( () ->
-        {
-            try
-            {
+    static {
+        Runtime.getRuntime().addShutdownHook( new Thread( () -> {
+            try {
                 deleteFile( TMP );
-            }
-            catch ( IOException e )
-            {
+            } catch( IOException e ) {
                 e.printStackTrace();
             }
         } ) );
     }
 
-    private TestFileUtils()
-    {
+    private TestFileUtils() {
         // hide constructor
     }
 
     public static void deleteTempFiles()
-        throws IOException
+            throws IOException
     {
         deleteFile( TMP );
     }
 
     public static void deleteFile( File file )
-        throws IOException
+            throws IOException
     {
-        if ( file == null )
-        {
+        if( file == null ) {
             return;
         }
 
@@ -79,64 +70,49 @@ public class TestFileUtils
 
         delete( file, undeletables );
 
-        if ( !undeletables.isEmpty() )
-        {
+        if( !undeletables.isEmpty() ) {
             throw new IOException( "Failed to delete " + undeletables );
         }
     }
 
-    private static void delete( File file, Collection<File> undeletables )
-    {
+    private static void delete( File file, Collection<File> undeletables ) {
         String[] children = file.list();
-        if ( children != null )
-        {
-            for ( String child : children )
-            {
+        if( children != null ) {
+            for( String child : children ) {
                 delete( new File( file, child ), undeletables );
             }
         }
 
-        if ( !del( file ) )
-        {
+        if( !del( file ) ) {
             undeletables.add( file.getAbsoluteFile() );
         }
     }
 
-    private static boolean del( File file )
-    {
-        for ( int i = 0; i < 10; i++ )
-        {
-            if ( file.delete() || !file.exists() )
-            {
+    private static boolean del( File file ) {
+        for( int i = 0; i < 10; i++ ) {
+            if( file.delete() || !file.exists() ) {
                 return true;
             }
         }
         return false;
     }
 
-    public static boolean mkdirs( File directory )
-    {
-        if ( directory == null )
-        {
+    public static boolean mkdirs( File directory ) {
+        if( directory == null ) {
             return false;
         }
 
-        if ( directory.exists() )
-        {
+        if( directory.exists() ) {
             return false;
         }
-        if ( directory.mkdir() )
-        {
+        if( directory.mkdir() ) {
             return true;
         }
 
         File canonDir = null;
-        try
-        {
+        try {
             canonDir = directory.getCanonicalFile();
-        }
-        catch ( IOException e )
-        {
+        } catch( IOException e ) {
             return false;
         }
 
@@ -145,13 +121,13 @@ public class TestFileUtils
     }
 
     public static File createTempFile( String contents )
-        throws IOException
+            throws IOException
     {
         return createTempFile( contents.getBytes( StandardCharsets.UTF_8 ), 1 );
     }
 
     public static File createTempFile( byte[] pattern, int repeat )
-        throws IOException
+            throws IOException
     {
         mkdirs( TMP );
         File tmpFile = File.createTempFile( "tmpfile-", ".data", TMP );
@@ -160,13 +136,13 @@ public class TestFileUtils
     }
 
     public static File createTempDir()
-        throws IOException
+            throws IOException
     {
         return createTempDir( "" );
     }
 
     public static File createTempDir( String suffix )
-        throws IOException
+            throws IOException
     {
         mkdirs( TMP );
         File tmpFile = File.createTempFile( "tmpdir-", suffix, TMP );
@@ -176,25 +152,22 @@ public class TestFileUtils
     }
 
     public static long copyFile( File source, File target )
-        throws IOException
+            throws IOException
     {
         long total = 0;
 
         FileInputStream fis = null;
         OutputStream fos = null;
-        try
-        {
+        try {
             fis = new FileInputStream( source );
 
             mkdirs( target.getParentFile() );
 
             fos = new BufferedOutputStream( new FileOutputStream( target ) );
 
-            for ( byte[] buffer = new byte[ 1024 * 32 ];; )
-            {
+            for( byte[] buffer = new byte[1024 * 32];; ) {
                 int bytes = fis.read( buffer );
-                if ( bytes < 0 )
-                {
+                if( bytes < 0 ) {
                     break;
                 }
 
@@ -208,31 +181,19 @@ public class TestFileUtils
 
             fis.close();
             fis = null;
-        }
-        finally
-        {
-            try
-            {
-                if ( fos != null )
-                {
+        } finally {
+            try {
+                if( fos != null ) {
                     fos.close();
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
-            }
-            finally
-            {
-                try
-                {
-                    if ( fis != null )
-                    {
+            } finally {
+                try {
+                    if( fis != null ) {
                         fis.close();
                     }
-                }
-                catch ( final IOException e )
-                {
+                } catch( final IOException e ) {
                     // Suppressed due to an exception already thrown in the try block.
                 }
             }
@@ -242,130 +203,101 @@ public class TestFileUtils
     }
 
     public static byte[] readBytes( File file )
-        throws IOException
+            throws IOException
     {
         RandomAccessFile in = null;
-        try
-        {
+        try {
             in = new RandomAccessFile( file, "r" );
-            byte[] actual = new byte[ (int) in.length() ];
+            byte[] actual = new byte[(int) in.length()];
             in.readFully( actual );
             in.close();
             in = null;
             return actual;
-        }
-        finally
-        {
-            try
-            {
-                if ( in != null )
-                {
+        } finally {
+            try {
+                if( in != null ) {
                     in.close();
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
             }
         }
     }
 
     public static void writeBytes( File file, byte[] pattern, int repeat )
-        throws IOException
+            throws IOException
     {
         file.deleteOnExit();
         file.getParentFile().mkdirs();
         OutputStream out = null;
-        try
-        {
+        try {
             out = new BufferedOutputStream( new FileOutputStream( file ) );
-            for ( int i = 0; i < repeat; i++ )
-            {
+            for( int i = 0; i < repeat; i++ ) {
                 out.write( pattern );
             }
             out.close();
             out = null;
-        }
-        finally
-        {
-            try
-            {
-                if ( out != null )
-                {
+        } finally {
+            try {
+                if( out != null ) {
                     out.close();
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
             }
         }
     }
 
     public static String readString( File file )
-        throws IOException
+            throws IOException
     {
         byte[] content = readBytes( file );
         return new String( content, StandardCharsets.UTF_8 );
     }
 
     public static void writeString( File file, String content )
-        throws IOException
+            throws IOException
     {
         writeBytes( file, content.getBytes( StandardCharsets.UTF_8 ), 1 );
     }
 
     public static void readProps( File file, Properties props )
-        throws IOException
+            throws IOException
     {
         FileInputStream fis = null;
-        try
-        {
+        try {
             fis = new FileInputStream( file );
             props.load( fis );
             fis.close();
             fis = null;
-        }
-        finally
-        {
-            try
-            {
-                if ( fis != null )
-                {
+        } finally {
+            try {
+                if( fis != null ) {
                     fis.close();
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
             }
         }
     }
 
     public static void writeProps( File file, Properties props )
-        throws IOException
+            throws IOException
     {
         file.getParentFile().mkdirs();
 
         FileOutputStream fos = null;
-        try
-        {
+        try {
             fos = new FileOutputStream( file );
             props.store( fos, "aether-test" );
             fos.close();
             fos = null;
-        }
-        finally
-        {
-            try
-            {
-                if ( fos != null )
-                {
+        } finally {
+            try {
+                if( fos != null ) {
                     fos.close();
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
             }
         }

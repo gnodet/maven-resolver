@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.test.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.test.util;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.internal.test.util;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.internal.test.util;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -29,26 +26,25 @@ import java.util.Map;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.graph.DependencyNode;
-import org.eclipse.aether.internal.test.util.DependencyGraphParser;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 /**
  */
-public class DependencyGraphParserTest
-{
+public class DependencyGraphParserTest {
 
     private DependencyGraphParser parser;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         this.parser = new DependencyGraphParser();
     }
 
     @Test
     public void testOnlyRoot()
-        throws IOException
+            throws IOException
     {
         String def = "gid:aid:jar:1 scope";
 
@@ -72,7 +68,7 @@ public class DependencyGraphParserTest
 
     @Test
     public void testOptionalScope()
-        throws IOException
+            throws IOException
     {
         String def = "gid:aid:jar:1";
 
@@ -88,10 +84,10 @@ public class DependencyGraphParserTest
 
     @Test
     public void testWithChildren()
-        throws IOException
+            throws IOException
     {
-        String def =
-            "gid1:aid1:ext1:ver1 scope1\n" + "+- gid2:aid2:ext2:ver2 scope2\n" + "\\- gid3:aid3:ext3:ver3 scope3\n";
+        String def = "gid1:aid1:ext1:ver1 scope1\n" + "+- gid2:aid2:ext2:ver2 scope2\n"
+                + "\\- gid3:aid3:ext3:ver3 scope3\n";
 
         DependencyNode node = parser.parseLiteral( def );
         assertNotNull( node );
@@ -103,8 +99,7 @@ public class DependencyGraphParserTest
         List<DependencyNode> children = node.getChildren();
         assertEquals( 2, children.size() );
 
-        for ( DependencyNode child : children )
-        {
+        for( DependencyNode child : children ) {
             assertNodeProperties( child, idx++ );
         }
 
@@ -112,10 +107,9 @@ public class DependencyGraphParserTest
 
     @Test
     public void testDeepChildren()
-        throws IOException
+            throws IOException
     {
-        String def =
-            "gid1:aid1:ext1:ver1\n" + "+- gid2:aid2:ext2:ver2 scope2\n" + "|  \\- gid3:aid3:ext3:ver3\n"
+        String def = "gid1:aid1:ext1:ver1\n" + "+- gid2:aid2:ext2:ver2 scope2\n" + "|  \\- gid3:aid3:ext3:ver3\n"
                 + "\\- gid4:aid4:ext4:ver4 scope4";
 
         DependencyNode node = parser.parseLiteral( def );
@@ -130,18 +124,15 @@ public class DependencyGraphParserTest
         assertNodeProperties( lvl1Node.getChildren().get( 0 ), 3 );
     }
 
-    private void assertNodeProperties( DependencyNode node, int idx )
-    {
+    private void assertNodeProperties( DependencyNode node, int idx ) {
         assertNodeProperties( node, String.valueOf( idx ) );
     }
 
-    private void assertNodeProperties( DependencyNode node, String suffix )
-    {
+    private void assertNodeProperties( DependencyNode node, String suffix ) {
         assertNotNull( node );
         Dependency dependency = node.getDependency();
         assertNotNull( dependency );
-        if ( !"".equals( dependency.getScope() ) )
-        {
+        if( !"".equals( dependency.getScope() ) ) {
             assertEquals( "scope" + suffix, dependency.getScope() );
         }
 
@@ -156,7 +147,7 @@ public class DependencyGraphParserTest
 
     @Test
     public void testComments()
-        throws IOException
+            throws IOException
     {
         String def = "# first line\n#second line\ngid:aid:ext:ver # root artifact asdf:qwer:zcxv:uip";
 
@@ -167,7 +158,7 @@ public class DependencyGraphParserTest
 
     @Test
     public void testId()
-        throws IOException
+            throws IOException
     {
         String def = "gid:aid:ext:ver (id)\n\\- ^id";
         DependencyNode node = parser.parseLiteral( def );
@@ -181,7 +172,7 @@ public class DependencyGraphParserTest
 
     @Test
     public void testResourceLoading()
-        throws IOException
+            throws IOException
     {
         String prefix = "org/eclipse/aether/internal/test/util/";
         String name = "testResourceLoading.txt";
@@ -193,7 +184,7 @@ public class DependencyGraphParserTest
 
     @Test
     public void testResourceLoadingWithPrefix()
-        throws IOException
+            throws IOException
     {
         String prefix = "org/eclipse/aether/internal/test/util/";
         parser = new DependencyGraphParser( prefix );
@@ -207,7 +198,7 @@ public class DependencyGraphParserTest
 
     @Test
     public void testProperties()
-        throws IOException
+            throws IOException
     {
         String def = "gid:aid:ext:ver props=test:foo,test2:fizzle";
         DependencyNode node = parser.parseLiteral( def );
@@ -226,7 +217,7 @@ public class DependencyGraphParserTest
 
     @Test
     public void testSubstitutions()
-        throws IOException
+            throws IOException
     {
         parser.setSubstitutions( Arrays.asList( "subst1", "subst2" ) );
         String def = "%s:%s:ext:ver";
@@ -244,7 +235,7 @@ public class DependencyGraphParserTest
 
     @Test
     public void testMultiple()
-        throws IOException
+            throws IOException
     {
         String prefix = "org/eclipse/aether/internal/test/util/";
         String name = "testResourceLoading.txt";
@@ -258,7 +249,7 @@ public class DependencyGraphParserTest
 
     @Test
     public void testRootNullDependency()
-        throws IOException
+            throws IOException
     {
         String literal = "(null)\n+- gid:aid:ext:ver";
         DependencyNode root = parser.parseLiteral( literal );
@@ -269,7 +260,7 @@ public class DependencyGraphParserTest
 
     @Test
     public void testChildNullDependency()
-        throws IOException
+            throws IOException
     {
         String literal = "gid:aid:ext:ver\n+- (null)";
         DependencyNode root = parser.parseLiteral( literal );
@@ -281,7 +272,7 @@ public class DependencyGraphParserTest
 
     @Test
     public void testOptional()
-        throws IOException
+            throws IOException
     {
         String def = "gid:aid:jar:1 compile optional";
 

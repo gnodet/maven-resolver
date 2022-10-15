@@ -1,5 +1,3 @@
-package org.eclipse.aether.transport.http;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.transport.http;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,8 +16,7 @@ package org.eclipse.aether.transport.http;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.transport.http;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -58,18 +55,18 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
 
+import static org.junit.Assert.*;
+
 /**
  */
-public class HttpTransporterTest
-{
+public class HttpTransporterTest {
 
-    static
-    {
+    static {
         System.setProperty( "javax.net.ssl.trustStore",
-                            new File( "src/test/resources/ssl/server-store" ).getAbsolutePath() );
+                new File( "src/test/resources/ssl/server-store" ).getAbsolutePath() );
         System.setProperty( "javax.net.ssl.trustStorePassword", "server-pwd" );
         System.setProperty( "javax.net.ssl.keyStore",
-                            new File( "src/test/resources/ssl/client-store" ).getAbsolutePath() );
+                new File( "src/test/resources/ssl/client-store" ).getAbsolutePath() );
         System.setProperty( "javax.net.ssl.keyStorePassword", "client-pwd" );
     }
 
@@ -90,16 +87,15 @@ public class HttpTransporterTest
 
     private Proxy proxy;
 
-    private RemoteRepository newRepo( String url )
-    {
-        return new RemoteRepository.Builder( "test", "default", url ).setAuthentication( auth ).setProxy( proxy ).build();
+    private RemoteRepository newRepo( String url ) {
+        return new RemoteRepository.Builder( "test", "default", url ).setAuthentication( auth ).setProxy( proxy )
+                .build();
     }
 
     private void newTransporter( String url )
-        throws Exception
+            throws Exception
     {
-        if ( transporter != null )
-        {
+        if( transporter != null ) {
             transporter.close();
             transporter = null;
         }
@@ -108,11 +104,11 @@ public class HttpTransporterTest
 
     @Before
     public void setUp()
-        throws Exception
+            throws Exception
     {
         System.out.println( "=== " + testName.getMethodName() + " ===" );
         session = TestUtils.newSession();
-        factory = new HttpTransporterFactory( );
+        factory = new HttpTransporterFactory();
         repoDir = TestFileUtils.createTempDir();
         TestFileUtils.writeString( new File( repoDir, "file.txt" ), "test" );
         TestFileUtils.writeString( new File( repoDir, "dir/file.txt" ), "test" );
@@ -127,15 +123,13 @@ public class HttpTransporterTest
 
     @After
     public void tearDown()
-        throws Exception
+            throws Exception
     {
-        if ( transporter != null )
-        {
+        if( transporter != null ) {
             transporter.close();
             transporter = null;
         }
-        if ( httpServer != null )
-        {
+        if( httpServer != null ) {
             httpServer.stop();
             httpServer = null;
         }
@@ -144,31 +138,28 @@ public class HttpTransporterTest
     }
 
     @Test
-    public void testClassify()
-    {
+    public void testClassify() {
         assertEquals( Transporter.ERROR_OTHER, transporter.classify( new FileNotFoundException() ) );
         assertEquals( Transporter.ERROR_OTHER, transporter.classify( new HttpResponseException( 403, "Forbidden" ) ) );
-        assertEquals( Transporter.ERROR_NOT_FOUND, transporter.classify( new HttpResponseException( 404, "Not Found" ) ) );
+        assertEquals( Transporter.ERROR_NOT_FOUND,
+                transporter.classify( new HttpResponseException( 404, "Not Found" ) ) );
     }
 
     @Test
     public void testPeek()
-        throws Exception
+            throws Exception
     {
         transporter.peek( new PeekTask( URI.create( "repo/file.txt" ) ) );
     }
 
     @Test
     public void testPeek_NotFound()
-        throws Exception
+            throws Exception
     {
-        try
-        {
+        try {
             transporter.peek( new PeekTask( URI.create( "repo/missing.txt" ) ) );
             fail( "Expected error" );
-        }
-        catch ( HttpResponseException e )
-        {
+        } catch( HttpResponseException e ) {
             assertEquals( 404, e.getStatusCode() );
             assertEquals( Transporter.ERROR_NOT_FOUND, transporter.classify( e ) );
         }
@@ -176,23 +167,20 @@ public class HttpTransporterTest
 
     @Test
     public void testPeek_Closed()
-        throws Exception
+            throws Exception
     {
         transporter.close();
-        try
-        {
+        try {
             transporter.peek( new PeekTask( URI.create( "repo/missing.txt" ) ) );
             fail( "Expected error" );
-        }
-        catch ( IllegalStateException e )
-        {
+        } catch( IllegalStateException e ) {
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
     }
 
     @Test
     public void testPeek_Authenticated()
-        throws Exception
+            throws Exception
     {
         httpServer.setAuthentication( "testuser", "testpass" );
         auth = new AuthenticationBuilder().addUsername( "testuser" ).addPassword( "testpass" ).build();
@@ -202,16 +190,13 @@ public class HttpTransporterTest
 
     @Test
     public void testPeek_Unauthenticated()
-        throws Exception
+            throws Exception
     {
         httpServer.setAuthentication( "testuser", "testpass" );
-        try
-        {
+        try {
             transporter.peek( new PeekTask( URI.create( "repo/file.txt" ) ) );
             fail( "Expected error" );
-        }
-        catch ( HttpResponseException e )
-        {
+        } catch( HttpResponseException e ) {
             assertEquals( 401, e.getStatusCode() );
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
@@ -219,7 +204,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPeek_ProxyAuthenticated()
-        throws Exception
+            throws Exception
     {
         httpServer.setProxyAuthentication( "testuser", "testpass" );
         auth = new AuthenticationBuilder().addUsername( "testuser" ).addPassword( "testpass" ).build();
@@ -230,18 +215,15 @@ public class HttpTransporterTest
 
     @Test
     public void testPeek_ProxyUnauthenticated()
-        throws Exception
+            throws Exception
     {
         httpServer.setProxyAuthentication( "testuser", "testpass" );
         proxy = new Proxy( Proxy.TYPE_HTTP, httpServer.getHost(), httpServer.getHttpPort() );
         newTransporter( "http://bad.localhost:1/" );
-        try
-        {
+        try {
             transporter.peek( new PeekTask( URI.create( "repo/file.txt" ) ) );
             fail( "Expected error" );
-        }
-        catch ( HttpResponseException e )
-        {
+        } catch( HttpResponseException e ) {
             assertEquals( 407, e.getStatusCode() );
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
@@ -249,7 +231,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPeek_SSL()
-        throws Exception
+            throws Exception
     {
         httpServer.addSslConnector();
         newTransporter( httpServer.getHttpsUrl() );
@@ -258,7 +240,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPeek_Redirect()
-        throws Exception
+            throws Exception
     {
         httpServer.addSslConnector();
         transporter.peek( new PeekTask( URI.create( "redirect/file.txt" ) ) );
@@ -267,7 +249,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_ToMemory()
-        throws Exception
+            throws Exception
     {
         RecordingTransportListener listener = new RecordingTransportListener();
         GetTask task = new GetTask( URI.create( "repo/file.txt" ) ).setListener( listener );
@@ -282,7 +264,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_ToFile()
-        throws Exception
+            throws Exception
     {
         File file = TestFileUtils.createTempFile( "failure" );
         RecordingTransportListener listener = new RecordingTransportListener();
@@ -298,7 +280,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_EmptyResource()
-        throws Exception
+            throws Exception
     {
         File file = TestFileUtils.createTempFile( "failure" );
         RecordingTransportListener listener = new RecordingTransportListener();
@@ -314,7 +296,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_EncodedResourcePath()
-        throws Exception
+            throws Exception
     {
         GetTask task = new GetTask( URI.create( "repo/some%20space.txt" ) );
         transporter.get( task );
@@ -323,7 +305,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_Authenticated()
-        throws Exception
+            throws Exception
     {
         httpServer.setAuthentication( "testuser", "testpass" );
         auth = new AuthenticationBuilder().addUsername( "testuser" ).addPassword( "testpass" ).build();
@@ -341,16 +323,13 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_Unauthenticated()
-        throws Exception
+            throws Exception
     {
         httpServer.setAuthentication( "testuser", "testpass" );
-        try
-        {
+        try {
             transporter.get( new GetTask( URI.create( "repo/file.txt" ) ) );
             fail( "Expected error" );
-        }
-        catch ( HttpResponseException e )
-        {
+        } catch( HttpResponseException e ) {
             assertEquals( 401, e.getStatusCode() );
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
@@ -358,7 +337,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_ProxyAuthenticated()
-        throws Exception
+            throws Exception
     {
         httpServer.setProxyAuthentication( "testuser", "testpass" );
         Authentication auth = new AuthenticationBuilder().addUsername( "testuser" ).addPassword( "testpass" ).build();
@@ -377,18 +356,15 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_ProxyUnauthenticated()
-        throws Exception
+            throws Exception
     {
         httpServer.setProxyAuthentication( "testuser", "testpass" );
         proxy = new Proxy( Proxy.TYPE_HTTP, httpServer.getHost(), httpServer.getHttpPort() );
         newTransporter( "http://bad.localhost:1/" );
-        try
-        {
+        try {
             transporter.get( new GetTask( URI.create( "repo/file.txt" ) ) );
             fail( "Expected error" );
-        }
-        catch ( HttpResponseException e )
-        {
+        } catch( HttpResponseException e ) {
             assertEquals( 407, e.getStatusCode() );
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
@@ -396,7 +372,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_SSL()
-        throws Exception
+            throws Exception
     {
         httpServer.addSslConnector();
         newTransporter( httpServer.getHttpsUrl() );
@@ -413,7 +389,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_WebDav()
-        throws Exception
+            throws Exception
     {
         httpServer.setWebDav( true );
         RecordingTransportListener listener = new RecordingTransportListener();
@@ -431,7 +407,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_Redirect()
-        throws Exception
+            throws Exception
     {
         httpServer.addSslConnector();
         RecordingTransportListener listener = new RecordingTransportListener();
@@ -447,7 +423,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_Resume()
-        throws Exception
+            throws Exception
     {
         File file = TestFileUtils.createTempFile( "re" );
         RecordingTransportListener listener = new RecordingTransportListener();
@@ -463,7 +439,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_ResumeLocalContentsOutdated()
-        throws Exception
+            throws Exception
     {
         File file = TestFileUtils.createTempFile( "re" );
         file.setLastModified( System.currentTimeMillis() - 5 * 60 * 1000 );
@@ -480,7 +456,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_ResumeRangesNotSupportedByServer()
-        throws Exception
+            throws Exception
     {
         httpServer.setRangeSupport( false );
         File file = TestFileUtils.createTempFile( "re" );
@@ -497,7 +473,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_Checksums_Nexus()
-        throws Exception
+            throws Exception
     {
         httpServer.setChecksumHeader( HttpServer.ChecksumHeader.NEXUS );
         GetTask task = new GetTask( URI.create( "repo/file.txt" ) );
@@ -519,10 +495,9 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_FileHandleLeak()
-        throws Exception
+            throws Exception
     {
-        for ( int i = 0; i < 100; i++ )
-        {
+        for( int i = 0; i < 100; i++ ) {
             File file = TestFileUtils.createTempFile( "failure" );
             transporter.get( new GetTask( URI.create( "repo/file.txt" ) ).setDataFile( file ) );
             assertTrue( i + ", " + file.getAbsolutePath(), file.delete() );
@@ -531,15 +506,12 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_NotFound()
-        throws Exception
+            throws Exception
     {
-        try
-        {
+        try {
             transporter.get( new GetTask( URI.create( "repo/missing.txt" ) ) );
             fail( "Expected error" );
-        }
-        catch ( HttpResponseException e )
-        {
+        } catch( HttpResponseException e ) {
             assertEquals( 404, e.getStatusCode() );
             assertEquals( Transporter.ERROR_NOT_FOUND, transporter.classify( e ) );
         }
@@ -547,34 +519,28 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_Closed()
-        throws Exception
+            throws Exception
     {
         transporter.close();
-        try
-        {
+        try {
             transporter.get( new GetTask( URI.create( "repo/file.txt" ) ) );
             fail( "Expected error" );
-        }
-        catch ( IllegalStateException e )
-        {
+        } catch( IllegalStateException e ) {
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
     }
 
     @Test
     public void testGet_StartCancelled()
-        throws Exception
+            throws Exception
     {
         RecordingTransportListener listener = new RecordingTransportListener();
         listener.cancelStart = true;
         GetTask task = new GetTask( URI.create( "repo/file.txt" ) ).setListener( listener );
-        try
-        {
+        try {
             transporter.get( task );
             fail( "Expected error" );
-        }
-        catch ( TransferCancelledException e )
-        {
+        } catch( TransferCancelledException e ) {
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
         assertEquals( 0L, listener.dataOffset );
@@ -585,18 +551,15 @@ public class HttpTransporterTest
 
     @Test
     public void testGet_ProgressCancelled()
-        throws Exception
+            throws Exception
     {
         RecordingTransportListener listener = new RecordingTransportListener();
         listener.cancelProgress = true;
         GetTask task = new GetTask( URI.create( "repo/file.txt" ) ).setListener( listener );
-        try
-        {
+        try {
             transporter.get( task );
             fail( "Expected error" );
-        }
-        catch ( TransferCancelledException e )
-        {
+        } catch( TransferCancelledException e ) {
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
         assertEquals( 0L, listener.dataOffset );
@@ -607,7 +570,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_FromMemory()
-        throws Exception
+            throws Exception
     {
         RecordingTransportListener listener = new RecordingTransportListener();
         PutTask task = new PutTask( URI.create( "repo/file.txt" ) ).setListener( listener ).setDataString( "upload" );
@@ -621,7 +584,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_FromFile()
-        throws Exception
+            throws Exception
     {
         File file = TestFileUtils.createTempFile( "upload" );
         RecordingTransportListener listener = new RecordingTransportListener();
@@ -636,7 +599,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_EmptyResource()
-        throws Exception
+            throws Exception
     {
         RecordingTransportListener listener = new RecordingTransportListener();
         PutTask task = new PutTask( URI.create( "repo/file.txt" ) ).setListener( listener );
@@ -650,11 +613,11 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_EncodedResourcePath()
-        throws Exception
+            throws Exception
     {
         RecordingTransportListener listener = new RecordingTransportListener();
-        PutTask task =
-            new PutTask( URI.create( "repo/some%20space.txt" ) ).setListener( listener ).setDataString( "OK" );
+        PutTask task = new PutTask( URI.create( "repo/some%20space.txt" ) ).setListener( listener )
+                .setDataString( "OK" );
         transporter.put( task );
         assertEquals( 0L, listener.dataOffset );
         assertEquals( 2L, listener.dataLength );
@@ -665,7 +628,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_Authenticated_ExpectContinue()
-        throws Exception
+            throws Exception
     {
         httpServer.setAuthentication( "testuser", "testpass" );
         auth = new AuthenticationBuilder().addUsername( "testuser" ).addPassword( "testpass" ).build();
@@ -682,7 +645,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_Authenticated_ExpectContinueBroken()
-        throws Exception
+            throws Exception
     {
         httpServer.setAuthentication( "testuser", "testpass" );
         httpServer.setExpectSupport( HttpServer.ExpectContinue.BROKEN );
@@ -700,7 +663,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_Authenticated_ExpectContinueRejected()
-        throws Exception
+            throws Exception
     {
         httpServer.setAuthentication( "testuser", "testpass" );
         httpServer.setExpectSupport( HttpServer.ExpectContinue.FAIL );
@@ -718,7 +681,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_Authenticated_ExpectContinueRejected_ExplicitlyConfiguredHeader()
-        throws Exception
+            throws Exception
     {
         Map<String, String> headers = new HashMap<>();
         headers.put( "Expect", "100-continue" );
@@ -739,18 +702,15 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_Unauthenticated()
-        throws Exception
+            throws Exception
     {
         httpServer.setAuthentication( "testuser", "testpass" );
         RecordingTransportListener listener = new RecordingTransportListener();
         PutTask task = new PutTask( URI.create( "repo/file.txt" ) ).setListener( listener ).setDataString( "upload" );
-        try
-        {
+        try {
             transporter.put( task );
             fail( "Expected error" );
-        }
-        catch ( HttpResponseException e )
-        {
+        } catch( HttpResponseException e ) {
             assertEquals( 401, e.getStatusCode() );
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
@@ -760,7 +720,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_ProxyAuthenticated()
-        throws Exception
+            throws Exception
     {
         httpServer.setProxyAuthentication( "testuser", "testpass" );
         Authentication auth = new AuthenticationBuilder().addUsername( "testuser" ).addPassword( "testpass" ).build();
@@ -778,20 +738,17 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_ProxyUnauthenticated()
-        throws Exception
+            throws Exception
     {
         httpServer.setProxyAuthentication( "testuser", "testpass" );
         proxy = new Proxy( Proxy.TYPE_HTTP, httpServer.getHost(), httpServer.getHttpPort() );
         newTransporter( "http://bad.localhost:1/" );
         RecordingTransportListener listener = new RecordingTransportListener();
         PutTask task = new PutTask( URI.create( "repo/file.txt" ) ).setListener( listener ).setDataString( "upload" );
-        try
-        {
+        try {
             transporter.put( task );
             fail( "Expected error" );
-        }
-        catch ( HttpResponseException e )
-        {
+        } catch( HttpResponseException e ) {
             assertEquals( 407, e.getStatusCode() );
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
@@ -801,7 +758,7 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_SSL()
-        throws Exception
+            throws Exception
     {
         httpServer.addSslConnector();
         httpServer.setAuthentication( "testuser", "testpass" );
@@ -819,12 +776,12 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_WebDav()
-        throws Exception
+            throws Exception
     {
         httpServer.setWebDav( true );
         RecordingTransportListener listener = new RecordingTransportListener();
-        PutTask task =
-            new PutTask( URI.create( "repo/dir1/dir2/file.txt" ) ).setListener( listener ).setDataString( "upload" );
+        PutTask task = new PutTask( URI.create( "repo/dir1/dir2/file.txt" ) ).setListener( listener )
+                .setDataString( "upload" );
         transporter.put( task );
         assertEquals( 0L, listener.dataOffset );
         assertEquals( 6L, listener.dataLength );
@@ -845,10 +802,9 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_FileHandleLeak()
-        throws Exception
+            throws Exception
     {
-        for ( int i = 0; i < 100; i++ )
-        {
+        for( int i = 0; i < 100; i++ ) {
             File src = TestFileUtils.createTempFile( "upload" );
             File dst = new File( repoDir, "file.txt" );
             transporter.put( new PutTask( URI.create( "repo/file.txt" ) ).setDataFile( src ) );
@@ -859,34 +815,28 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_Closed()
-        throws Exception
+            throws Exception
     {
         transporter.close();
-        try
-        {
+        try {
             transporter.put( new PutTask( URI.create( "repo/missing.txt" ) ) );
             fail( "Expected error" );
-        }
-        catch ( IllegalStateException e )
-        {
+        } catch( IllegalStateException e ) {
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
     }
 
     @Test
     public void testPut_StartCancelled()
-        throws Exception
+            throws Exception
     {
         RecordingTransportListener listener = new RecordingTransportListener();
         listener.cancelStart = true;
         PutTask task = new PutTask( URI.create( "repo/file.txt" ) ).setListener( listener ).setDataString( "upload" );
-        try
-        {
+        try {
             transporter.put( task );
             fail( "Expected error" );
-        }
-        catch ( TransferCancelledException e )
-        {
+        } catch( TransferCancelledException e ) {
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
         assertEquals( 0L, listener.dataOffset );
@@ -897,18 +847,15 @@ public class HttpTransporterTest
 
     @Test
     public void testPut_ProgressCancelled()
-        throws Exception
+            throws Exception
     {
         RecordingTransportListener listener = new RecordingTransportListener();
         listener.cancelProgress = true;
         PutTask task = new PutTask( URI.create( "repo/file.txt" ) ).setListener( listener ).setDataString( "upload" );
-        try
-        {
+        try {
             transporter.put( task );
             fail( "Expected error" );
-        }
-        catch ( TransferCancelledException e )
-        {
+        } catch( TransferCancelledException e ) {
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
         assertEquals( 0L, listener.dataOffset );
@@ -919,7 +866,7 @@ public class HttpTransporterTest
 
     @Test
     public void testGetPut_AuthCache()
-        throws Exception
+            throws Exception
     {
         httpServer.setAuthentication( "testuser", "testpass" );
         auth = new AuthenticationBuilder().addUsername( "testuser" ).addPassword( "testpass" ).build();
@@ -934,32 +881,25 @@ public class HttpTransporterTest
 
     @Test( timeout = 20000L )
     public void testConcurrency()
-        throws Exception
+            throws Exception
     {
         httpServer.setAuthentication( "testuser", "testpass" );
         auth = new AuthenticationBuilder().addUsername( "testuser" ).addPassword( "testpass" ).build();
         newTransporter( httpServer.getHttpUrl() );
         final AtomicReference<Throwable> error = new AtomicReference<>();
         Thread[] threads = new Thread[20];
-        for ( int i = 0; i < threads.length; i++ )
-        {
+        for( int i = 0; i < threads.length; i++ ) {
             final String path = "repo/file.txt?i=" + i;
-            threads[i] = new Thread()
-            {
+            threads[i] = new Thread() {
                 @Override
-                public void run()
-                {
-                    try
-                    {
-                        for ( int j = 0; j < 100; j++ )
-                        {
+                public void run() {
+                    try {
+                        for( int j = 0; j < 100; j++ ) {
                             GetTask task = new GetTask( URI.create( path ) );
                             transporter.get( task );
                             assertEquals( "test", task.getDataString() );
                         }
-                    }
-                    catch ( Throwable t )
-                    {
+                    } catch( Throwable t ) {
                         error.compareAndSet( null, t );
                         System.err.println( path );
                         t.printStackTrace();
@@ -968,12 +908,10 @@ public class HttpTransporterTest
             };
             threads[i].setName( "Task-" + i );
         }
-        for ( Thread thread : threads )
-        {
+        for( Thread thread : threads ) {
             thread.start();
         }
-        for ( Thread thread : threads )
-        {
+        for( Thread thread : threads ) {
             thread.join();
         }
         assertNull( String.valueOf( error.get() ), error.get() );
@@ -981,64 +919,54 @@ public class HttpTransporterTest
 
     @Test( timeout = 1000L )
     public void testConnectTimeout()
-        throws Exception
+            throws Exception
     {
         session.setConfigProperty( ConfigurationProperties.CONNECT_TIMEOUT, 100 );
         int port = 1;
         newTransporter( "http://localhost:" + port );
-        try
-        {
+        try {
             transporter.get( new GetTask( URI.create( "repo/file.txt" ) ) );
             fail( "Expected error" );
-        }
-        catch ( ConnectTimeoutException | ConnectException e )
-        {
+        } catch( ConnectTimeoutException | ConnectException e ) {
             assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
         }
     }
 
     @Test( timeout = 1000L )
     public void testRequestTimeout()
-        throws Exception
+            throws Exception
     {
         session.setConfigProperty( ConfigurationProperties.REQUEST_TIMEOUT, 100 );
         ServerSocket server = new ServerSocket( 0 );
         newTransporter( "http://localhost:" + server.getLocalPort() );
-        try
-        {
-            try
-            {
+        try {
+            try {
                 transporter.get( new GetTask( URI.create( "repo/file.txt" ) ) );
                 fail( "Expected error" );
-            }
-            catch ( SocketTimeoutException e )
-            {
+            } catch( SocketTimeoutException e ) {
                 assertEquals( Transporter.ERROR_OTHER, transporter.classify( e ) );
             }
-        }
-        finally
-        {
+        } finally {
             server.close();
         }
     }
 
     @Test
     public void testUserAgent()
-        throws Exception
+            throws Exception
     {
         session.setConfigProperty( ConfigurationProperties.USER_AGENT, "SomeTest/1.0" );
         newTransporter( httpServer.getHttpUrl() );
         transporter.get( new GetTask( URI.create( "repo/file.txt" ) ) );
         assertEquals( 1, httpServer.getLogEntries().size() );
-        for ( HttpServer.LogEntry log : httpServer.getLogEntries() )
-        {
+        for( HttpServer.LogEntry log : httpServer.getLogEntries() ) {
             assertEquals( "SomeTest/1.0", log.headers.get( "User-Agent" ) );
         }
     }
 
     @Test
     public void testCustomHeaders()
-        throws Exception
+            throws Exception
     {
         Map<String, String> headers = new HashMap<>();
         headers.put( "User-Agent", "Custom/1.0" );
@@ -1048,10 +976,8 @@ public class HttpTransporterTest
         newTransporter( httpServer.getHttpUrl() );
         transporter.get( new GetTask( URI.create( "repo/file.txt" ) ) );
         assertEquals( 1, httpServer.getLogEntries().size() );
-        for ( HttpServer.LogEntry log : httpServer.getLogEntries() )
-        {
-            for ( Map.Entry<String, String> entry : headers.entrySet() )
-            {
+        for( HttpServer.LogEntry log : httpServer.getLogEntries() ) {
+            for( Map.Entry<String, String> entry : headers.entrySet() ) {
                 assertEquals( entry.getKey(), entry.getValue(), log.headers.get( entry.getKey() ) );
             }
         }
@@ -1059,47 +985,41 @@ public class HttpTransporterTest
 
     @Test
     public void testServerAuthScope_NotUsedForProxy()
-        throws Exception
+            throws Exception
     {
         String username = "testuser", password = "testpass";
         httpServer.setProxyAuthentication( username, password );
         auth = new AuthenticationBuilder().addUsername( username ).addPassword( password ).build();
         proxy = new Proxy( Proxy.TYPE_HTTP, httpServer.getHost(), httpServer.getHttpPort() );
         newTransporter( "http://" + httpServer.getHost() + ":12/" );
-        try
-        {
+        try {
             transporter.get( new GetTask( URI.create( "repo/file.txt" ) ) );
             fail( "Server auth must not be used as proxy auth" );
-        }
-        catch ( HttpResponseException e )
-        {
+        } catch( HttpResponseException e ) {
             assertEquals( 407, e.getStatusCode() );
         }
     }
 
     @Test
     public void testProxyAuthScope_NotUsedForServer()
-        throws Exception
+            throws Exception
     {
         String username = "testuser", password = "testpass";
         httpServer.setAuthentication( username, password );
         Authentication auth = new AuthenticationBuilder().addUsername( username ).addPassword( password ).build();
         proxy = new Proxy( Proxy.TYPE_HTTP, httpServer.getHost(), httpServer.getHttpPort(), auth );
         newTransporter( "http://" + httpServer.getHost() + ":12/" );
-        try
-        {
+        try {
             transporter.get( new GetTask( URI.create( "repo/file.txt" ) ) );
             fail( "Proxy auth must not be used as server auth" );
-        }
-        catch ( HttpResponseException e )
-        {
+        } catch( HttpResponseException e ) {
             assertEquals( 401, e.getStatusCode() );
         }
     }
 
     @Test
     public void testAuthSchemeReuse()
-        throws Exception
+            throws Exception
     {
         httpServer.setAuthentication( "testuser", "testpass" );
         httpServer.setProxyAuthentication( "proxyuser", "proxypass" );
@@ -1124,39 +1044,38 @@ public class HttpTransporterTest
 
     @Test
     public void testConnectionReuse()
-        throws Exception
+            throws Exception
     {
         httpServer.addSslConnector();
         session.setCache( new DefaultRepositoryCache() );
-        for ( int i = 0; i < 3; i++ )
-        {
+        for( int i = 0; i < 3; i++ ) {
             newTransporter( httpServer.getHttpsUrl() );
             GetTask task = new GetTask( URI.create( "repo/file.txt" ) );
             transporter.get( task );
             assertEquals( "test", task.getDataString() );
         }
-        PoolStats stats =
-            ( (ConnPoolControl<?>) ( (HttpTransporter) transporter ).getState().getConnectionManager() ).getTotalStats();
+        PoolStats stats = ( (ConnPoolControl<?>) ( (HttpTransporter) transporter ).getState().getConnectionManager() )
+                .getTotalStats();
         assertEquals( stats.toString(), 1, stats.getAvailable() );
     }
 
     @Test( expected = NoTransporterException.class )
     public void testInit_BadProtocol()
-        throws Exception
+            throws Exception
     {
         newTransporter( "bad:/void" );
     }
 
     @Test( expected = NoTransporterException.class )
     public void testInit_BadUrl()
-        throws Exception
+            throws Exception
     {
         newTransporter( "http://localhost:NaN" );
     }
 
     @Test
     public void testInit_CaseInsensitiveProtocol()
-        throws Exception
+            throws Exception
     {
         newTransporter( "http://localhost" );
         newTransporter( "HTTP://localhost" );

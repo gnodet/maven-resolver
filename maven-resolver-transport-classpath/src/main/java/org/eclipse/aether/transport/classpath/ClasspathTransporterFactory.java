@@ -1,5 +1,3 @@
-package org.eclipse.aether.transport.classpath;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.transport.classpath;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.transport.classpath;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.transport.classpath;
 
 import javax.inject.Named;
 
@@ -39,7 +38,7 @@ import org.eclipse.aether.transfer.NoTransporterException;
  */
 @Named( "classpath" )
 public final class ClasspathTransporterFactory
-    implements TransporterFactory
+        implements TransporterFactory
 {
 
     /**
@@ -56,14 +55,11 @@ public final class ClasspathTransporterFactory
      * by clients, the new factory needs to be configured via its various mutators before first use or runtime errors
      * will occur.
      */
-    public ClasspathTransporterFactory()
-    {
+    public ClasspathTransporterFactory() {
         // enables default constructor
     }
 
-
-    public float getPriority()
-    {
+    public float getPriority() {
         return priority;
     }
 
@@ -73,14 +69,13 @@ public final class ClasspathTransporterFactory
      * @param priority The priority.
      * @return This component for chaining, never {@code null}.
      */
-    public ClasspathTransporterFactory setPriority( float priority )
-    {
+    public ClasspathTransporterFactory setPriority( float priority ) {
         this.priority = priority;
         return this;
     }
 
     public Transporter newInstance( RepositorySystemSession session, RemoteRepository repository )
-        throws NoTransporterException
+            throws NoTransporterException
     {
         Objects.requireNonNull( session, "session cannot be null" );
         Objects.requireNonNull( repository, "repository cannot be null" );

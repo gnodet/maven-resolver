@@ -1,5 +1,3 @@
-package org.eclipse.aether.spi.connector.transport;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.spi.connector.transport;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.spi.connector.transport;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.spi.connector.transport;
 
 import java.nio.ByteBuffer;
 
@@ -33,14 +32,12 @@ import org.eclipse.aether.transfer.TransferCancelledException;
  * 
  * The methods in this class do nothing.
  */
-public abstract class TransportListener
-{
+public abstract class TransportListener {
 
     /**
      * Enables subclassing.
      */
-    protected TransportListener()
-    {
+    protected TransportListener() {
     }
 
     /**
@@ -52,7 +49,7 @@ public abstract class TransportListener
      * @throws TransferCancelledException If the transfer should be aborted.
      */
     public void transportStarted( long dataOffset, long dataLength )
-        throws TransferCancelledException
+            throws TransferCancelledException
     {
     }
 
@@ -64,7 +61,7 @@ public abstract class TransportListener
      * @throws TransferCancelledException If the transfer should be aborted.
      */
     public void transportProgressed( ByteBuffer data )
-        throws TransferCancelledException
+            throws TransferCancelledException
     {
     }
 

@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.impl;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.internal.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.internal.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +27,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.aether.DefaultRepositorySystemSession;
-import org.eclipse.aether.internal.impl.DefaultMetadataResolver;
 import org.eclipse.aether.internal.test.util.TestFileUtils;
 import org.eclipse.aether.internal.test.util.TestLocalRepositoryManager;
 import org.eclipse.aether.internal.test.util.TestUtils;
@@ -47,10 +43,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 /**
+ *
  */
-public class DefaultMetadataResolverTest
-{
+public class DefaultMetadataResolverTest {
 
     private DefaultMetadataResolver resolver;
 
@@ -68,7 +71,7 @@ public class DefaultMetadataResolverTest
 
     @Before
     public void setup()
-        throws Exception
+            throws Exception
     {
         session = TestUtils.newSession();
         lrm = (TestLocalRepositoryManager) session.getLocalRepositoryManager();
@@ -80,25 +83,24 @@ public class DefaultMetadataResolverTest
         resolver.setRemoteRepositoryManager( new StubRemoteRepositoryManager() );
         resolver.setSyncContextFactory( new StubSyncContextFactory() );
         resolver.setOfflineController( new DefaultOfflineController() );
-        repository =
-            new RemoteRepository.Builder( "test-DMRT", "default",
-                                          TestFileUtils.createTempDir().toURI().toURL().toString() ).build();
-        metadata = new DefaultMetadata( "gid", "aid", "ver", "maven-metadata.xml", Metadata.Nature.RELEASE_OR_SNAPSHOT );
+        repository = new RemoteRepository.Builder( "test-DMRT", "default",
+                                                   TestFileUtils.createTempDir().toURI().toURL().toString() ).build();
+        metadata = new DefaultMetadata( "gid", "aid", "ver", "maven-metadata.xml",
+                                        Metadata.Nature.RELEASE_OR_SNAPSHOT );
         connector = new RecordingRepositoryConnector();
         connectorProvider.setConnector( connector );
     }
 
     @After
     public void teardown()
-        throws Exception
+            throws Exception
     {
         TestFileUtils.deleteFile( new File( new URI( repository.getUrl() ) ) );
         TestFileUtils.deleteFile( session.getLocalRepository().getBasedir() );
     }
 
     @Test
-    public void testNoRepositoryFailing()
-    {
+    public void testNoRepositoryFailing() {
         MetadataRequest request = new MetadataRequest( metadata, null, "" );
         List<MetadataResult> results = resolver.resolveMetadata( session, Arrays.asList( request ) );
 
@@ -107,7 +109,7 @@ public class DefaultMetadataResolverTest
         MetadataResult result = results.get( 0 );
         assertSame( request, result.getRequest() );
         assertNotNull( "" + ( result.getMetadata() != null ? result.getMetadata().getFile() : result.getMetadata() ),
-                       result.getException() );
+                result.getException() );
         assertEquals( MetadataNotFoundException.class, result.getException().getClass() );
 
         assertNull( result.getMetadata() );
@@ -115,14 +117,13 @@ public class DefaultMetadataResolverTest
 
     @Test
     public void testResolve()
-        throws IOException
+            throws IOException
     {
         connector.setExpectGet( metadata );
 
         // prepare "download"
-        File file =
-            new File( session.getLocalRepository().getBasedir(),
-                      session.getLocalRepositoryManager().getPathForRemoteMetadata( metadata, repository, "" ) );
+        File file = new File( session.getLocalRepository().getBasedir(), session.getLocalRepositoryManager()
+                .getPathForRemoteMetadata( metadata, repository, "" ) );
 
         TestFileUtils.writeString( file, file.getAbsolutePath() );
 
@@ -141,26 +142,24 @@ public class DefaultMetadataResolverTest
         assertEquals( metadata, result.getMetadata().setFile( null ) );
 
         connector.assertSeenExpected();
-        Set<Metadata> metadataRegistration =
-            ( (TestLocalRepositoryManager) session.getLocalRepositoryManager() ).getMetadataRegistration();
+        Set<Metadata> metadataRegistration = ( (TestLocalRepositoryManager) session.getLocalRepositoryManager() )
+                .getMetadataRegistration();
         assertTrue( metadataRegistration.contains( metadata ) );
         assertEquals( 1, metadataRegistration.size() );
     }
 
     @Test
     public void testRemoveMetadataIfMissing()
-        throws IOException
+            throws IOException
     {
-        connector = new RecordingRepositoryConnector()
-        {
+        connector = new RecordingRepositoryConnector() {
 
             @Override
             public void get( Collection<? extends ArtifactDownload> artifactDownloads,
                              Collection<? extends MetadataDownload> metadataDownloads )
             {
                 super.get( artifactDownloads, metadataDownloads );
-                for ( MetadataDownload d : metadataDownloads )
-                {
+                for( MetadataDownload d : metadataDownloads ) {
                     d.setException( new MetadataNotFoundException( metadata, repository ) );
                 }
             }
@@ -168,9 +167,8 @@ public class DefaultMetadataResolverTest
         };
         connectorProvider.setConnector( connector );
 
-        File file =
-            new File( session.getLocalRepository().getBasedir(),
-                      session.getLocalRepositoryManager().getPathForRemoteMetadata( metadata, repository, "" ) );
+        File file = new File( session.getLocalRepository().getBasedir(), session.getLocalRepositoryManager()
+                .getPathForRemoteMetadata( metadata, repository, "" ) );
         TestFileUtils.writeString( file, file.getAbsolutePath() );
         metadata.setFile( file );
 
@@ -186,8 +184,7 @@ public class DefaultMetadataResolverTest
     }
 
     @Test
-    public void testOfflineSessionResolveMetadataMissing()
-    {
+    public void testOfflineSessionResolveMetadataMissing() {
         session.setOffline( true );
         MetadataRequest request = new MetadataRequest( metadata, repository, "" );
         List<MetadataResult> results = resolver.resolveMetadata( session, Arrays.asList( request ) );
@@ -204,7 +201,7 @@ public class DefaultMetadataResolverTest
 
     @Test
     public void testOfflineSessionResolveMetadata()
-        throws IOException
+            throws IOException
     {
         session.setOffline( true );
 
@@ -233,7 +230,7 @@ public class DefaultMetadataResolverTest
 
     @Test
     public void testFavorLocal()
-        throws IOException
+            throws IOException
     {
         lrm.add( session, new LocalMetadataRegistration( metadata ) );
         String path = session.getLocalRepositoryManager().getPathForLocalMetadata( metadata );

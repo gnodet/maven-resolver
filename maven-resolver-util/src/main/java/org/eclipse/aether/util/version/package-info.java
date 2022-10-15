@@ -21,4 +21,3 @@
  * Ready-to-use version schemes for parsing/comparing versions.
  */
 package org.eclipse.aether.util.version;
-

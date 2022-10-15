@@ -1,5 +1,3 @@
-package org.eclipse.aether.transport.wagon;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.transport.wagon;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.transport.wagon;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.transport.wagon;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -39,7 +38,7 @@ import org.eclipse.aether.transfer.NoTransporterException;
  */
 @Named( "wagon" )
 public final class WagonTransporterFactory
-    implements TransporterFactory, Service
+        implements TransporterFactory, Service
 {
 
     private WagonProvider wagonProvider;
@@ -53,20 +52,17 @@ public final class WagonTransporterFactory
      * by clients, the new factory needs to be configured via its various mutators before first use or runtime errors
      * will occur.
      */
-    public WagonTransporterFactory()
-    {
+    public WagonTransporterFactory() {
         // enables default constructor
     }
 
     @Inject
-    WagonTransporterFactory( WagonProvider wagonProvider, WagonConfigurator wagonConfigurator )
-    {
+    WagonTransporterFactory( WagonProvider wagonProvider, WagonConfigurator wagonConfigurator ) {
         setWagonProvider( wagonProvider );
         setWagonConfigurator( wagonConfigurator );
     }
 
-    public void initService( ServiceLocator locator )
-    {
+    public void initService( ServiceLocator locator ) {
         setWagonProvider( locator.getService( WagonProvider.class ) );
         setWagonConfigurator( locator.getService( WagonConfigurator.class ) );
     }
@@ -77,8 +73,7 @@ public final class WagonTransporterFactory
      * @param wagonProvider The wagon provider to use, may be {@code null}.
      * @return This factory for chaining, never {@code null}.
      */
-    public WagonTransporterFactory setWagonProvider( WagonProvider wagonProvider )
-    {
+    public WagonTransporterFactory setWagonProvider( WagonProvider wagonProvider ) {
         this.wagonProvider = wagonProvider;
         return this;
     }
@@ -89,14 +84,12 @@ public final class WagonTransporterFactory
      * @param wagonConfigurator The wagon configurator to use, may be {@code null}.
      * @return This factory for chaining, never {@code null}.
      */
-    public WagonTransporterFactory setWagonConfigurator( WagonConfigurator wagonConfigurator )
-    {
+    public WagonTransporterFactory setWagonConfigurator( WagonConfigurator wagonConfigurator ) {
         this.wagonConfigurator = wagonConfigurator;
         return this;
     }
 
-    public float getPriority()
-    {
+    public float getPriority() {
         return priority;
     }
 
@@ -106,14 +99,13 @@ public final class WagonTransporterFactory
      * @param priority The priority.
      * @return This component for chaining, never {@code null}.
      */
-    public WagonTransporterFactory setPriority( float priority )
-    {
+    public WagonTransporterFactory setPriority( float priority ) {
         this.priority = priority;
         return this;
     }
 
     public Transporter newInstance( RepositorySystemSession session, RemoteRepository repository )
-        throws NoTransporterException
+            throws NoTransporterException
     {
         Objects.requireNonNull( session, "session cannot be null" );
         Objects.requireNonNull( repository, "repository cannot be null" );

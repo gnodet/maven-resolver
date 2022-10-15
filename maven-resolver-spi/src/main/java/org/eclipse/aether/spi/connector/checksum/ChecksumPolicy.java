@@ -1,5 +1,3 @@
-package org.eclipse.aether.spi.connector.checksum;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.spi.connector.checksum;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.spi.connector.checksum;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.spi.connector.checksum;
 
 import org.eclipse.aether.transfer.ChecksumFailureException;
 
@@ -62,20 +61,18 @@ import org.eclipse.aether.transfer.ChecksumFailureException;
  * <p>
  * Checksum policies might be stateful and are generally not thread-safe.
  */
-public interface ChecksumPolicy
-{
+public interface ChecksumPolicy {
     /**
      * Enum denoting origin of checksum.
      *
      * @since 1.8.0
      */
-    enum ChecksumKind
-    {
+    enum ChecksumKind {
         /**
          * Remote external kind of checksum are retrieved from remote doing extra transport round-trip (usually by
-         * getting "file.jar.sha1" for corresponding "file.jar" file). This kind of checksum is part of layout, and
-         * was from beginning the "official" (and one and only) checksum used by resolver. If no external checksum
-         * present, {@link #onNoMoreChecksums()} method is invoked that (by default) fails retrieval.
+         * getting "file.jar.sha1" for corresponding "file.jar" file). This kind of checksum is part of layout, and was
+         * from beginning the "official" (and one and only) checksum used by resolver. If no external checksum present,
+         * {@link #onNoMoreChecksums()} method is invoked that (by default) fails retrieval.
          */
         REMOTE_EXTERNAL,
 
@@ -101,7 +98,7 @@ public interface ChecksumPolicy
      * @param algorithm The name of the checksum algorithm being used, must not be {@code null}.
      * @param kind      A field providing further details about the checksum.
      * @return {@code true} to accept the download as valid and stop further validation, {@code false} to continue
-     * validation with the next checksum.
+     *         validation with the next checksum.
      */
     boolean onChecksumMatch( String algorithm, ChecksumKind kind );
 
@@ -154,10 +151,10 @@ public interface ChecksumPolicy
      *
      * @param exception The exception that was thrown from a prior call to
      *                  {@link #onChecksumMismatch(String, ChecksumKind, ChecksumFailureException)},
-     *                  {@link #onChecksumError(String, ChecksumKind, ChecksumFailureException)} or {@link
-     *                  #onNoMoreChecksums()}.
+     *                  {@link #onChecksumError(String, ChecksumKind, ChecksumFailureException)} or
+     *                  {@link #onNoMoreChecksums()}.
      * @return {@code true} to accept the download nevertheless and let artifact resolution succeed, {@code false} to
-     * reject the transferred file as unusable.
+     *         reject the transferred file as unusable.
      */
     boolean onTransferChecksumFailure( ChecksumFailureException exception );
 

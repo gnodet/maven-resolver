@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl.resolution;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl.resolution;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.impl.resolution;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl.resolution;
 
 import java.util.List;
 
@@ -40,22 +39,18 @@ public abstract class ArtifactResolverPostProcessorSupport
 
     private final String name;
 
-    protected ArtifactResolverPostProcessorSupport( String name )
-    {
+    protected ArtifactResolverPostProcessorSupport( String name ) {
         this.name = requireNonNull( name );
     }
 
-    protected String configPropKey( String name )
-    {
+    protected String configPropKey( String name ) {
         return CONFIG_PROP_PREFIX + this.name + "." + name;
     }
 
     @Override
-    public void postProcess( RepositorySystemSession session, List<ArtifactResult> artifactResults )
-    {
+    public void postProcess( RepositorySystemSession session, List<ArtifactResult> artifactResults ) {
         boolean enabled = ConfigUtils.getBoolean( session, false, CONFIG_PROP_PREFIX + this.name );
-        if ( enabled )
-        {
+        if( enabled ) {
             doProcess( session, artifactResults );
         }
     }

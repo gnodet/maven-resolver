@@ -1,5 +1,3 @@
-package org.apache.maven.resolver.examples;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.apache.maven.resolver.examples;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.apache.maven.resolver.examples;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.apache.maven.resolver.examples;
 
 import org.apache.maven.resolver.examples.util.Booter;
 import org.apache.maven.resolver.examples.util.ReverseTreeRepositoryListener;
@@ -35,16 +34,16 @@ import org.eclipse.aether.util.listener.ChainedRepositoryListener;
 /**
  * Example of building reverse dependency tree using custom {@link ReverseTreeRepositoryListener}.
  */
-public class ReverseDependencyTree
-{
+public class ReverseDependencyTree {
 
     /**
      * Main.
+     * 
      * @param args
      * @throws Exception
      */
     public static void main( String[] args )
-        throws Exception
+            throws Exception
     {
         System.out.println( "------------------------------------------------------------" );
         System.out.println( ReverseDependencyTree.class.getSimpleName() );
@@ -54,8 +53,8 @@ public class ReverseDependencyTree
         DefaultRepositorySystemSession session = Booter.newRepositorySystemSession( system );
 
         // install the listener into session
-        session.setRepositoryListener( new ChainedRepositoryListener( session.getRepositoryListener(),
-                new ReverseTreeRepositoryListener() ) );
+        session.setRepositoryListener(
+                new ChainedRepositoryListener( session.getRepositoryListener(), new ReverseTreeRepositoryListener() ) );
 
         session.setConfigProperty( ConflictResolver.CONFIG_PROP_VERBOSE, true );
         session.setConfigProperty( DependencyManagerUtils.CONFIG_PROP_VERBOSE, true );

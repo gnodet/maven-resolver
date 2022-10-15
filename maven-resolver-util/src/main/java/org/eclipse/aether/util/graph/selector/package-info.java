@@ -21,4 +21,3 @@
  * Various dependency selectors for building a dependency graph.
  */
 package org.eclipse.aether.util.graph.selector;
-

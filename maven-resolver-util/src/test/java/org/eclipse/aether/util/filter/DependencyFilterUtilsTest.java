@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.filter;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.filter;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.util.filter;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.util.filter;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,19 +24,18 @@ import java.util.List;
 import org.eclipse.aether.graph.DependencyFilter;
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.internal.test.util.NodeBuilder;
-import org.eclipse.aether.util.filter.DependencyFilterUtils;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  */
-public class DependencyFilterUtilsTest
-{
+public class DependencyFilterUtilsTest {
 
     private static List<DependencyNode> PARENTS = Collections.emptyList();
 
     @Test
-    public void testClasspathFilterCompile()
-    {
+    public void testClasspathFilterCompile() {
         NodeBuilder builder = new NodeBuilder().artifactId( "aid" );
         DependencyFilter filter = DependencyFilterUtils.classpathFilter( "compile" );
 
@@ -51,8 +47,7 @@ public class DependencyFilterUtilsTest
     }
 
     @Test
-    public void testClasspathFilterRuntime()
-    {
+    public void testClasspathFilterRuntime() {
         NodeBuilder builder = new NodeBuilder().artifactId( "aid" );
         DependencyFilter filter = DependencyFilterUtils.classpathFilter( "runtime" );
 
@@ -64,8 +59,7 @@ public class DependencyFilterUtilsTest
     }
 
     @Test
-    public void testClasspathFilterTest()
-    {
+    public void testClasspathFilterTest() {
         NodeBuilder builder = new NodeBuilder().artifactId( "aid" );
         DependencyFilter filter = DependencyFilterUtils.classpathFilter( "test" );
 
@@ -77,8 +71,7 @@ public class DependencyFilterUtilsTest
     }
 
     @Test
-    public void testClasspathFilterCompileRuntime()
-    {
+    public void testClasspathFilterCompileRuntime() {
         NodeBuilder builder = new NodeBuilder().artifactId( "aid" );
         DependencyFilter filter = DependencyFilterUtils.classpathFilter( "compile", "runtime" );
 
@@ -90,8 +83,7 @@ public class DependencyFilterUtilsTest
     }
 
     @Test
-    public void testClasspathFilterCompilePlusRuntime()
-    {
+    public void testClasspathFilterCompilePlusRuntime() {
         NodeBuilder builder = new NodeBuilder().artifactId( "aid" );
         DependencyFilter filter = DependencyFilterUtils.classpathFilter( "compile+runtime" );
 
@@ -103,8 +95,7 @@ public class DependencyFilterUtilsTest
     }
 
     @Test
-    public void testClasspathFilterRuntimeCommaSystem()
-    {
+    public void testClasspathFilterRuntimeCommaSystem() {
         NodeBuilder builder = new NodeBuilder().artifactId( "aid" );
         DependencyFilter filter = DependencyFilterUtils.classpathFilter( "runtime,system" );
 
@@ -116,8 +107,7 @@ public class DependencyFilterUtilsTest
     }
 
     @Test
-    public void testClasspathFilterNull()
-    {
+    public void testClasspathFilterNull() {
         NodeBuilder builder = new NodeBuilder().artifactId( "aid" );
         DependencyFilter filter = DependencyFilterUtils.classpathFilter( (String[]) null );
 
@@ -129,8 +119,7 @@ public class DependencyFilterUtilsTest
     }
 
     @Test
-    public void testClasspathFilterUnknownScope()
-    {
+    public void testClasspathFilterUnknownScope() {
         NodeBuilder builder = new NodeBuilder().artifactId( "aid" );
         DependencyFilter filter = DependencyFilterUtils.classpathFilter( "compile" );
 

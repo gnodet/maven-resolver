@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.manager;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.util.graph.manager;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.util.graph.manager;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.graph.manager;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -44,7 +43,7 @@ import static java.util.Objects.requireNonNull;
  * @since 1.4.0
  */
 public final class TransitiveDependencyManager
-    implements DependencyManager
+        implements DependencyManager
 {
 
     private final Map<Object, String> managedVersions;
@@ -64,15 +63,13 @@ public final class TransitiveDependencyManager
     /**
      * Creates a new dependency manager without any management information.
      */
-    public TransitiveDependencyManager()
-    {
+    public TransitiveDependencyManager() {
         this( 0, Collections.<Object, String>emptyMap(), Collections.<Object, String>emptyMap(),
               Collections.<Object, Boolean>emptyMap(), Collections.<Object, String>emptyMap(),
               Collections.<Object, Collection<Exclusion>>emptyMap() );
     }
 
-    private TransitiveDependencyManager( final int depth,
-                                         final Map<Object, String> managedVersions,
+    private TransitiveDependencyManager( final int depth, final Map<Object, String> managedVersions,
                                          final Map<Object, String> managedScopes,
                                          final Map<Object, Boolean> managedOptionals,
                                          final Map<Object, String> managedLocalPaths,
@@ -87,8 +84,7 @@ public final class TransitiveDependencyManager
         this.managedExclusions = managedExclusions;
     }
 
-    public DependencyManager deriveChildManager( final DependencyCollectionContext context )
-    {
+    public DependencyManager deriveChildManager( final DependencyCollectionContext context ) {
         requireNonNull( context, "context cannot be null" );
         Map<Object, String> versions = managedVersions;
         Map<Object, String> scopes = managedScopes;
@@ -96,55 +92,44 @@ public final class TransitiveDependencyManager
         Map<Object, String> localPaths = managedLocalPaths;
         Map<Object, Collection<Exclusion>> exclusions = managedExclusions;
 
-        for ( Dependency managedDependency : context.getManagedDependencies() )
-        {
+        for( Dependency managedDependency : context.getManagedDependencies() ) {
             Artifact artifact = managedDependency.getArtifact();
             Object key = getKey( artifact );
 
             String version = artifact.getVersion();
-            if ( version.length() > 0 && !versions.containsKey( key ) )
-            {
-                if ( versions == managedVersions )
-                {
+            if( version.length() > 0 && !versions.containsKey( key ) ) {
+                if( versions == managedVersions ) {
                     versions = new HashMap<>( managedVersions );
                 }
                 versions.put( key, version );
             }
 
             String scope = managedDependency.getScope();
-            if ( scope.length() > 0 && !scopes.containsKey( key ) )
-            {
-                if ( scopes == this.managedScopes )
-                {
+            if( scope.length() > 0 && !scopes.containsKey( key ) ) {
+                if( scopes == this.managedScopes ) {
                     scopes = new HashMap<>( this.managedScopes );
                 }
                 scopes.put( key, scope );
             }
 
             Boolean optional = managedDependency.getOptional();
-            if ( optional != null && !optionals.containsKey( key ) )
-            {
-                if ( optionals == managedOptionals )
-                {
+            if( optional != null && !optionals.containsKey( key ) ) {
+                if( optionals == managedOptionals ) {
                     optionals = new HashMap<>( managedOptionals );
                 }
                 optionals.put( key, optional );
             }
 
             String localPath = managedDependency.getArtifact().getProperty( ArtifactProperties.LOCAL_PATH, null );
-            if ( localPath != null && !localPaths.containsKey( key ) )
-            {
-                if ( localPaths == this.managedLocalPaths )
-                {
+            if( localPath != null && !localPaths.containsKey( key ) ) {
+                if( localPaths == this.managedLocalPaths ) {
                     localPaths = new HashMap<>( managedLocalPaths );
                 }
                 localPaths.put( key, localPath );
             }
 
-            if ( !managedDependency.getExclusions().isEmpty() )
-            {
-                if ( exclusions == managedExclusions )
-                {
+            if( !managedDependency.getExclusions().isEmpty() ) {
+                if( exclusions == managedExclusions ) {
                     exclusions = new HashMap<>( managedExclusions );
                 }
                 Collection<Exclusion> managed = exclusions.computeIfAbsent( key, k -> new LinkedHashSet<>() );
@@ -152,38 +137,32 @@ public final class TransitiveDependencyManager
             }
         }
 
-        return new TransitiveDependencyManager( depth + 1, versions, scopes, optionals, localPaths,
-                                                exclusions );
+        return new TransitiveDependencyManager( depth + 1, versions, scopes, optionals, localPaths, exclusions );
 
     }
 
-    public DependencyManagement manageDependency( Dependency dependency )
-    {
+    public DependencyManagement manageDependency( Dependency dependency ) {
         requireNonNull( dependency, "dependency cannot be null" );
         DependencyManagement management = null;
 
         Object key = getKey( dependency.getArtifact() );
 
-        if ( depth >= 2 )
-        {
+        if( depth >= 2 ) {
             String version = managedVersions.get( key );
-            if ( version != null )
-            {
+            if( version != null ) {
                 management = new DependencyManagement();
                 management.setVersion( version );
             }
 
             String scope = managedScopes.get( key );
-            if ( scope != null )
-            {
-                if ( management == null )
-                {
+            if( scope != null ) {
+                if( management == null ) {
                     management = new DependencyManagement();
                 }
                 management.setScope( scope );
 
-                if ( !JavaScopes.SYSTEM.equals( scope ) && dependency.getArtifact().getProperty(
-                        ArtifactProperties.LOCAL_PATH, null ) != null )
+                if( !JavaScopes.SYSTEM.equals( scope )
+                        && dependency.getArtifact().getProperty( ArtifactProperties.LOCAL_PATH, null ) != null )
                 {
                     Map<String, String> properties = new HashMap<>( dependency.getArtifact().getProperties() );
                     properties.remove( ArtifactProperties.LOCAL_PATH );
@@ -191,14 +170,12 @@ public final class TransitiveDependencyManager
                 }
             }
 
-            if ( ( JavaScopes.SYSTEM.equals( scope ) )
-                     || ( scope == null && JavaScopes.SYSTEM.equals( dependency.getScope() ) ) )
+            if( ( JavaScopes.SYSTEM.equals( scope ) )
+                    || ( scope == null && JavaScopes.SYSTEM.equals( dependency.getScope() ) ) )
             {
                 String localPath = managedLocalPaths.get( key );
-                if ( localPath != null )
-                {
-                    if ( management == null )
-                    {
+                if( localPath != null ) {
+                    if( management == null ) {
                         management = new DependencyManagement();
                     }
                     Map<String, String> properties = new HashMap<>( dependency.getArtifact().getProperties() );
@@ -208,10 +185,8 @@ public final class TransitiveDependencyManager
             }
 
             Boolean optional = managedOptionals.get( key );
-            if ( optional != null )
-            {
-                if ( management == null )
-                {
+            if( optional != null ) {
+                if( management == null ) {
                     management = new DependencyManagement();
                 }
                 management.setOptional( optional );
@@ -219,10 +194,8 @@ public final class TransitiveDependencyManager
         }
 
         Collection<Exclusion> exclusions = managedExclusions.get( key );
-        if ( exclusions != null )
-        {
-            if ( management == null )
-            {
+        if( exclusions != null ) {
+            if( management == null ) {
                 management = new DependencyManagement();
             }
             Collection<Exclusion> result = new LinkedHashSet<>( dependency.getExclusions() );
@@ -233,71 +206,60 @@ public final class TransitiveDependencyManager
         return management;
     }
 
-    private Object getKey( Artifact a )
-    {
+    private Object getKey( Artifact a ) {
         return new Key( a );
     }
 
     @Override
-    public boolean equals( final Object obj )
-    {
+    public boolean equals( final Object obj ) {
         boolean equal = obj instanceof TransitiveDependencyManager;
 
-        if ( equal )
-        {
+        if( equal ) {
             final TransitiveDependencyManager that = (TransitiveDependencyManager) obj;
-            return depth == that.depth
-                       && Objects.equals( managedVersions, that.managedVersions )
-                       && Objects.equals( managedScopes, that.managedScopes )
-                       && Objects.equals( managedOptionals, that.managedOptionals )
-                       && Objects.equals( managedExclusions, that.managedExclusions );
+            return depth == that.depth && Objects.equals( managedVersions, that.managedVersions )
+                    && Objects.equals( managedScopes, that.managedScopes )
+                    && Objects.equals( managedOptionals, that.managedOptionals )
+                    && Objects.equals( managedExclusions, that.managedExclusions );
         }
 
         return false;
     }
 
     @Override
-    public int hashCode()
-    {
-        if ( hashCode == 0 )
-        {
+    public int hashCode() {
+        if( hashCode == 0 ) {
             hashCode = Objects.hash( depth, managedVersions, managedScopes, managedOptionals, managedExclusions );
         }
         return hashCode;
     }
 
-    static class Key
-    {
+    static class Key {
         private final Artifact artifact;
 
         private final int hashCode;
 
-        Key( final Artifact artifact )
-        {
+        Key( final Artifact artifact ) {
             this.artifact = artifact;
             this.hashCode = Objects.hash( artifact.getGroupId(), artifact.getArtifactId() );
         }
 
         @Override
-        public boolean equals( final Object obj )
-        {
+        public boolean equals( final Object obj ) {
             boolean equal = obj instanceof Key;
 
-            if ( equal )
-            {
+            if( equal ) {
                 final Key that = (Key) obj;
                 return Objects.equals( artifact.getArtifactId(), that.artifact.getArtifactId() )
-                           && Objects.equals( artifact.getGroupId(), that.artifact.getGroupId() )
-                           && Objects.equals( artifact.getExtension(), that.artifact.getExtension() )
-                           && Objects.equals( artifact.getClassifier(), that.artifact.getClassifier() );
+                        && Objects.equals( artifact.getGroupId(), that.artifact.getGroupId() )
+                        && Objects.equals( artifact.getExtension(), that.artifact.getExtension() )
+                        && Objects.equals( artifact.getClassifier(), that.artifact.getClassifier() );
             }
 
             return false;
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             return this.hashCode;
         }
 

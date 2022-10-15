@@ -21,4 +21,3 @@
  * Various dependency graph transformers for post-processing a dependency graph.
  */
 package org.eclipse.aether.util.graph.transformer;
-

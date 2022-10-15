@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.filter;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.filter;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.util.filter;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.filter;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,7 +35,7 @@ import org.eclipse.aether.graph.DependencyNode;
  * @see Dependency#getScope()
  */
 public final class ScopeDependencyFilter
-    implements DependencyFilter
+        implements DependencyFilter
 {
 
     private final Set<String> included = new HashSet<>();
@@ -49,14 +48,11 @@ public final class ScopeDependencyFilter
      * @param included The set of scopes to include, may be {@code null} or empty to include any scope.
      * @param excluded The set of scopes to exclude, may be {@code null} or empty to exclude no scope.
      */
-    public ScopeDependencyFilter( Collection<String> included, Collection<String> excluded )
-    {
-        if ( included != null )
-        {
+    public ScopeDependencyFilter( Collection<String> included, Collection<String> excluded ) {
+        if( included != null ) {
             this.included.addAll( included );
         }
-        if ( excluded != null )
-        {
+        if( excluded != null ) {
             this.excluded.addAll( excluded );
         }
     }
@@ -66,38 +62,31 @@ public final class ScopeDependencyFilter
      * 
      * @param excluded The set of scopes to exclude, may be {@code null} or empty to exclude no scope.
      */
-    public ScopeDependencyFilter( String... excluded )
-    {
-        if ( excluded != null )
-        {
+    public ScopeDependencyFilter( String... excluded ) {
+        if( excluded != null ) {
             this.excluded.addAll( Arrays.asList( excluded ) );
         }
     }
 
-    public boolean accept( DependencyNode node, List<DependencyNode> parents )
-    {
+    public boolean accept( DependencyNode node, List<DependencyNode> parents ) {
         Dependency dependency = node.getDependency();
 
-        if ( dependency == null )
-        {
+        if( dependency == null ) {
             return true;
         }
 
         String scope = node.getDependency().getScope();
         return ( included.isEmpty() || included.contains( scope ) )
-            && ( excluded.isEmpty() || !excluded.contains( scope ) );
+                && ( excluded.isEmpty() || !excluded.contains( scope ) );
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
-        {
+    public boolean equals( Object obj ) {
+        if( this == obj ) {
             return true;
         }
 
-        if ( obj == null || !getClass().equals( obj.getClass() ) )
-        {
+        if( obj == null || !getClass().equals( obj.getClass() ) ) {
             return false;
         }
 
@@ -107,8 +96,7 @@ public final class ScopeDependencyFilter
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 17;
         hash = hash * 31 + included.hashCode();
         hash = hash * 31 + excluded.hashCode();

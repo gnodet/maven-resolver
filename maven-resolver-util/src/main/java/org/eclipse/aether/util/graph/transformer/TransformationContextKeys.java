@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.transformer;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.transformer;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.util.graph.transformer;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.graph.transformer;
 
 /**
  * A collection of keys used by the dependency graph transformers when exchanging information via the graph
@@ -25,8 +24,7 @@ package org.eclipse.aether.util.graph.transformer;
  * 
  * @see org.eclipse.aether.collection.DependencyGraphTransformationContext#get(Object)
  */
-public final class TransformationContextKeys
-{
+public final class TransformationContextKeys {
 
     /**
      * The key in the graph transformation context where a {@code Map<DependencyNode, Object>} is stored which maps
@@ -60,8 +58,7 @@ public final class TransformationContextKeys
      */
     public static final Object STATS = "stats";
 
-    private TransformationContextKeys()
-    {
+    private TransformationContextKeys() {
         // hide constructor
     }
 

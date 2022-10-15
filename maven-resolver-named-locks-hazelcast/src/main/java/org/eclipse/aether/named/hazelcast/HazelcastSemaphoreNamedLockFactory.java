@@ -1,5 +1,3 @@
-package org.eclipse.aether.named.hazelcast;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.named.hazelcast;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.named.hazelcast;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.named.hazelcast;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -32,9 +31,9 @@ import org.eclipse.aether.named.support.NamedLockFactorySupport;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Factory of {@link AdaptedSemaphoreNamedLock} instances, using adapted Hazelcast {@link ISemaphore}. It delegates
- * most the work to {@link HazelcastSemaphoreProvider} and this class just adapts the returned semaphore to named lock
- * and caches {@link ISemaphore} instances, as recommended by Hazelcast.
+ * Factory of {@link AdaptedSemaphoreNamedLock} instances, using adapted Hazelcast {@link ISemaphore}. It delegates most
+ * the work to {@link HazelcastSemaphoreProvider} and this class just adapts the returned semaphore to named lock and
+ * caches {@link ISemaphore} instances, as recommended by Hazelcast.
  */
 public class HazelcastSemaphoreNamedLockFactory
         extends NamedLockFactorySupport
@@ -47,11 +46,8 @@ public class HazelcastSemaphoreNamedLockFactory
 
     private final ConcurrentMap<String, ISemaphore> semaphores;
 
-    public HazelcastSemaphoreNamedLockFactory(
-            final HazelcastInstance hazelcastInstance,
-            final boolean manageHazelcast,
-            final HazelcastSemaphoreProvider hazelcastSemaphoreProvider
-    )
+    public HazelcastSemaphoreNamedLockFactory( final HazelcastInstance hazelcastInstance, final boolean manageHazelcast,
+                                               final HazelcastSemaphoreProvider hazelcastSemaphoreProvider )
     {
         this.hazelcastInstance = requireNonNull( hazelcastInstance );
         this.manageHazelcast = manageHazelcast;
@@ -60,34 +56,30 @@ public class HazelcastSemaphoreNamedLockFactory
     }
 
     @Override
-    protected AdaptedSemaphoreNamedLock createLock( final String name )
-    {
+    protected AdaptedSemaphoreNamedLock createLock( final String name ) {
         ISemaphore semaphore = semaphores.computeIfAbsent( name,
                 k -> hazelcastSemaphoreProvider.acquireSemaphore( hazelcastInstance, name ) );
         return new AdaptedSemaphoreNamedLock( name, this, new HazelcastSemaphore( semaphore ) );
     }
 
     @Override
-    protected void destroyLock( final String name )
-    {
+    protected void destroyLock( final String name ) {
         hazelcastSemaphoreProvider.releaseSemaphore( hazelcastInstance, name, semaphores.remove( name ) );
     }
 
     @Override
-    public void shutdown()
-    {
-        if ( manageHazelcast )
-        {
+    public void shutdown() {
+        if( manageHazelcast ) {
             hazelcastInstance.shutdown();
         }
     }
 
-    private static final class HazelcastSemaphore implements AdaptedSemaphore
+    private static final class HazelcastSemaphore
+            implements AdaptedSemaphore
     {
         private final ISemaphore semaphore;
 
-        private HazelcastSemaphore( final ISemaphore semaphore )
-        {
+        private HazelcastSemaphore( final ISemaphore semaphore ) {
             this.semaphore = semaphore;
         }
 
@@ -99,8 +91,7 @@ public class HazelcastSemaphoreNamedLockFactory
         }
 
         @Override
-        public void release( final int perms )
-        {
+        public void release( final int perms ) {
             semaphore.release( perms );
         }
     }

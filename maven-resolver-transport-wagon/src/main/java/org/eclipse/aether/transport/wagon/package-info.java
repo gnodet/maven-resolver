@@ -21,4 +21,3 @@
  * Support for downloads/uploads using <a href="http://maven.apache.org/wagon/" target="_blank">Apache Maven Wagon</a>.
  */
 package org.eclipse.aether.transport.wagon;
-

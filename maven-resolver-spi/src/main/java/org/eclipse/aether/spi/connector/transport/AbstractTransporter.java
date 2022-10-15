@@ -1,5 +1,3 @@
-package org.eclipse.aether.spi.connector.transport;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.spi.connector.transport;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.spi.connector.transport;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.spi.connector.transport;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +31,7 @@ import org.eclipse.aether.transfer.TransferCancelledException;
  * A skeleton implementation for custom transporters.
  */
 public abstract class AbstractTransporter
-    implements Transporter
+        implements Transporter
 {
 
     private final AtomicBoolean closed;
@@ -40,13 +39,12 @@ public abstract class AbstractTransporter
     /**
      * Enables subclassing.
      */
-    protected AbstractTransporter()
-    {
+    protected AbstractTransporter() {
         closed = new AtomicBoolean();
     }
 
     public void peek( PeekTask task )
-        throws Exception
+            throws Exception
     {
         Objects.requireNonNull( task, "task cannot be null" );
 
@@ -61,10 +59,10 @@ public abstract class AbstractTransporter
      * @throws Exception If the existence of the specified resource could not be confirmed.
      */
     protected abstract void implPeek( PeekTask task )
-        throws Exception;
+            throws Exception;
 
     public void get( GetTask task )
-        throws Exception
+            throws Exception
     {
         Objects.requireNonNull( task, "task cannot be null" );
 
@@ -79,66 +77,52 @@ public abstract class AbstractTransporter
      * @throws Exception If the transfer failed.
      */
     protected abstract void implGet( GetTask task )
-        throws Exception;
+            throws Exception;
 
     /**
      * Performs stream-based I/O for the specified download task and notifies the configured transport listener.
      * Subclasses might want to invoke this utility method from within their {@link #implGet(GetTask)} to avoid
      * boilerplate I/O code.
      *
-     * @param task The download to perform, must not be {@code null}.
-     * @param is The input stream to download the data from, must not be {@code null}.
-     * @param close {@code true} if the supplied input stream should be automatically closed, {@code false} to leave the
-     *            stream open.
+     * @param task   The download to perform, must not be {@code null}.
+     * @param is     The input stream to download the data from, must not be {@code null}.
+     * @param close  {@code true} if the supplied input stream should be automatically closed, {@code false} to leave
+     *               the stream open.
      * @param length The size in bytes of the downloaded resource or {@code -1} if unknown, not to be confused with the
-     *            length of the supplied input stream which might be smaller if the download is resumed.
+     *               length of the supplied input stream which might be smaller if the download is resumed.
      * @param resume {@code true} if the download resumes from {@link GetTask#getResumeOffset()}, {@code false} if the
-     *            download starts at the first byte of the resource.
-     * @throws IOException If the transfer encountered an I/O error.
+     *               download starts at the first byte of the resource.
+     * @throws IOException                If the transfer encountered an I/O error.
      * @throws TransferCancelledException If the transfer was cancelled.
      */
     protected void utilGet( GetTask task, InputStream is, boolean close, long length, boolean resume )
-        throws IOException, TransferCancelledException
+            throws IOException, TransferCancelledException
     {
         OutputStream os = null;
-        try
-        {
+        try {
             os = task.newOutputStream( resume );
             task.getListener().transportStarted( resume ? task.getResumeOffset() : 0L, length );
             copy( os, is, task.getListener() );
             os.close();
             os = null;
 
-            if ( close )
-            {
+            if( close ) {
                 is.close();
                 is = null;
             }
-        }
-        finally
-        {
-            try
-            {
-                if ( os != null )
-                {
+        } finally {
+            try {
+                if( os != null ) {
                     os.close();
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
-            }
-            finally
-            {
-                try
-                {
-                    if ( close && is != null )
-                    {
+            } finally {
+                try {
+                    if( close && is != null ) {
                         is.close();
                     }
-                }
-                catch ( final IOException e )
-                {
+                } catch( final IOException e ) {
                     // Suppressed due to an exception already thrown in the try block.
                 }
             }
@@ -146,7 +130,7 @@ public abstract class AbstractTransporter
     }
 
     public void put( PutTask task )
-        throws Exception
+            throws Exception
     {
         Objects.requireNonNull( task, "task cannot be null" );
 
@@ -161,36 +145,32 @@ public abstract class AbstractTransporter
      * @throws Exception If the transfer failed.
      */
     protected abstract void implPut( PutTask task )
-        throws Exception;
+            throws Exception;
 
     /**
      * Performs stream-based I/O for the specified upload task and notifies the configured transport listener.
      * Subclasses might want to invoke this utility method from within their {@link #implPut(PutTask)} to avoid
      * boilerplate I/O code.
      *
-     * @param task The upload to perform, must not be {@code null}.
-     * @param os The output stream to upload the data to, must not be {@code null}.
+     * @param task  The upload to perform, must not be {@code null}.
+     * @param os    The output stream to upload the data to, must not be {@code null}.
      * @param close {@code true} if the supplied output stream should be automatically closed, {@code false} to leave
-     *            the stream open.
-     * @throws IOException If the transfer encountered an I/O error.
+     *              the stream open.
+     * @throws IOException                If the transfer encountered an I/O error.
      * @throws TransferCancelledException If the transfer was cancelled.
      */
     protected void utilPut( PutTask task, OutputStream os, boolean close )
-        throws IOException, TransferCancelledException
+            throws IOException, TransferCancelledException
     {
         InputStream is = null;
-        try
-        {
+        try {
             task.getListener().transportStarted( 0, task.getDataLength() );
             is = task.newInputStream();
             copy( os, is, task.getListener() );
 
-            if ( close )
-            {
+            if( close ) {
                 os.close();
-            }
-            else
-            {
+            } else {
                 os.flush();
             }
 
@@ -198,41 +178,27 @@ public abstract class AbstractTransporter
 
             is.close();
             is = null;
-        }
-        finally
-        {
-            try
-            {
-                if ( close && os != null )
-                {
+        } finally {
+            try {
+                if( close && os != null ) {
                     os.close();
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
-            }
-            finally
-            {
-                try
-                {
-                    if ( is != null )
-                    {
+            } finally {
+                try {
+                    if( is != null ) {
                         is.close();
                     }
-                }
-                catch ( final IOException e )
-                {
+                } catch( final IOException e ) {
                     // Suppressed due to an exception already thrown in the try block.
                 }
             }
         }
     }
 
-    public void close()
-    {
-        if ( closed.compareAndSet( false, true ) )
-        {
+    public void close() {
+        if( closed.compareAndSet( false, true ) ) {
             implClose();
         }
     }
@@ -242,20 +208,17 @@ public abstract class AbstractTransporter
      */
     protected abstract void implClose();
 
-    private void failIfClosed( TransportTask task )
-    {
-        if ( closed.get() )
-        {
+    private void failIfClosed( TransportTask task ) {
+        if( closed.get() ) {
             throw new IllegalStateException( "transporter closed, cannot execute task " + task );
         }
     }
 
     private static void copy( OutputStream os, InputStream is, TransportListener listener )
-        throws IOException, TransferCancelledException
+            throws IOException, TransferCancelledException
     {
-        byte[] buffer = new byte[ 1024 * 32 ];
-        for ( int read = is.read( buffer ); read >= 0; read = is.read( buffer ) )
-        {
+        byte[] buffer = new byte[1024 * 32];
+        for( int read = is.read( buffer ); read >= 0; read = is.read( buffer ) ) {
             os.write( buffer, 0, read );
             listener.transportProgressed( ByteBuffer.wrap( buffer, 0, read ) );
         }

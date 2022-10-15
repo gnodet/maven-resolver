@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.impl;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,26 +16,26 @@ package org.eclipse.aether.internal.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.internal.impl;
 
 import org.junit.Test;
 
-public class PrioritizedComponentTest
-{
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class PrioritizedComponentTest {
 
     @Test
-    public void testIsDisabled()
-    {
-        assertTrue(new PrioritizedComponent<>( "", String.class, Float.NaN, 0 ).isDisabled() );
-        assertFalse(new PrioritizedComponent<>( "", String.class, 0, 0 ).isDisabled() );
-        assertFalse(new PrioritizedComponent<>( "", String.class, 1, 0 ).isDisabled() );
-        assertFalse(new PrioritizedComponent<>( "", String.class, -1, 0 ).isDisabled() );
+    public void testIsDisabled() {
+        assertTrue( new PrioritizedComponent<>( "", String.class, Float.NaN, 0 ).isDisabled() );
+        assertFalse( new PrioritizedComponent<>( "", String.class, 0, 0 ).isDisabled() );
+        assertFalse( new PrioritizedComponent<>( "", String.class, 1, 0 ).isDisabled() );
+        assertFalse( new PrioritizedComponent<>( "", String.class, -1, 0 ).isDisabled() );
     }
 
     @Test
-    public void testCompareTo()
-    {
+    public void testCompareTo() {
         assertCompare( 0, Float.NaN, Float.NaN );
         assertCompare( 0, 0, 0 );
 
@@ -54,16 +52,14 @@ public class PrioritizedComponentTest
         assertCompare( -1, 10, 0, 1 );
     }
 
-    private void assertCompare( int expected, float priority1, float priority2 )
-    {
+    private void assertCompare( int expected, float priority1, float priority2 ) {
         PrioritizedComponent<?> one = new PrioritizedComponent<>( "", String.class, priority1, 0 );
         PrioritizedComponent<?> two = new PrioritizedComponent<>( "", String.class, priority2, 0 );
         assertEquals( expected, one.compareTo( two ) );
         assertEquals( -expected, two.compareTo( one ) );
     }
 
-    private void assertCompare( int expected, float priority, int index1, int index2 )
-    {
+    private void assertCompare( int expected, float priority, int index1, int index2 ) {
         PrioritizedComponent<?> one = new PrioritizedComponent<>( "", String.class, priority, index1 );
         PrioritizedComponent<?> two = new PrioritizedComponent<>( "", String.class, priority, index2 );
         assertEquals( expected, one.compareTo( two ) );

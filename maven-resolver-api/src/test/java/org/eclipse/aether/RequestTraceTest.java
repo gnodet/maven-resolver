@@ -1,5 +1,3 @@
-package org.eclipse.aether;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,19 +16,18 @@ package org.eclipse.aether;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether;
 
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 /**
  */
-public class RequestTraceTest
-{
+public class RequestTraceTest {
 
     @Test
-    public void testConstructor()
-    {
+    public void testConstructor() {
         RequestTrace trace = new RequestTrace( null );
         assertSame( null, trace.getData() );
 
@@ -39,8 +36,7 @@ public class RequestTraceTest
     }
 
     @Test
-    public void testParentChaining()
-    {
+    public void testParentChaining() {
         RequestTrace trace1 = new RequestTrace( null );
         RequestTrace trace2 = trace1.newChild( this );
 
@@ -51,8 +47,7 @@ public class RequestTraceTest
     }
 
     @Test
-    public void testNewChildRequestTrace()
-    {
+    public void testNewChildRequestTrace() {
         RequestTrace trace = RequestTrace.newChild( null, this );
         assertNotNull( trace );
         assertSame( null, trace.getParent() );

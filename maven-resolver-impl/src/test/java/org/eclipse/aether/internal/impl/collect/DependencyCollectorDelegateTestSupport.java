@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl.collect;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl.collect;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.impl.collect;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl.collect;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -81,8 +80,7 @@ import static org.junit.Assert.fail;
 /**
  * Common tests for various {@link DependencyCollectorDelegate} implementations.
  */
-public abstract class DependencyCollectorDelegateTestSupport
-{
+public abstract class DependencyCollectorDelegateTestSupport {
 
     protected DefaultRepositorySystemSession session;
 
@@ -92,24 +90,20 @@ public abstract class DependencyCollectorDelegateTestSupport
 
     protected DependencyCollectorDelegate collector;
 
-    protected IniArtifactDescriptorReader newReader( String prefix )
-    {
+    protected IniArtifactDescriptorReader newReader( String prefix ) {
         return new IniArtifactDescriptorReader( "artifact-descriptions/" + prefix );
     }
 
-    protected Dependency newDep( String coords )
-    {
+    protected Dependency newDep( String coords ) {
         return newDep( coords, "" );
     }
 
-    protected Dependency newDep( String coords, String scope )
-    {
+    protected Dependency newDep( String coords, String scope ) {
         return new Dependency( new DefaultArtifact( coords ), scope );
     }
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         session = TestUtils.newSession();
         parser = new DependencyGraphParser( "artifact-descriptions/" );
         repository = new RemoteRepository.Builder( "id", "default", "file:///" ).build();
@@ -118,8 +112,7 @@ public abstract class DependencyCollectorDelegateTestSupport
 
     protected abstract void setupCollector();
 
-    private static void assertEqualSubtree( DependencyNode expected, DependencyNode actual )
-    {
+    private static void assertEqualSubtree( DependencyNode expected, DependencyNode actual ) {
         assertEqualSubtree( expected, actual, new LinkedList<>() );
     }
 
@@ -128,13 +121,10 @@ public abstract class DependencyCollectorDelegateTestSupport
     {
         assertEquals( "path: " + parents, expected.getDependency(), actual.getDependency() );
 
-        if ( actual.getDependency() != null )
-        {
+        if( actual.getDependency() != null ) {
             Artifact artifact = actual.getDependency().getArtifact();
-            for ( DependencyNode parent : parents )
-            {
-                if ( parent.getDependency() != null && artifact.equals( parent.getDependency().getArtifact() ) )
-                {
+            for( DependencyNode parent : parents ) {
+                if( parent.getDependency() != null && artifact.equals( parent.getDependency().getArtifact() ) ) {
                     return;
                 }
             }
@@ -142,39 +132,33 @@ public abstract class DependencyCollectorDelegateTestSupport
 
         parents.addLast( expected );
 
-        assertEquals( "path: " + parents + ", expected: " + expected.getChildren() + ", actual: "
-                + actual.getChildren(), expected.getChildren().size(), actual.getChildren().size() );
+        assertEquals(
+                "path: " + parents + ", expected: " + expected.getChildren() + ", actual: " + actual.getChildren(),
+                expected.getChildren().size(), actual.getChildren().size() );
 
         Iterator<DependencyNode> iterator1 = expected.getChildren().iterator();
         Iterator<DependencyNode> iterator2 = actual.getChildren().iterator();
 
-        while ( iterator1.hasNext() )
-        {
+        while( iterator1.hasNext() ) {
             assertEqualSubtree( iterator1.next(), iterator2.next(), parents );
         }
 
         parents.removeLast();
     }
 
-    protected Dependency dep( DependencyNode root, int... coords )
-    {
+    protected Dependency dep( DependencyNode root, int... coords ) {
         return path( root, coords ).getDependency();
     }
 
-    protected DependencyNode path( DependencyNode root, int... coords )
-    {
-        try
-        {
+    protected DependencyNode path( DependencyNode root, int... coords ) {
+        try {
             DependencyNode node = root;
-            for ( int coord : coords )
-            {
+            for( int coord : coords ) {
                 node = node.getChildren().get( coord );
             }
 
             return node;
-        }
-        catch ( IndexOutOfBoundsException | NullPointerException e )
-        {
+        } catch( IndexOutOfBoundsException | NullPointerException e ) {
             throw new IllegalArgumentException( "illegal coordinates for child", e );
         }
     }
@@ -202,17 +186,13 @@ public abstract class DependencyCollectorDelegateTestSupport
     }
 
     @Test
-    public void testMissingDependencyDescription()
-    {
-        CollectRequest request =
-                new CollectRequest( newDep( "missing:description:ext:ver" ), singletonList( repository ) );
-        try
-        {
+    public void testMissingDependencyDescription() {
+        CollectRequest request = new CollectRequest( newDep( "missing:description:ext:ver" ),
+                                                     singletonList( repository ) );
+        try {
             collector.collectDependencies( session, request );
             fail( "expected exception" );
-        }
-        catch ( DependencyCollectionException e )
-        {
+        } catch( DependencyCollectionException e ) {
             CollectResult result = e.getResult();
             assertSame( request, result.getRequest() );
             assertNotNull( result.getExceptions() );
@@ -282,7 +262,8 @@ public abstract class DependencyCollectorDelegateTestSupport
         collector.setArtifactDescriptorReader( newReader( "cycle-big/" ) );
         CollectResult result = collector.collectDependencies( session, request );
         assertNotNull( result.getRoot() );
-        // we only care about the performance here, this test must not hang or run out of mem
+        // we only care about the performance here, this test must not hang or run out
+        // of mem
     }
 
     @Test
@@ -296,8 +277,7 @@ public abstract class DependencyCollectorDelegateTestSupport
         DependencyNode a1 = path( root, 0, 0 );
         assertEquals( "a", a1.getArtifact().getArtifactId() );
         assertEquals( "1", a1.getArtifact().getVersion() );
-        for ( DependencyNode child : a1.getChildren() )
-        {
+        for( DependencyNode child : a1.getChildren() ) {
             assertNotEquals( "1", child.getArtifact().getVersion() );
         }
 
@@ -313,9 +293,8 @@ public abstract class DependencyCollectorDelegateTestSupport
             throws Exception
     {
         Dependency dep = newDep( "gid:aid:ver", "compile" );
-        CollectRequest request =
-                new CollectRequest().addDependency( dep ).addRepository( repository )
-                        .setRootArtifact( dep.getArtifact() );
+        CollectRequest request = new CollectRequest().addDependency( dep ).addRepository( repository )
+                .setRootArtifact( dep.getArtifact() );
         CollectResult result = collector.collectDependencies( session, request );
         DependencyNode root = result.getRoot();
         DependencyNode a1 = root.getChildren().get( 0 );
@@ -342,13 +321,10 @@ public abstract class DependencyCollectorDelegateTestSupport
         CollectRequest request = new CollectRequest( dependency, singletonList( repository ) );
 
         CollectResult result;
-        try
-        {
+        try {
             result = collector.collectDependencies( session, request );
             fail( "expected exception " );
-        }
-        catch ( DependencyCollectionException e )
-        {
+        } catch( DependencyCollectionException e ) {
             result = e.getResult();
 
             assertSame( request, result.getRequest() );
@@ -390,8 +366,7 @@ public abstract class DependencyCollectorDelegateTestSupport
 
         final List<RemoteRepository> repos = new ArrayList<>();
 
-        collector.setArtifactDescriptorReader( new ArtifactDescriptorReader()
-        {
+        collector.setArtifactDescriptorReader( new ArtifactDescriptorReader() {
             public ArtifactDescriptorResult readArtifactDescriptor( RepositorySystemSession session,
                                                                     ArtifactDescriptorRequest request )
             {
@@ -480,8 +455,10 @@ public abstract class DependencyCollectorDelegateTestSupport
         CollectRequest request = new CollectRequest().setRoot( newDep( "gid:aid:ver" ) );
         CollectResult result = collector.collectDependencies( session, request );
         DependencyNode node = result.getRoot().getChildren().get( 0 );
-        assertEquals( DependencyNode.MANAGED_VERSION | DependencyNode.MANAGED_SCOPE | DependencyNode.MANAGED_OPTIONAL
-                | DependencyNode.MANAGED_PROPERTIES | DependencyNode.MANAGED_EXCLUSIONS, node.getManagedBits() );
+        assertEquals(
+                DependencyNode.MANAGED_VERSION | DependencyNode.MANAGED_SCOPE | DependencyNode.MANAGED_OPTIONAL
+                        | DependencyNode.MANAGED_PROPERTIES | DependencyNode.MANAGED_EXCLUSIONS,
+                node.getManagedBits() );
         assertEquals( "ver", DependencyManagerUtils.getPremanagedVersion( node ) );
         assertEquals( "compile", DependencyManagerUtils.getPremanagedScope( node ) );
         assertEquals( Boolean.FALSE, DependencyManagerUtils.getPremanagedOptional( node ) );
@@ -547,15 +524,15 @@ public abstract class DependencyCollectorDelegateTestSupport
     private DependencyNode toDependencyResult( final DependencyNode root, final String rootScope,
                                                final Boolean optional )
     {
-        // Make the root artifact resultion result a dependency resolution result for the subtree check.
+        // Make the root artifact resultion result a dependency resolution result for
+        // the subtree check.
         assertNull( "Expected root artifact resolution result.", root.getDependency() );
-        final DefaultDependencyNode defaultNode =
-                new DefaultDependencyNode( new Dependency( root.getArtifact(), rootScope ) );
+        final DefaultDependencyNode defaultNode = new DefaultDependencyNode( new Dependency( root.getArtifact(),
+                                                                                             rootScope ) );
 
         defaultNode.setChildren( root.getChildren() );
 
-        if ( optional != null )
-        {
+        if( optional != null ) {
             defaultNode.setOptional( optional );
         }
 
@@ -572,18 +549,15 @@ public abstract class DependencyCollectorDelegateTestSupport
         assertEquals( 1, result.getRoot().getChildren().size() );
     }
 
-
     @Test
     public void testDescriptorDependenciesEmpty()
             throws Exception
     {
         collector.setArtifactDescriptorReader( newReader( "dependencies-empty/" ) );
 
-        session.setDependencyGraphTransformer( new ConflictResolver(
-                new NearestVersionSelector(), new JavaScopeSelector(), new SimpleOptionalitySelector(),
-                new JavaScopeDeriver()
-        ) );
-
+        session.setDependencyGraphTransformer(
+                new ConflictResolver( new NearestVersionSelector(), new JavaScopeSelector(),
+                                      new SimpleOptionalitySelector(), new JavaScopeDeriver() ) );
 
         DependencyNode root = parser.parseResource( "expectedSubtreeOnDescriptorDependenciesEmptyLeft.txt" );
         Dependency dependency = root.getDependency();
@@ -612,42 +586,35 @@ public abstract class DependencyCollectorDelegateTestSupport
 
         private final Map<String, Collection<Exclusion>> exclusions = new HashMap<>();
 
-        public void add( Dependency d, String version, String scope, String localPath )
-        {
+        public void add( Dependency d, String version, String scope, String localPath ) {
             String id = toKey( d );
             version( id, version );
             scope( id, scope );
             path( id, localPath );
         }
 
-        public void version( String id, String version )
-        {
+        public void version( String id, String version ) {
             versions.put( id, version );
         }
 
-        public void scope( String id, String scope )
-        {
+        public void scope( String id, String scope ) {
             scopes.put( id, scope );
         }
 
-        public void optional( String id, Boolean optional )
-        {
+        public void optional( String id, Boolean optional ) {
             optionals.put( id, optional );
         }
 
-        public void path( String id, String path )
-        {
+        public void path( String id, String path ) {
             paths.put( id, path );
         }
 
-        public void exclusions( String id, Exclusion... exclusions )
-        {
+        public void exclusions( String id, Exclusion... exclusions ) {
             this.exclusions.put( id, exclusions != null ? Arrays.asList( exclusions ) : null );
         }
 
         @Override
-        public DependencyManagement manageDependency( Dependency dependency )
-        {
+        public DependencyManagement manageDependency( Dependency dependency ) {
             requireNonNull( dependency, "dependency cannot be null" );
             String id = toKey( dependency );
             DependencyManagement mgmt = new DependencyManagement();
@@ -655,22 +622,19 @@ public abstract class DependencyCollectorDelegateTestSupport
             mgmt.setScope( scopes.get( id ) );
             mgmt.setOptional( optionals.get( id ) );
             String path = paths.get( id );
-            if ( path != null )
-            {
+            if( path != null ) {
                 mgmt.setProperties( Collections.singletonMap( ArtifactProperties.LOCAL_PATH, path ) );
             }
             mgmt.setExclusions( exclusions.get( id ) );
             return mgmt;
         }
 
-        private String toKey( Dependency dependency )
-        {
+        private String toKey( Dependency dependency ) {
             return ArtifactIdUtils.toVersionlessId( dependency.getArtifact() );
         }
 
         @Override
-        public DependencyManager deriveChildManager( DependencyCollectionContext context )
-        {
+        public DependencyManager deriveChildManager( DependencyCollectionContext context ) {
             requireNonNull( context, "context cannot be null" );
             return this;
         }

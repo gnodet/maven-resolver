@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.transformer;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.transformer;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,39 +16,36 @@ package org.eclipse.aether.util.graph.transformer;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.util.graph.transformer;
 
 import java.util.Map;
 
 import org.eclipse.aether.collection.DependencyGraphTransformer;
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.internal.test.util.DependencyGraphParser;
-import org.eclipse.aether.util.graph.transformer.ConflictMarker;
-import org.eclipse.aether.util.graph.transformer.TransformationContextKeys;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  */
 public class ConflictMarkerTest
-    extends AbstractDependencyGraphTransformerTest
+        extends AbstractDependencyGraphTransformerTest
 {
 
     @Override
-    protected DependencyGraphTransformer newTransformer()
-    {
+    protected DependencyGraphTransformer newTransformer() {
         return new ConflictMarker();
     }
 
     @Override
-    protected DependencyGraphParser newParser()
-    {
+    protected DependencyGraphParser newParser() {
         return new DependencyGraphParser( "transformer/conflict-marker/" );
     }
 
     @Test
     public void testSimple()
-        throws Exception
+            throws Exception
     {
         DependencyNode root = parseResource( "simple.txt" );
 
@@ -68,7 +63,7 @@ public class ConflictMarkerTest
 
     @Test
     public void testRelocation1()
-        throws Exception
+            throws Exception
     {
         DependencyNode root = parseResource( "relocation1.txt" );
 
@@ -85,7 +80,7 @@ public class ConflictMarkerTest
 
     @Test
     public void testRelocation2()
-        throws Exception
+            throws Exception
     {
         DependencyNode root = parseResource( "relocation2.txt" );
 
@@ -102,7 +97,7 @@ public class ConflictMarkerTest
 
     @Test
     public void testRelocation3()
-        throws Exception
+            throws Exception
     {
         DependencyNode root = parseResource( "relocation3.txt" );
 

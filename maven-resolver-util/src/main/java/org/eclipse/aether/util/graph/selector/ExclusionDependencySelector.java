@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.selector;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.selector;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.util.graph.selector;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.graph.selector;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -38,7 +37,7 @@ import static java.util.Objects.requireNonNull;
  * @see Dependency#getExclusions()
  */
 public final class ExclusionDependencySelector
-    implements DependencySelector
+        implements DependencySelector
 {
 
     // sorted and dupe-free array, faster to iterate than LinkedHashSet
@@ -49,8 +48,7 @@ public final class ExclusionDependencySelector
     /**
      * Creates a new selector without any exclusions.
      */
-    public ExclusionDependencySelector()
-    {
+    public ExclusionDependencySelector() {
         this.exclusions = new Exclusion[0];
     }
 
@@ -59,105 +57,82 @@ public final class ExclusionDependencySelector
      * 
      * @param exclusions The exclusions, may be {@code null}.
      */
-    public ExclusionDependencySelector( Collection<Exclusion> exclusions )
-    {
-        if ( exclusions != null && !exclusions.isEmpty() )
-        {
+    public ExclusionDependencySelector( Collection<Exclusion> exclusions ) {
+        if( exclusions != null && !exclusions.isEmpty() ) {
             TreeSet<Exclusion> sorted = new TreeSet<>( ExclusionComparator.INSTANCE );
             sorted.addAll( exclusions );
             this.exclusions = sorted.toArray( new Exclusion[0] );
-        }
-        else
-        {
+        } else {
             this.exclusions = new Exclusion[0];
         }
     }
 
-    private ExclusionDependencySelector( Exclusion[] exclusions )
-    {
+    private ExclusionDependencySelector( Exclusion[] exclusions ) {
         this.exclusions = exclusions;
     }
 
-    public boolean selectDependency( Dependency dependency )
-    {
+    public boolean selectDependency( Dependency dependency ) {
         requireNonNull( dependency, "dependency cannot be null" );
         Artifact artifact = dependency.getArtifact();
-        for ( Exclusion exclusion : exclusions )
-        {
-            if ( matches( exclusion, artifact ) )
-            {
+        for( Exclusion exclusion : exclusions ) {
+            if( matches( exclusion, artifact ) ) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean matches( Exclusion exclusion, Artifact artifact )
-    {
-        if ( !matches( exclusion.getArtifactId(), artifact.getArtifactId() ) )
-        {
+    private boolean matches( Exclusion exclusion, Artifact artifact ) {
+        if( !matches( exclusion.getArtifactId(), artifact.getArtifactId() ) ) {
             return false;
         }
-        if ( !matches( exclusion.getGroupId(), artifact.getGroupId() ) )
-        {
+        if( !matches( exclusion.getGroupId(), artifact.getGroupId() ) ) {
             return false;
         }
-        if ( !matches( exclusion.getExtension(), artifact.getExtension() ) )
-        {
+        if( !matches( exclusion.getExtension(), artifact.getExtension() ) ) {
             return false;
         }
-        if ( !matches( exclusion.getClassifier(), artifact.getClassifier() ) )
-        {
+        if( !matches( exclusion.getClassifier(), artifact.getClassifier() ) ) {
             return false;
         }
         return true;
     }
 
-    private boolean matches( String pattern, String value )
-    {
+    private boolean matches( String pattern, String value ) {
         return "*".equals( pattern ) || pattern.equals( value );
     }
 
-    public DependencySelector deriveChildSelector( DependencyCollectionContext context )
-    {
+    public DependencySelector deriveChildSelector( DependencyCollectionContext context ) {
         requireNonNull( context, "context cannot be null" );
         Dependency dependency = context.getDependency();
         Collection<Exclusion> exclusions = ( dependency != null ) ? dependency.getExclusions() : null;
-        if ( exclusions == null || exclusions.isEmpty() )
-        {
+        if( exclusions == null || exclusions.isEmpty() ) {
             return this;
         }
 
         Exclusion[] merged = this.exclusions;
         int count = merged.length;
-        for ( Exclusion exclusion : exclusions )
-        {
+        for( Exclusion exclusion : exclusions ) {
             int index = Arrays.binarySearch( merged, exclusion, ExclusionComparator.INSTANCE );
-            if ( index < 0 )
-            {
+            if( index < 0 ) {
                 index = -( index + 1 );
-                if ( count >= merged.length )
-                {
+                if( count >= merged.length ) {
                     Exclusion[] tmp = new Exclusion[merged.length + exclusions.size()];
                     System.arraycopy( merged, 0, tmp, 0, index );
                     tmp[index] = exclusion;
                     System.arraycopy( merged, index, tmp, index + 1, count - index );
                     merged = tmp;
-                }
-                else
-                {
+                } else {
                     System.arraycopy( merged, index, merged, index + 1, count - index );
                     merged[index] = exclusion;
                 }
                 count++;
             }
         }
-        if ( merged == this.exclusions )
-        {
+        if( merged == this.exclusions ) {
             return this;
         }
-        if ( merged.length != count )
-        {
+        if( merged.length != count ) {
             Exclusion[] tmp = new Exclusion[count];
             System.arraycopy( merged, 0, tmp, 0, count );
             merged = tmp;
@@ -167,14 +142,10 @@ public final class ExclusionDependencySelector
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
-        {
+    public boolean equals( Object obj ) {
+        if( this == obj ) {
             return true;
-        }
-        else if ( null == obj || !getClass().equals( obj.getClass() ) )
-        {
+        } else if( null == obj || !getClass().equals( obj.getClass() ) ) {
             return false;
         }
 
@@ -183,10 +154,8 @@ public final class ExclusionDependencySelector
     }
 
     @Override
-    public int hashCode()
-    {
-        if ( hashCode == 0 )
-        {
+    public int hashCode() {
+        if( hashCode == 0 ) {
             int hash = getClass().hashCode();
             hash = hash * 31 + Arrays.hashCode( exclusions );
             hashCode = hash;
@@ -195,14 +164,11 @@ public final class ExclusionDependencySelector
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder builder = new StringBuilder().append( this.getClass().getSimpleName() ).append( '(' );
-        for ( int i = 0; i < this.exclusions.length; i++ )
-        {
+        for( int i = 0; i < this.exclusions.length; i++ ) {
             builder.append( this.exclusions[i] );
-            if ( i < this.exclusions.length - 1 )
-            {
+            if( i < this.exclusions.length - 1 ) {
                 builder.append( ", " );
             }
         }
@@ -210,30 +176,23 @@ public final class ExclusionDependencySelector
     }
 
     private static class ExclusionComparator
-        implements Comparator<Exclusion>
+            implements Comparator<Exclusion>
     {
 
         static final ExclusionComparator INSTANCE = new ExclusionComparator();
 
-        public int compare( Exclusion e1, Exclusion e2 )
-        {
-            if ( e1 == null )
-            {
+        public int compare( Exclusion e1, Exclusion e2 ) {
+            if( e1 == null ) {
                 return ( e2 == null ) ? 0 : 1;
-            }
-            else if ( e2 == null )
-            {
+            } else if( e2 == null ) {
                 return -1;
             }
             int rel = e1.getArtifactId().compareTo( e2.getArtifactId() );
-            if ( rel == 0 )
-            {
+            if( rel == 0 ) {
                 rel = e1.getGroupId().compareTo( e2.getGroupId() );
-                if ( rel == 0 )
-                {
+                if( rel == 0 ) {
                     rel = e1.getExtension().compareTo( e2.getExtension() );
-                    if ( rel == 0 )
-                    {
+                    if( rel == 0 ) {
                         rel = e1.getClassifier().compareTo( e2.getClassifier() );
                     }
                 }

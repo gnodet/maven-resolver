@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.impl;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.internal.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.internal.impl;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,8 +29,8 @@ import java.util.Map;
 
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositoryEvent;
-import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.RepositoryEvent.EventType;
+import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.ArtifactProperties;
 import org.eclipse.aether.artifact.DefaultArtifact;
@@ -71,10 +68,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 /**
+ *
  */
-public class DefaultArtifactResolverTest
-{
+public class DefaultArtifactResolverTest {
     private DefaultArtifactResolver resolver;
 
     private DefaultRepositorySystemSession session;
@@ -88,8 +93,7 @@ public class DefaultArtifactResolverTest
     private RecordingRepositoryConnector connector;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         UpdateCheckManager updateCheckManager = new StaticUpdateCheckManager( true );
         repositoryConnectorProvider = new StubRepositoryConnectorProvider();
         VersionResolver versionResolver = new StubVersionResolver();
@@ -114,17 +118,16 @@ public class DefaultArtifactResolverTest
 
     @After
     public void teardown()
-        throws Exception
+            throws Exception
     {
-        if ( session.getLocalRepository() != null )
-        {
+        if( session.getLocalRepository() != null ) {
             TestFileUtils.deleteFile( session.getLocalRepository().getBasedir() );
         }
     }
 
     @Test
     public void testResolveLocalArtifactSuccessful()
-        throws IOException, ArtifactResolutionException
+            throws IOException, ArtifactResolutionException
     {
         File tmpFile = TestFileUtils.createTempFile( "tmp" );
         Map<String, String> properties = new HashMap<>();
@@ -145,7 +148,7 @@ public class DefaultArtifactResolverTest
 
     @Test
     public void testResolveLocalArtifactUnsuccessful()
-        throws IOException
+            throws IOException
     {
         File tmpFile = TestFileUtils.createTempFile( "tmp" );
         Map<String, String> properties = new HashMap<>();
@@ -156,13 +159,10 @@ public class DefaultArtifactResolverTest
 
         ArtifactRequest request = new ArtifactRequest( artifact, null, "" );
 
-        try
-        {
+        try {
             resolver.resolveArtifact( session, request );
             fail( "expected exception" );
-        }
-        catch ( ArtifactResolutionException e )
-        {
+        } catch( ArtifactResolutionException e ) {
             assertNotNull( e.getResults() );
             assertEquals( 1, e.getResults().size() );
 
@@ -181,7 +181,7 @@ public class DefaultArtifactResolverTest
 
     @Test
     public void testResolveRemoteArtifact()
-        throws ArtifactResolutionException
+            throws ArtifactResolutionException
     {
         connector.setExpectGet( artifact );
 
@@ -202,10 +202,8 @@ public class DefaultArtifactResolverTest
     }
 
     @Test
-    public void testResolveRemoteArtifactUnsuccessful()
-    {
-        RecordingRepositoryConnector connector = new RecordingRepositoryConnector()
-        {
+    public void testResolveRemoteArtifactUnsuccessful() {
+        RecordingRepositoryConnector connector = new RecordingRepositoryConnector() {
 
             @Override
             public void get( Collection<? extends ArtifactDownload> artifactDownloads,
@@ -213,8 +211,8 @@ public class DefaultArtifactResolverTest
             {
                 super.get( artifactDownloads, metadataDownloads );
                 ArtifactDownload download = artifactDownloads.iterator().next();
-                ArtifactTransferException exception =
-                    new ArtifactNotFoundException( download.getArtifact(), null, "not found" );
+                ArtifactTransferException exception = new ArtifactNotFoundException( download.getArtifact(), null,
+                                                                                     "not found" );
                 download.setException( exception );
             }
 
@@ -226,13 +224,10 @@ public class DefaultArtifactResolverTest
         ArtifactRequest request = new ArtifactRequest( artifact, null, "" );
         request.addRepository( new RemoteRepository.Builder( "id", "default", "file:///" ).build() );
 
-        try
-        {
+        try {
             resolver.resolveArtifact( session, request );
             fail( "expected exception" );
-        }
-        catch ( ArtifactResolutionException e )
-        {
+        } catch( ArtifactResolutionException e ) {
             connector.assertSeenExpected();
             assertNotNull( e.getResults() );
             assertEquals( 1, e.getResults().size() );
@@ -252,30 +247,27 @@ public class DefaultArtifactResolverTest
 
     @Test
     public void testArtifactNotFoundCache()
-        throws Exception
+            throws Exception
     {
-        RecordingRepositoryConnector connector = new RecordingRepositoryConnector()
-        {
+        RecordingRepositoryConnector connector = new RecordingRepositoryConnector() {
             @Override
             public void get( Collection<? extends ArtifactDownload> artifactDownloads,
                              Collection<? extends MetadataDownload> metadataDownloads )
             {
                 super.get( artifactDownloads, metadataDownloads );
-                for ( ArtifactDownload download : artifactDownloads )
-                {
+                for( ArtifactDownload download : artifactDownloads ) {
                     download.getFile().delete();
-                    ArtifactTransferException exception =
-                        new ArtifactNotFoundException( download.getArtifact(), null, "not found" );
+                    ArtifactTransferException exception = new ArtifactNotFoundException( download.getArtifact(), null,
+                                                                                         "not found" );
                     download.setException( exception );
                 }
             }
         };
 
         repositoryConnectorProvider.setConnector( connector );
-        resolver.setUpdateCheckManager( new DefaultUpdateCheckManager()
-            .setUpdatePolicyAnalyzer( new DefaultUpdatePolicyAnalyzer() )
-            .setTrackingFileManager( new DefaultTrackingFileManager() )
-        );
+        resolver.setUpdateCheckManager(
+                new DefaultUpdateCheckManager().setUpdatePolicyAnalyzer( new DefaultUpdatePolicyAnalyzer() )
+                        .setTrackingFileManager( new DefaultTrackingFileManager() ) );
 
         session.setResolutionErrorPolicy( new SimpleResolutionErrorPolicy( true, false ) );
         session.setUpdatePolicy( RepositoryPolicy.UPDATE_POLICY_NEVER );
@@ -289,33 +281,26 @@ public class DefaultArtifactResolverTest
         ArtifactRequest request2 = new ArtifactRequest( artifact2, Arrays.asList( remoteRepo ), "" );
 
         connector.setExpectGet( artifact1, artifact2 );
-        try
-        {
+        try {
             resolver.resolveArtifacts( session, Arrays.asList( request1, request2 ) );
             fail( "expected exception" );
-        }
-        catch ( ArtifactResolutionException e )
-        {
+        } catch( ArtifactResolutionException e ) {
             connector.assertSeenExpected();
         }
 
-        TestFileUtils.writeString( new File( lrm.getRepository().getBasedir(), lrm.getPathForLocalArtifact( artifact2 ) ),
-                             "artifact" );
+        TestFileUtils.writeString(
+                new File( lrm.getRepository().getBasedir(), lrm.getPathForLocalArtifact( artifact2 ) ), "artifact" );
         lrm.setArtifactAvailability( artifact2, false );
 
         DefaultUpdateCheckManagerTest.resetSessionData( session );
         connector.resetActual();
         connector.setExpectGet( new Artifact[0] );
-        try
-        {
+        try {
             resolver.resolveArtifacts( session, Arrays.asList( request1, request2 ) );
             fail( "expected exception" );
-        }
-        catch ( ArtifactResolutionException e )
-        {
+        } catch( ArtifactResolutionException e ) {
             connector.assertSeenExpected();
-            for ( ArtifactResult result : e.getResults() )
-            {
+            for( ArtifactResult result : e.getResults() ) {
                 Throwable t = result.getExceptions().get( 0 );
                 assertTrue( t.toString(), t instanceof ArtifactNotFoundException );
                 assertTrue( t.toString(), t.getMessage().contains( "cached" ) );
@@ -325,29 +310,22 @@ public class DefaultArtifactResolverTest
 
     @Test
     public void testResolveFromWorkspace()
-        throws IOException, ArtifactResolutionException
+            throws IOException, ArtifactResolutionException
     {
-        WorkspaceReader workspace = new WorkspaceReader()
-        {
+        WorkspaceReader workspace = new WorkspaceReader() {
 
-            public WorkspaceRepository getRepository()
-            {
+            public WorkspaceRepository getRepository() {
                 return new WorkspaceRepository( "default" );
             }
 
-            public List<String> findVersions( Artifact artifact )
-            {
+            public List<String> findVersions( Artifact artifact ) {
                 return Arrays.asList( artifact.getVersion() );
             }
 
-            public File findArtifact( Artifact artifact )
-            {
-                try
-                {
+            public File findArtifact( Artifact artifact ) {
+                try {
                     return TestFileUtils.createTempFile( artifact.toString() );
-                }
-                catch ( IOException e )
-                {
+                } catch( IOException e ) {
                     throw new RuntimeException( e.getMessage(), e );
                 }
             }
@@ -374,23 +352,19 @@ public class DefaultArtifactResolverTest
 
     @Test
     public void testResolveFromWorkspaceFallbackToRepository()
-        throws ArtifactResolutionException
+            throws ArtifactResolutionException
     {
-        WorkspaceReader workspace = new WorkspaceReader()
-        {
+        WorkspaceReader workspace = new WorkspaceReader() {
 
-            public WorkspaceRepository getRepository()
-            {
+            public WorkspaceRepository getRepository() {
                 return new WorkspaceRepository( "default" );
             }
 
-            public List<String> findVersions( Artifact artifact )
-            {
+            public List<String> findVersions( Artifact artifact ) {
                 return Arrays.asList( artifact.getVersion() );
             }
 
-            public File findArtifact( Artifact artifact )
-            {
+            public File findArtifact( Artifact artifact ) {
                 return null;
             }
         };
@@ -417,7 +391,7 @@ public class DefaultArtifactResolverTest
 
     @Test
     public void testRepositoryEventsSuccessfulLocal()
-        throws ArtifactResolutionException, IOException
+            throws ArtifactResolutionException, IOException
     {
         RecordingRepositoryListener listener = new RecordingRepositoryListener();
         session.setRepositoryListener( listener );
@@ -444,8 +418,7 @@ public class DefaultArtifactResolverTest
     }
 
     @Test
-    public void testRepositoryEventsUnsuccessfulLocal()
-    {
+    public void testRepositoryEventsUnsuccessfulLocal() {
         RecordingRepositoryListener listener = new RecordingRepositoryListener();
         session.setRepositoryListener( listener );
 
@@ -454,13 +427,10 @@ public class DefaultArtifactResolverTest
         artifact = artifact.setProperties( properties );
 
         ArtifactRequest request = new ArtifactRequest( artifact, null, "" );
-        try
-        {
+        try {
             resolver.resolveArtifact( session, request );
             fail( "expected exception" );
-        }
-        catch ( ArtifactResolutionException ignored )
-        {
+        } catch( ArtifactResolutionException ignored ) {
         }
 
         List<RepositoryEvent> events = listener.getEvents();
@@ -480,7 +450,7 @@ public class DefaultArtifactResolverTest
 
     @Test
     public void testRepositoryEventsSuccessfulRemote()
-        throws ArtifactResolutionException
+            throws ArtifactResolutionException
     {
         RecordingRepositoryListener listener = new RecordingRepositoryListener();
         session.setRepositoryListener( listener );
@@ -514,10 +484,8 @@ public class DefaultArtifactResolverTest
     }
 
     @Test
-    public void testRepositoryEventsUnsuccessfulRemote()
-    {
-        RecordingRepositoryConnector connector = new RecordingRepositoryConnector()
-        {
+    public void testRepositoryEventsUnsuccessfulRemote() {
+        RecordingRepositoryConnector connector = new RecordingRepositoryConnector() {
 
             @Override
             public void get( Collection<? extends ArtifactDownload> artifactDownloads,
@@ -525,8 +493,8 @@ public class DefaultArtifactResolverTest
             {
                 super.get( artifactDownloads, metadataDownloads );
                 ArtifactDownload download = artifactDownloads.iterator().next();
-                ArtifactTransferException exception =
-                    new ArtifactNotFoundException( download.getArtifact(), null, "not found" );
+                ArtifactTransferException exception = new ArtifactNotFoundException( download.getArtifact(), null,
+                                                                                     "not found" );
                 download.setException( exception );
             }
 
@@ -539,13 +507,10 @@ public class DefaultArtifactResolverTest
         ArtifactRequest request = new ArtifactRequest( artifact, null, "" );
         request.addRepository( new RemoteRepository.Builder( "id", "default", "file:///" ).build() );
 
-        try
-        {
+        try {
             resolver.resolveArtifact( session, request );
             fail( "expected exception" );
-        }
-        catch ( ArtifactResolutionException ignored )
-        {
+        } catch( ArtifactResolutionException ignored ) {
         }
 
         List<RepositoryEvent> events = listener.getEvents();
@@ -573,26 +538,21 @@ public class DefaultArtifactResolverTest
     }
 
     @Test
-    public void testVersionResolverFails()
-    {
-        resolver.setVersionResolver( new VersionResolver()
-        {
+    public void testVersionResolverFails() {
+        resolver.setVersionResolver( new VersionResolver() {
 
             public VersionResult resolveVersion( RepositorySystemSession session, VersionRequest request )
-                throws VersionResolutionException
+                    throws VersionResolutionException
             {
                 throw new VersionResolutionException( new VersionResult( request ) );
             }
         } );
 
         ArtifactRequest request = new ArtifactRequest( artifact, null, "" );
-        try
-        {
+        try {
             resolver.resolveArtifact( session, request );
             fail( "expected exception" );
-        }
-        catch ( ArtifactResolutionException e )
-        {
+        } catch( ArtifactResolutionException e ) {
             connector.assertSeenExpected();
             assertNotNull( e.getResults() );
             assertEquals( 1, e.getResults().size() );
@@ -610,13 +570,11 @@ public class DefaultArtifactResolverTest
     }
 
     @Test
-    public void testRepositoryEventsOnVersionResolverFail()
-    {
-        resolver.setVersionResolver( new VersionResolver()
-        {
+    public void testRepositoryEventsOnVersionResolverFail() {
+        resolver.setVersionResolver( new VersionResolver() {
 
             public VersionResult resolveVersion( RepositorySystemSession session, VersionRequest request )
-                throws VersionResolutionException
+                    throws VersionResolutionException
             {
                 throw new VersionResolutionException( new VersionResult( request ) );
             }
@@ -626,13 +584,10 @@ public class DefaultArtifactResolverTest
         session.setRepositoryListener( listener );
 
         ArtifactRequest request = new ArtifactRequest( artifact, null, "" );
-        try
-        {
+        try {
             resolver.resolveArtifact( session, request );
             fail( "expected exception" );
-        }
-        catch ( ArtifactResolutionException ignored )
-        {
+        } catch( ArtifactResolutionException ignored ) {
         }
 
         List<RepositoryEvent> events = listener.getEvents();
@@ -651,72 +606,56 @@ public class DefaultArtifactResolverTest
 
     @Test
     public void testLocalArtifactAvailable()
-        throws ArtifactResolutionException
+            throws ArtifactResolutionException
     {
-        session.setLocalRepositoryManager( new LocalRepositoryManager()
-        {
+        session.setLocalRepositoryManager( new LocalRepositoryManager() {
 
-            public LocalRepository getRepository()
-            {
+            public LocalRepository getRepository() {
                 return null;
             }
 
-            public String getPathForRemoteMetadata( Metadata metadata, RemoteRepository repository, String context )
-            {
+            public String getPathForRemoteMetadata( Metadata metadata, RemoteRepository repository, String context ) {
                 return null;
             }
 
-            public String getPathForRemoteArtifact( Artifact artifact, RemoteRepository repository, String context )
-            {
+            public String getPathForRemoteArtifact( Artifact artifact, RemoteRepository repository, String context ) {
                 return null;
             }
 
-            public String getPathForLocalMetadata( Metadata metadata )
-            {
+            public String getPathForLocalMetadata( Metadata metadata ) {
                 return null;
             }
 
-            public String getPathForLocalArtifact( Artifact artifact )
-            {
+            public String getPathForLocalArtifact( Artifact artifact ) {
                 return null;
             }
 
-            public LocalArtifactResult find( RepositorySystemSession session, LocalArtifactRequest request )
-            {
+            public LocalArtifactResult find( RepositorySystemSession session, LocalArtifactRequest request ) {
 
                 LocalArtifactResult result = new LocalArtifactResult( request );
                 result.setAvailable( true );
-                try
-                {
+                try {
                     result.setFile( TestFileUtils.createTempFile( "" ) );
-                }
-                catch ( IOException e )
-                {
+                } catch( IOException e ) {
                     e.printStackTrace();
                 }
                 return result;
             }
 
-            public void add( RepositorySystemSession session, LocalArtifactRegistration request )
-            {
+            public void add( RepositorySystemSession session, LocalArtifactRegistration request ) {
             }
 
-            public LocalMetadataResult find( RepositorySystemSession session, LocalMetadataRequest request )
-            {
+            public LocalMetadataResult find( RepositorySystemSession session, LocalMetadataRequest request ) {
                 LocalMetadataResult result = new LocalMetadataResult( request );
-                try
-                {
+                try {
                     result.setFile( TestFileUtils.createTempFile( "" ) );
-                }
-                catch ( IOException e )
-                {
+                } catch( IOException e ) {
                     e.printStackTrace();
                 }
                 return result;
             }
 
-            public void add( RepositorySystemSession session, LocalMetadataRegistration request )
-            {
+            public void add( RepositorySystemSession session, LocalMetadataRegistration request ) {
             }
         } );
 
@@ -737,74 +676,60 @@ public class DefaultArtifactResolverTest
 
     @Test
     public void testFindInLocalRepositoryWhenVersionWasFoundInLocalRepository()
-        throws ArtifactResolutionException
+            throws ArtifactResolutionException
     {
-        session.setLocalRepositoryManager( new LocalRepositoryManager()
-        {
+        session.setLocalRepositoryManager( new LocalRepositoryManager() {
 
-            public LocalRepository getRepository()
-            {
+            public LocalRepository getRepository() {
                 return null;
             }
 
-            public String getPathForRemoteMetadata( Metadata metadata, RemoteRepository repository, String context )
-            {
+            public String getPathForRemoteMetadata( Metadata metadata, RemoteRepository repository, String context ) {
                 return null;
             }
 
-            public String getPathForRemoteArtifact( Artifact artifact, RemoteRepository repository, String context )
-            {
+            public String getPathForRemoteArtifact( Artifact artifact, RemoteRepository repository, String context ) {
                 return null;
             }
 
-            public String getPathForLocalMetadata( Metadata metadata )
-            {
+            public String getPathForLocalMetadata( Metadata metadata ) {
                 return null;
             }
 
-            public String getPathForLocalArtifact( Artifact artifact )
-            {
+            public String getPathForLocalArtifact( Artifact artifact ) {
                 return null;
             }
 
-            public LocalArtifactResult find( RepositorySystemSession session, LocalArtifactRequest request )
-            {
+            public LocalArtifactResult find( RepositorySystemSession session, LocalArtifactRequest request ) {
 
                 LocalArtifactResult result = new LocalArtifactResult( request );
                 result.setAvailable( false );
-                try
-                {
+                try {
                     result.setFile( TestFileUtils.createTempFile( "" ) );
-                }
-                catch ( IOException e )
-                {
+                } catch( IOException e ) {
                     e.printStackTrace();
                 }
                 return result;
             }
 
-            public void add( RepositorySystemSession session, LocalArtifactRegistration request )
-            {
+            public void add( RepositorySystemSession session, LocalArtifactRegistration request ) {
             }
 
-            public LocalMetadataResult find( RepositorySystemSession session, LocalMetadataRequest request )
-            {
+            public LocalMetadataResult find( RepositorySystemSession session, LocalMetadataRequest request ) {
                 return new LocalMetadataResult( request );
             }
 
-            public void add( RepositorySystemSession session, LocalMetadataRegistration request )
-            {
+            public void add( RepositorySystemSession session, LocalMetadataRegistration request ) {
             }
         } );
         ArtifactRequest request = new ArtifactRequest( artifact, null, "" );
         request.addRepository( new RemoteRepository.Builder( "id", "default", "file:///" ).build() );
 
-        resolver.setVersionResolver( new VersionResolver()
-        {
+        resolver.setVersionResolver( new VersionResolver() {
 
-            public VersionResult resolveVersion( RepositorySystemSession session, VersionRequest request )
-            {
-                return new VersionResult( request ).setRepository( new LocalRepository( "id" ) ).setVersion( request.getArtifact().getVersion() );
+            public VersionResult resolveVersion( RepositorySystemSession session, VersionRequest request ) {
+                return new VersionResult( request ).setRepository( new LocalRepository( "id" ) )
+                        .setVersion( request.getArtifact().getVersion() );
             }
         } );
         ArtifactResult result = resolver.resolveArtifact( session, request );
@@ -820,73 +745,58 @@ public class DefaultArtifactResolverTest
 
     @Test
     public void testFindInLocalRepositoryWhenVersionRangeWasResolvedFromLocalRepository()
-        throws ArtifactResolutionException
+            throws ArtifactResolutionException
     {
-        session.setLocalRepositoryManager( new LocalRepositoryManager()
-        {
+        session.setLocalRepositoryManager( new LocalRepositoryManager() {
 
-            public LocalRepository getRepository()
-            {
+            public LocalRepository getRepository() {
                 return null;
             }
 
-            public String getPathForRemoteMetadata( Metadata metadata, RemoteRepository repository, String context )
-            {
+            public String getPathForRemoteMetadata( Metadata metadata, RemoteRepository repository, String context ) {
                 return null;
             }
 
-            public String getPathForRemoteArtifact( Artifact artifact, RemoteRepository repository, String context )
-            {
+            public String getPathForRemoteArtifact( Artifact artifact, RemoteRepository repository, String context ) {
                 return null;
             }
 
-            public String getPathForLocalMetadata( Metadata metadata )
-            {
+            public String getPathForLocalMetadata( Metadata metadata ) {
                 return null;
             }
 
-            public String getPathForLocalArtifact( Artifact artifact )
-            {
+            public String getPathForLocalArtifact( Artifact artifact ) {
                 return null;
             }
 
-            public LocalArtifactResult find( RepositorySystemSession session, LocalArtifactRequest request )
-            {
+            public LocalArtifactResult find( RepositorySystemSession session, LocalArtifactRequest request ) {
 
                 LocalArtifactResult result = new LocalArtifactResult( request );
                 result.setAvailable( false );
-                try
-                {
+                try {
                     result.setFile( TestFileUtils.createTempFile( "" ) );
-                }
-                catch ( IOException e )
-                {
+                } catch( IOException e ) {
                     e.printStackTrace();
                 }
                 return result;
             }
 
-            public void add( RepositorySystemSession session, LocalArtifactRegistration request )
-            {
+            public void add( RepositorySystemSession session, LocalArtifactRegistration request ) {
             }
 
-            public LocalMetadataResult find( RepositorySystemSession session, LocalMetadataRequest request )
-            {
+            public LocalMetadataResult find( RepositorySystemSession session, LocalMetadataRequest request ) {
                 return new LocalMetadataResult( request );
             }
 
-            public void add( RepositorySystemSession session, LocalMetadataRegistration request )
-            {
+            public void add( RepositorySystemSession session, LocalMetadataRegistration request ) {
             }
 
         } );
         ArtifactRequest request = new ArtifactRequest( artifact, null, "" );
 
-        resolver.setVersionResolver( new VersionResolver()
-        {
+        resolver.setVersionResolver( new VersionResolver() {
 
-            public VersionResult resolveVersion( RepositorySystemSession session, VersionRequest request )
-            {
+            public VersionResult resolveVersion( RepositorySystemSession session, VersionRequest request ) {
                 return new VersionResult( request ).setVersion( request.getArtifact().getVersion() );
             }
         } );

@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.version;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.version;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,46 +16,39 @@ package org.eclipse.aether.util.version;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.version;
 
-import static org.junit.Assert.*;
-
-import org.eclipse.aether.util.version.GenericVersion;
-import org.eclipse.aether.util.version.GenericVersionScheme;
 import org.eclipse.aether.version.InvalidVersionSpecificationException;
 import org.eclipse.aether.version.VersionConstraint;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 /**
  */
-public class GenericVersionSchemeTest
-{
+public class GenericVersionSchemeTest {
 
     private GenericVersionScheme scheme;
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         scheme = new GenericVersionScheme();
     }
 
-    private InvalidVersionSpecificationException parseInvalid( String constraint )
-    {
-        try
-        {
+    private InvalidVersionSpecificationException parseInvalid( String constraint ) {
+        try {
             scheme.parseVersionConstraint( constraint );
             fail( "expected exception for constraint " + constraint );
             return null;
-        }
-        catch ( InvalidVersionSpecificationException e )
-        {
+        } catch( InvalidVersionSpecificationException e ) {
             return e;
         }
     }
 
     @Test
     public void testEnumeratedVersions()
-        throws InvalidVersionSpecificationException
+            throws InvalidVersionSpecificationException
     {
         VersionConstraint c = scheme.parseVersionConstraint( "1.0" );
         assertEquals( "1.0", c.getVersion().toString() );
@@ -84,27 +75,22 @@ public class GenericVersionSchemeTest
         assertNotContains( c, "3" );
     }
 
-    private void assertNotContains( VersionConstraint c, String... versions )
-    {
+    private void assertNotContains( VersionConstraint c, String... versions ) {
         assertContains( String.format( "%s: %%s should not be contained\n", c.toString() ), c, false, versions );
     }
 
-    private void assertContains( String msg, VersionConstraint c, boolean b, String... versions )
-    {
-        for ( String v : versions )
-        {
+    private void assertContains( String msg, VersionConstraint c, boolean b, String... versions ) {
+        for( String v : versions ) {
             assertEquals( String.format( msg, v ), b, c.containsVersion( new GenericVersion( v ) ) );
         }
     }
 
-    private void assertContains( VersionConstraint c, String... versions )
-    {
+    private void assertContains( VersionConstraint c, String... versions ) {
         assertContains( String.format( "%s: %%s should be contained\n", c.toString() ), c, true, versions );
     }
 
     @Test
-    public void testInvalid()
-    {
+    public void testInvalid() {
         parseInvalid( "[1," );
         parseInvalid( "[1,2],(3," );
         parseInvalid( "[1,2],3" );

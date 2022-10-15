@@ -1,5 +1,3 @@
-package org.eclipse.aether.repository;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.repository;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.repository;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,33 +27,30 @@ import org.eclipse.aether.repository.RemoteRepository.Builder;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RemoteRepositoryBuilderTest
-{
+import static org.junit.Assert.*;
+
+public class RemoteRepositoryBuilderTest {
 
     private RemoteRepository prototype;
 
     @Before
-    public void init()
-    {
+    public void init() {
         prototype = new Builder( "id", "type", "file:void" ).build();
     }
 
     @Test
-    public void testReusePrototype()
-    {
+    public void testReusePrototype() {
         Builder builder = new Builder( prototype );
         assertSame( prototype, builder.build() );
     }
 
     @Test( expected = NullPointerException.class )
-    public void testPrototypeMandatory()
-    {
+    public void testPrototypeMandatory() {
         new Builder( null );
     }
 
     @Test
-    public void testSetId()
-    {
+    public void testSetId() {
         Builder builder = new Builder( prototype );
         RemoteRepository repo = builder.setId( prototype.getId() ).build();
         assertSame( prototype, repo );
@@ -65,8 +59,7 @@ public class RemoteRepositoryBuilderTest
     }
 
     @Test
-    public void testSetContentType()
-    {
+    public void testSetContentType() {
         Builder builder = new Builder( prototype );
         RemoteRepository repo = builder.setContentType( prototype.getContentType() ).build();
         assertSame( prototype, repo );
@@ -75,8 +68,7 @@ public class RemoteRepositoryBuilderTest
     }
 
     @Test
-    public void testSetUrl()
-    {
+    public void testSetUrl() {
         Builder builder = new Builder( prototype );
         RemoteRepository repo = builder.setUrl( prototype.getUrl() ).build();
         assertSame( prototype, repo );
@@ -85,8 +77,7 @@ public class RemoteRepositoryBuilderTest
     }
 
     @Test
-    public void testSetPolicy()
-    {
+    public void testSetPolicy() {
         Builder builder = new Builder( prototype );
         RemoteRepository repo = builder.setPolicy( prototype.getPolicy( false ) ).build();
         assertSame( prototype, repo );
@@ -97,8 +88,7 @@ public class RemoteRepositoryBuilderTest
     }
 
     @Test
-    public void testSetReleasePolicy()
-    {
+    public void testSetReleasePolicy() {
         Builder builder = new Builder( prototype );
         RemoteRepository repo = builder.setReleasePolicy( prototype.getPolicy( false ) ).build();
         assertSame( prototype, repo );
@@ -109,8 +99,7 @@ public class RemoteRepositoryBuilderTest
     }
 
     @Test
-    public void testSetSnapshotPolicy()
-    {
+    public void testSetSnapshotPolicy() {
         Builder builder = new Builder( prototype );
         RemoteRepository repo = builder.setSnapshotPolicy( prototype.getPolicy( true ) ).build();
         assertSame( prototype, repo );
@@ -121,8 +110,7 @@ public class RemoteRepositoryBuilderTest
     }
 
     @Test
-    public void testSetProxy()
-    {
+    public void testSetProxy() {
         Builder builder = new Builder( prototype );
         RemoteRepository repo = builder.setProxy( prototype.getProxy() ).build();
         assertSame( prototype, repo );
@@ -132,19 +120,15 @@ public class RemoteRepositoryBuilderTest
     }
 
     @Test
-    public void testSetAuthentication()
-    {
+    public void testSetAuthentication() {
         Builder builder = new Builder( prototype );
         RemoteRepository repo = builder.setAuthentication( prototype.getAuthentication() ).build();
         assertSame( prototype, repo );
-        Authentication auth = new Authentication()
-        {
-            public void fill( AuthenticationContext context, String key, Map<String, String> data )
-            {
+        Authentication auth = new Authentication() {
+            public void fill( AuthenticationContext context, String key, Map<String, String> data ) {
             }
 
-            public void digest( AuthenticationDigest digest )
-            {
+            public void digest( AuthenticationDigest digest ) {
             }
         };
         repo = builder.setAuthentication( auth ).build();
@@ -152,8 +136,7 @@ public class RemoteRepositoryBuilderTest
     }
 
     @Test
-    public void testSetMirroredRepositories()
-    {
+    public void testSetMirroredRepositories() {
         Builder builder = new Builder( prototype );
         RemoteRepository repo = builder.setMirroredRepositories( prototype.getMirroredRepositories() ).build();
         assertSame( prototype, repo );
@@ -163,8 +146,7 @@ public class RemoteRepositoryBuilderTest
     }
 
     @Test
-    public void testAddMirroredRepository()
-    {
+    public void testAddMirroredRepository() {
         Builder builder = new Builder( prototype );
         RemoteRepository repo = builder.addMirroredRepository( null ).build();
         assertSame( prototype, repo );
@@ -173,8 +155,7 @@ public class RemoteRepositoryBuilderTest
     }
 
     @Test
-    public void testSetRepositoryManager()
-    {
+    public void testSetRepositoryManager() {
         Builder builder = new Builder( prototype );
         RemoteRepository repo = builder.setRepositoryManager( prototype.isRepositoryManager() ).build();
         assertSame( prototype, repo );

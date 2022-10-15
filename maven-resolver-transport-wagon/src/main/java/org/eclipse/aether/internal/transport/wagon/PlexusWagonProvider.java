@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.transport.wagon;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.transport.wagon;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,16 +16,17 @@ package org.eclipse.aether.internal.transport.wagon;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.transport.wagon;
 
-import static java.util.Objects.requireNonNull;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import org.apache.maven.wagon.Wagon;
 import org.codehaus.plexus.PlexusContainer;
 import org.eclipse.aether.transport.wagon.WagonProvider;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
+import static java.util.Objects.requireNonNull;
 
 /**
  * A wagon provider backed by a Plexus container and the wagons registered with this container.
@@ -35,7 +34,7 @@ import javax.inject.Singleton;
 @Named( "plexus" )
 @Singleton
 public class PlexusWagonProvider
-    implements WagonProvider
+        implements WagonProvider
 {
     private final PlexusContainer container;
 
@@ -45,28 +44,22 @@ public class PlexusWagonProvider
      * @param container The Plexus container instance to use, must not be {@code null}.
      */
     @Inject
-    public PlexusWagonProvider( final PlexusContainer container )
-    {
+    public PlexusWagonProvider( final PlexusContainer container ) {
         this.container = requireNonNull( container, "plexus container cannot be null" );
     }
 
     public Wagon lookup( String roleHint )
-        throws Exception
+            throws Exception
     {
         return container.lookup( Wagon.class, roleHint );
     }
 
-    public void release( Wagon wagon )
-    {
-        try
-        {
-            if ( wagon != null )
-            {
+    public void release( Wagon wagon ) {
+        try {
+            if( wagon != null ) {
                 container.release( wagon );
             }
-        }
-        catch ( Exception e )
-        {
+        } catch( Exception e ) {
             // too bad
         }
     }

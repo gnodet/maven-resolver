@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.impl;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,13 +16,7 @@ package org.eclipse.aether.internal.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+package org.eclipse.aether.internal.impl;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -56,8 +48,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DefaultInstallerTest
-{
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+public class DefaultInstallerTest {
 
     private Artifact artifact;
 
@@ -81,13 +79,12 @@ public class DefaultInstallerTest
 
     @Before
     public void setup()
-        throws IOException
+            throws IOException
     {
         artifact = new DefaultArtifact( "gid", "aid", "jar", "ver" );
         artifact = artifact.setFile( TestFileUtils.createTempFile( "artifact".getBytes(), 1 ) );
-        metadata =
-            new DefaultMetadata( "gid", "aid", "ver", "type", Nature.RELEASE_OR_SNAPSHOT,
-                                 TestFileUtils.createTempFile( "metadata".getBytes(), 1 ) );
+        metadata = new DefaultMetadata( "gid", "aid", "ver", "type", Nature.RELEASE_OR_SNAPSHOT,
+                                        TestFileUtils.createTempFile( "metadata".getBytes(), 1 ) );
 
         session = TestUtils.newSession();
         localArtifactPath = session.getLocalRepositoryManager().getPathForLocalArtifact( artifact );
@@ -110,19 +107,19 @@ public class DefaultInstallerTest
 
     @After
     public void teardown()
-        throws Exception
+            throws Exception
     {
         TestFileUtils.deleteFile( session.getLocalRepository().getBasedir() );
     }
 
     @Test
     public void testSuccessfulInstall()
-        throws InstallationException, IOException
+            throws InstallationException, IOException
     {
-        File artifactFile =
-            new File( session.getLocalRepositoryManager().getRepository().getBasedir(), localArtifactPath );
-        File metadataFile =
-            new File( session.getLocalRepositoryManager().getRepository().getBasedir(), localMetadataPath );
+        File artifactFile = new File( session.getLocalRepositoryManager().getRepository().getBasedir(),
+                                      localArtifactPath );
+        File metadataFile = new File( session.getLocalRepositoryManager().getRepository().getBasedir(),
+                                      localMetadataPath );
 
         artifactFile.delete();
         metadataFile.delete();
@@ -154,7 +151,7 @@ public class DefaultInstallerTest
 
     @Test( expected = InstallationException.class )
     public void testNullArtifactFile()
-        throws InstallationException
+            throws InstallationException
     {
         InstallRequest request = new InstallRequest();
         request.addArtifact( artifact.setFile( null ) );
@@ -164,7 +161,7 @@ public class DefaultInstallerTest
 
     @Test( expected = InstallationException.class )
     public void testNullMetadataFile()
-        throws InstallationException
+            throws InstallationException
     {
         InstallRequest request = new InstallRequest();
         request.addMetadata( metadata.setFile( null ) );
@@ -174,7 +171,7 @@ public class DefaultInstallerTest
 
     @Test( expected = InstallationException.class )
     public void testNonExistentArtifactFile()
-        throws InstallationException
+            throws InstallationException
     {
         InstallRequest request = new InstallRequest();
         request.addArtifact( artifact.setFile( new File( "missing.txt" ) ) );
@@ -184,7 +181,7 @@ public class DefaultInstallerTest
 
     @Test( expected = InstallationException.class )
     public void testNonExistentMetadataFile()
-        throws InstallationException
+            throws InstallationException
     {
         InstallRequest request = new InstallRequest();
         request.addMetadata( metadata.setFile( new File( "missing.xml" ) ) );
@@ -194,14 +191,14 @@ public class DefaultInstallerTest
 
     @Test( expected = InstallationException.class )
     public void testArtifactExistsAsDir()
-        throws InstallationException
+            throws InstallationException
     {
         String path = session.getLocalRepositoryManager().getPathForLocalArtifact( artifact );
         File file = new File( session.getLocalRepository().getBasedir(), path );
         assertFalse( file.getAbsolutePath() + " is a file, not directory", file.isFile() );
         assertFalse( file.getAbsolutePath() + " already exists", file.exists() );
         assertTrue( "failed to setup test: could not create " + file.getAbsolutePath(),
-                    file.mkdirs() || file.isDirectory() );
+                file.mkdirs() || file.isDirectory() );
 
         request.addArtifact( artifact );
         installer.install( session, request );
@@ -209,11 +206,11 @@ public class DefaultInstallerTest
 
     @Test( expected = InstallationException.class )
     public void testMetadataExistsAsDir()
-        throws InstallationException
+            throws InstallationException
     {
         String path = session.getLocalRepositoryManager().getPathForLocalMetadata( metadata );
         assertTrue( "failed to setup test: could not create " + path,
-                    new File( session.getLocalRepository().getBasedir(), path ).mkdirs() );
+                new File( session.getLocalRepository().getBasedir(), path ).mkdirs() );
 
         request.addMetadata( metadata );
         installer.install( session, request );
@@ -221,7 +218,7 @@ public class DefaultInstallerTest
 
     @Test( expected = InstallationException.class )
     public void testArtifactDestinationEqualsSource()
-        throws Exception
+            throws Exception
     {
         String path = session.getLocalRepositoryManager().getPathForLocalArtifact( artifact );
         File file = new File( session.getLocalRepository().getBasedir(), path );
@@ -234,7 +231,7 @@ public class DefaultInstallerTest
 
     @Test( expected = InstallationException.class )
     public void testMetadataDestinationEqualsSource()
-        throws Exception
+            throws Exception
     {
         String path = session.getLocalRepositoryManager().getPathForLocalMetadata( metadata );
         File file = new File( session.getLocalRepository().getBasedir(), path );
@@ -247,7 +244,7 @@ public class DefaultInstallerTest
 
     @Test
     public void testSuccessfulArtifactEvents()
-        throws InstallationException
+            throws InstallationException
     {
         InstallRequest request = new InstallRequest();
         request.addArtifact( artifact );
@@ -258,7 +255,7 @@ public class DefaultInstallerTest
 
     @Test
     public void testSuccessfulMetadataEvents()
-        throws InstallationException
+            throws InstallationException
     {
         InstallRequest request = new InstallRequest();
         request.addMetadata( metadata );
@@ -268,54 +265,45 @@ public class DefaultInstallerTest
     }
 
     @Test
-    public void testFailingEventsNullArtifactFile()
-    {
+    public void testFailingEventsNullArtifactFile() {
         checkFailedEvents( "null artifact file", this.artifact.setFile( null ) );
     }
 
     @Test
-    public void testFailingEventsNullMetadataFile()
-    {
+    public void testFailingEventsNullMetadataFile() {
         checkFailedEvents( "null metadata file", this.metadata.setFile( null ) );
     }
 
     @Test
-    public void testFailingEventsArtifactExistsAsDir()
-    {
+    public void testFailingEventsArtifactExistsAsDir() {
         String path = session.getLocalRepositoryManager().getPathForLocalArtifact( artifact );
         assertTrue( "failed to setup test: could not create " + path,
-                    new File( session.getLocalRepository().getBasedir(), path ).mkdirs() );
+                new File( session.getLocalRepository().getBasedir(), path ).mkdirs() );
         checkFailedEvents( "target exists as dir", artifact );
     }
 
     @Test
-    public void testFailingEventsMetadataExistsAsDir()
-    {
+    public void testFailingEventsMetadataExistsAsDir() {
         String path = session.getLocalRepositoryManager().getPathForLocalMetadata( metadata );
         assertTrue( "failed to setup test: could not create " + path,
-                    new File( session.getLocalRepository().getBasedir(), path ).mkdirs() );
+                new File( session.getLocalRepository().getBasedir(), path ).mkdirs() );
         checkFailedEvents( "target exists as dir", metadata );
     }
 
-    private void checkFailedEvents( String msg, Metadata metadata )
-    {
+    private void checkFailedEvents( String msg, Metadata metadata ) {
         InstallRequest request = new InstallRequest().addMetadata( metadata );
         msg = "Repository events problem (case: " + msg + ")";
 
-        try
-        {
+        try {
             installer.install( session, request );
             fail( "expected exception" );
-        }
-        catch ( InstallationException e )
-        {
+        } catch( InstallationException e ) {
             checkEvents( msg, metadata, true );
         }
 
     }
 
-    private void checkEvents( String msg, Metadata metadata, boolean failed )
-    {
+    private void checkEvents( String msg, Metadata metadata, boolean failed ) {
         List<RepositoryEvent> events = listener.getEvents();
         assertEquals( msg, 2, events.size() );
         RepositoryEvent event = events.get( 0 );
@@ -326,66 +314,54 @@ public class DefaultInstallerTest
         event = events.get( 1 );
         assertEquals( msg, EventType.METADATA_INSTALLED, event.getType() );
         assertEquals( msg, metadata, event.getMetadata() );
-        if ( failed )
-        {
+        if( failed ) {
             assertNotNull( msg, event.getException() );
-        }
-        else
-        {
+        } else {
             assertNull( msg, event.getException() );
         }
     }
 
-    private void checkFailedEvents( String msg, Artifact artifact )
-    {
+    private void checkFailedEvents( String msg, Artifact artifact ) {
         InstallRequest request = new InstallRequest().addArtifact( artifact );
         msg = "Repository events problem (case: " + msg + ")";
 
-        try
-        {
+        try {
             installer.install( session, request );
             fail( "expected exception" );
-        }
-        catch ( InstallationException e )
-        {
+        } catch( InstallationException e ) {
             checkEvents( msg, artifact, true );
         }
     }
 
-    private void checkEvents( String msg, Artifact artifact, boolean failed )
-    {
+    private void checkEvents( String msg, Artifact artifact, boolean failed ) {
         List<RepositoryEvent> events = listener.getEvents();
         assertEquals( msg, 2, events.size() );
         RepositoryEvent event = events.get( 0 );
         assertEquals( msg, EventType.ARTIFACT_INSTALLING, event.getType() );
         assertEquals( msg, artifact, event.getArtifact() );
         assertNull( msg, event.getException() );
-        
+
         event = events.get( 1 );
         assertEquals( msg, EventType.ARTIFACT_INSTALLED, event.getType() );
         assertEquals( msg, artifact, event.getArtifact() );
-        if ( failed )
-        {
+        if( failed ) {
             assertNotNull( msg + " > expected exception", event.getException() );
-        }
-        else
-        {
+        } else {
             assertNull( msg + " > " + event.getException(), event.getException() );
         }
     }
 
     @Test
     public void testDoNotUpdateUnchangedArtifact()
-        throws InstallationException
+            throws InstallationException
     {
         request.addArtifact( artifact );
         installer.install( session, request );
 
-        installer.setFileProcessor( new DefaultFileProcessor()
-        {
+        installer.setFileProcessor( new DefaultFileProcessor() {
             @Override
             public long copy( File src, File target, ProgressListener listener )
-                throws IOException
+                    throws IOException
             {
                 throw new IOException( "copy called" );
             }
@@ -398,7 +374,7 @@ public class DefaultInstallerTest
 
     @Test
     public void testSetArtifactTimestamps()
-        throws InstallationException
+            throws InstallationException
     {
         artifact.getFile().setLastModified( artifact.getFile().lastModified() - 60000 );
 
@@ -407,7 +383,7 @@ public class DefaultInstallerTest
         installer.install( session, request );
 
         assertEquals( "artifact timestamp was not set to src file", artifact.getFile().lastModified(),
-                      localArtifactFile.lastModified() );
+                localArtifactFile.lastModified() );
 
         request = new InstallRequest();
 
@@ -418,44 +394,42 @@ public class DefaultInstallerTest
         installer.install( session, request );
 
         assertEquals( "artifact timestamp was not set to src file", artifact.getFile().lastModified(),
-                      localArtifactFile.lastModified() );
+                localArtifactFile.lastModified() );
     }
-    
+
     @Test
-    public void testFileTransformer() throws Exception
+    public void testFileTransformer()
+            throws Exception
     {
         final Artifact transformedArtifact = new SubArtifact( artifact, null, "raj" );
-        FileTransformer transformer = new FileTransformer()
-        {
+        FileTransformer transformer = new FileTransformer() {
             @Override
-            public InputStream transformData( File file )
-            {
+            public InputStream transformData( File file ) {
                 return new ByteArrayInputStream( "transformed data".getBytes( StandardCharsets.UTF_8 ) );
             }
-            
+
             @Override
-            public Artifact transformArtifact( Artifact artifact )
-            {
+            public Artifact transformArtifact( Artifact artifact ) {
                 return transformedArtifact;
             }
         };
-        
+
         StubFileTransformerManager fileTransformerManager = new StubFileTransformerManager();
         fileTransformerManager.addFileTransformer( "jar", transformer );
         session.setFileTransformerManager( fileTransformerManager );
-        
+
         request = new InstallRequest();
         request.addArtifact( artifact );
         installer.install( session, request );
-        
+
         assertFalse( localArtifactFile.exists() );
-        
-        String transformedArtifactPath = session.getLocalRepositoryManager().getPathForLocalArtifact( transformedArtifact );
+
+        String transformedArtifactPath = session.getLocalRepositoryManager()
+                .getPathForLocalArtifact( transformedArtifact );
         File transformedArtifactFile = new File( session.getLocalRepository().getBasedir(), transformedArtifactPath );
         assertTrue( transformedArtifactFile.exists() );
-        
-        try ( BufferedReader r = new BufferedReader( new FileReader( transformedArtifactFile ) ) )
-        {
+
+        try( BufferedReader r = new BufferedReader( new FileReader( transformedArtifactFile ) ) ) {
             assertEquals( "transformed data", r.readLine() );
         }
     }

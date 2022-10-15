@@ -21,4 +21,3 @@
  * Various dependency managers for building a dependency graph.
  */
 package org.eclipse.aether.util.graph.manager;
-

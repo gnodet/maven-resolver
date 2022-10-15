@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.filter;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.filter;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.util.filter;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.filter;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -34,7 +33,7 @@ import static java.util.Objects.requireNonNull;
  * A simple filter to exclude artifacts based on either artifact id or group id and artifact id.
  */
 public final class ExclusionsDependencyFilter
-    implements DependencyFilter
+        implements DependencyFilter
 {
 
     private final Set<String> excludes = new HashSet<>();
@@ -45,36 +44,30 @@ public final class ExclusionsDependencyFilter
      * 
      * @param excludes The exclude patterns, may be {@code null} or empty to exclude no artifacts.
      */
-    public ExclusionsDependencyFilter( Collection<String> excludes )
-    {
-        if ( excludes != null )
-        {
+    public ExclusionsDependencyFilter( Collection<String> excludes ) {
+        if( excludes != null ) {
             this.excludes.addAll( excludes );
         }
     }
 
-    public boolean accept( DependencyNode node, List<DependencyNode> parents )
-    {
+    public boolean accept( DependencyNode node, List<DependencyNode> parents ) {
         requireNonNull( node, "node cannot be null" );
         requireNonNull( parents, "parents cannot be null" );
         Dependency dependency = node.getDependency();
 
-        if ( dependency == null )
-        {
+        if( dependency == null ) {
             return true;
         }
 
         String id = dependency.getArtifact().getArtifactId();
 
-        if ( excludes.contains( id ) )
-        {
+        if( excludes.contains( id ) ) {
             return false;
         }
 
         id = dependency.getArtifact().getGroupId() + ':' + id;
 
-        if ( excludes.contains( id ) )
-        {
+        if( excludes.contains( id ) ) {
             return false;
         }
 
@@ -82,15 +75,12 @@ public final class ExclusionsDependencyFilter
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
-        {
+    public boolean equals( Object obj ) {
+        if( this == obj ) {
             return true;
         }
 
-        if ( obj == null || !getClass().equals( obj.getClass() ) )
-        {
+        if( obj == null || !getClass().equals( obj.getClass() ) ) {
             return false;
         }
 
@@ -100,8 +90,7 @@ public final class ExclusionsDependencyFilter
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 17;
         hash = hash * 31 + excludes.hashCode();
         return hash;

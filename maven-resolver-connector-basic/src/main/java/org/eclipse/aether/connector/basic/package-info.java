@@ -21,4 +21,3 @@
  * Support for downloads/uploads using remote repositories that have a URI-based content structure/layout.
  */
 package org.eclipse.aether.connector.basic;
-

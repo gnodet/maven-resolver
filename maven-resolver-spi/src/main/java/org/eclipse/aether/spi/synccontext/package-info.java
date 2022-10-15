@@ -21,4 +21,3 @@
  * The contract for synchronization context implementations.
  */
 package org.eclipse.aether.spi.synccontext;
-

@@ -1,5 +1,3 @@
-package org.eclipse.aether;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,56 +16,48 @@ package org.eclipse.aether;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether;
 
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.junit.Test;
 
-public class DefaultSessionDataTest
-{
+import static org.junit.Assert.*;
+
+public class DefaultSessionDataTest {
 
     private DefaultSessionData data = new DefaultSessionData();
 
-    private Object get( Object key )
-    {
+    private Object get( Object key ) {
         return data.get( key );
     }
 
-    private void set( Object key, Object value )
-    {
+    private void set( Object key, Object value ) {
         data.set( key, value );
     }
 
-    private boolean set( Object key, Object oldValue, Object newValue )
-    {
+    private boolean set( Object key, Object oldValue, Object newValue ) {
         return data.set( key, oldValue, newValue );
     }
 
-    private Object computeIfAbsent( Object key, Supplier<Object> supplier )
-    {
+    private Object computeIfAbsent( Object key, Supplier<Object> supplier ) {
         return data.computeIfAbsent( key, supplier );
     }
 
     @Test( expected = RuntimeException.class )
-    public void testGet_NullKey()
-    {
+    public void testGet_NullKey() {
         get( null );
     }
 
     @Test( expected = RuntimeException.class )
-    public void testSet_NullKey()
-    {
+    public void testSet_NullKey() {
         set( null, "data" );
     }
 
     @Test
-    public void testGetSet()
-    {
+    public void testGetSet() {
         Object key = "key";
         assertNull( get( key ) );
         set( key, "value" );
@@ -79,8 +69,7 @@ public class DefaultSessionDataTest
     }
 
     @Test
-    public void testGetSafeSet()
-    {
+    public void testGetSafeSet() {
         Object key = "key";
         assertNull( get( key ) );
         assertFalse( set( key, "wrong", "value" ) );
@@ -102,8 +91,7 @@ public class DefaultSessionDataTest
     }
 
     @Test
-    public void testComputeIfAbsent()
-    {
+    public void testComputeIfAbsent() {
         Object key = "key";
         assertNull( get( key ) );
         assertEquals( "value", computeIfAbsent( key, () -> "value" ) );
@@ -112,27 +100,20 @@ public class DefaultSessionDataTest
 
     @Test( timeout = 10000L )
     public void testConcurrency()
-        throws Exception
+            throws Exception
     {
         final AtomicReference<Throwable> error = new AtomicReference<>();
         Thread[] threads = new Thread[20];
-        for ( int i = 0; i < threads.length; i++ )
-        {
-            threads[i] = new Thread()
-            {
+        for( int i = 0; i < threads.length; i++ ) {
+            threads[i] = new Thread() {
                 @Override
-                public void run()
-                {
-                    for ( int i = 0; i < 100; i++ )
-                    {
+                public void run() {
+                    for( int i = 0; i < 100; i++ ) {
                         String key = UUID.randomUUID().toString();
-                        try
-                        {
+                        try {
                             set( key, Boolean.TRUE );
                             assertEquals( Boolean.TRUE, get( key ) );
-                        }
-                        catch ( Throwable t )
-                        {
+                        } catch( Throwable t ) {
                             error.compareAndSet( null, t );
                             t.printStackTrace();
                         }
@@ -140,12 +121,10 @@ public class DefaultSessionDataTest
                 }
             };
         }
-        for ( Thread thread : threads )
-        {
+        for( Thread thread : threads ) {
             thread.start();
         }
-        for ( Thread thread : threads )
-        {
+        for( Thread thread : threads ) {
             thread.join();
         }
         assertNull( String.valueOf( error.get() ), error.get() );

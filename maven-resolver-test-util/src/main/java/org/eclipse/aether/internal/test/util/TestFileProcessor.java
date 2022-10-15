@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.test.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.test.util;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.test.util;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.test.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -37,32 +36,25 @@ import org.eclipse.aether.spi.io.FileProcessor;
  * A simple file processor implementation to help satisfy component requirements during tests.
  */
 public class TestFileProcessor
-    implements FileProcessor
+        implements FileProcessor
 {
 
-    public boolean mkdirs( File directory )
-    {
-        if ( directory == null )
-        {
+    public boolean mkdirs( File directory ) {
+        if( directory == null ) {
             return false;
         }
 
-        if ( directory.exists() )
-        {
+        if( directory.exists() ) {
             return false;
         }
-        if ( directory.mkdir() )
-        {
+        if( directory.mkdir() ) {
             return true;
         }
 
         File canonDir = null;
-        try
-        {
+        try {
             canonDir = directory.getCanonicalFile();
-        }
-        catch ( IOException e )
-        {
+        } catch( IOException e ) {
             return false;
         }
 
@@ -71,85 +63,69 @@ public class TestFileProcessor
     }
 
     public void write( File file, String data )
-        throws IOException
+            throws IOException
     {
         mkdirs( file.getParentFile() );
 
         FileOutputStream fos = null;
-        try
-        {
+        try {
             fos = new FileOutputStream( file );
 
-            if ( data != null )
-            {
+            if( data != null ) {
                 fos.write( data.getBytes( StandardCharsets.UTF_8 ) );
             }
 
             fos.close();
             fos = null;
-        }
-        finally
-        {
-            try
-            {
-                if ( fos != null )
-                {
+        } finally {
+            try {
+                if( fos != null ) {
                     fos.close();
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
             }
         }
     }
 
     public void write( File target, InputStream source )
-        throws IOException
+            throws IOException
     {
         mkdirs( target.getAbsoluteFile().getParentFile() );
 
         OutputStream fos = null;
-        try
-        {
+        try {
             fos = new BufferedOutputStream( new FileOutputStream( target ) );
 
             copy( fos, source, null );
 
             fos.close();
             fos = null;
-        }
-        finally
-        {
-            try
-            {
-                if ( fos != null )
-                {
+        } finally {
+            try {
+                if( fos != null ) {
                     fos.close();
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
             }
         }
     }
 
     public void copy( File source, File target )
-        throws IOException
+            throws IOException
     {
         copy( source, target, null );
     }
 
     public long copy( File source, File target, ProgressListener listener )
-        throws IOException
+            throws IOException
     {
         long total = 0;
 
         InputStream fis = null;
         OutputStream fos = null;
-        try
-        {
+        try {
             fis = new FileInputStream( source );
 
             mkdirs( target.getAbsoluteFile().getParentFile() );
@@ -163,31 +139,19 @@ public class TestFileProcessor
 
             fis.close();
             fis = null;
-        }
-        finally
-        {
-            try
-            {
-                if ( fos != null )
-                {
+        } finally {
+            try {
+                if( fos != null ) {
                     fos.close();
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
-            }
-            finally
-            {
-                try
-                {
-                    if ( fis != null )
-                    {
+            } finally {
+                try {
+                    if( fis != null ) {
                         fis.close();
                     }
-                }
-                catch ( final IOException e )
-                {
+                } catch( final IOException e ) {
                     // Suppressed due to an exception already thrown in the try block.
                 }
             }
@@ -197,18 +161,16 @@ public class TestFileProcessor
     }
 
     private long copy( OutputStream os, InputStream is, ProgressListener listener )
-        throws IOException
+            throws IOException
     {
         long total = 0L;
 
         ByteBuffer buffer = ByteBuffer.allocate( 1024 * 32 );
         byte[] array = buffer.array();
 
-        while ( true )
-        {
+        while( true ) {
             int bytes = is.read( array );
-            if ( bytes < 0 )
-            {
+            if( bytes < 0 ) {
                 break;
             }
 
@@ -216,16 +178,12 @@ public class TestFileProcessor
 
             total += bytes;
 
-            if ( listener != null && bytes > 0 )
-            {
-                try
-                {
+            if( listener != null && bytes > 0 ) {
+                try {
                     ( (Buffer) buffer ).rewind();
                     ( (Buffer) buffer ).limit( bytes );
                     listener.progressed( buffer );
-                }
-                catch ( Exception e )
-                {
+                } catch( Exception e ) {
                     // too bad
                 }
             }
@@ -235,12 +193,11 @@ public class TestFileProcessor
     }
 
     public void move( File source, File target )
-        throws IOException
+            throws IOException
     {
         target.delete();
 
-        if ( !source.renameTo( target ) )
-        {
+        if( !source.renameTo( target ) ) {
             copy( source, target );
 
             target.setLastModified( source.lastModified() );
@@ -250,13 +207,15 @@ public class TestFileProcessor
     }
 
     @Override
-    public String readChecksum( final File checksumFile ) throws IOException
+    public String readChecksum( final File checksumFile )
+            throws IOException
     {
         return new String( Files.readAllBytes( checksumFile.toPath() ), StandardCharsets.UTF_8 );
     }
 
     @Override
-    public void writeChecksum( final File checksumFile, final String checksum ) throws IOException
+    public void writeChecksum( final File checksumFile, final String checksum )
+            throws IOException
     {
         write( checksumFile, checksum );
     }

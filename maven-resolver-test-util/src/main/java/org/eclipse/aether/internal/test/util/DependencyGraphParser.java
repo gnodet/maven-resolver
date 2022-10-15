@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.test.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.test.util;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.test.util;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.test.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,8 +43,8 @@ import org.eclipse.aether.version.InvalidVersionSpecificationException;
 import org.eclipse.aether.version.VersionScheme;
 
 /**
- * Creates a dependency graph from a text description. <h2>Definition</h2> Each (non-empty) line in the input defines
- * one node of the resulting graph:
+ * Creates a dependency graph from a text description.
+ * <h2>Definition</h2> Each (non-empty) line in the input defines one node of the resulting graph:
  * 
  * <pre>
  * line      ::= (indent? ("(null)" | node | reference))? comment?
@@ -93,8 +92,7 @@ import org.eclipse.aether.version.VersionScheme;
  * The first node will have "foo" as its artifact id, the second node (child to the first) will have "bar" as its
  * artifact id.
  */
-public class DependencyGraphParser
-{
+public class DependencyGraphParser {
 
     private final VersionScheme versionScheme;
 
@@ -107,8 +105,7 @@ public class DependencyGraphParser
      * 
      * @see DependencyGraphParser#parseResource(String)
      */
-    public DependencyGraphParser( String prefix, Collection<String> substitutions )
-    {
+    public DependencyGraphParser( String prefix, Collection<String> substitutions ) {
         this.prefix = prefix;
         this.substitutions = substitutions;
         versionScheme = new TestVersionScheme();
@@ -119,16 +116,14 @@ public class DependencyGraphParser
      * 
      * @see DependencyGraphParser#parseResource(String)
      */
-    public DependencyGraphParser( String prefix )
-    {
+    public DependencyGraphParser( String prefix ) {
         this( prefix, Collections.<String>emptyList() );
     }
 
     /**
      * Create a parser with an empty prefix.
      */
-    public DependencyGraphParser()
-    {
+    public DependencyGraphParser() {
         this( "" );
     }
 
@@ -136,7 +131,7 @@ public class DependencyGraphParser
      * Parse the given graph definition.
      */
     public DependencyNode parseLiteral( String dependencyGraph )
-        throws IOException
+            throws IOException
     {
         BufferedReader reader = new BufferedReader( new StringReader( dependencyGraph ) );
         DependencyNode node = parse( reader );
@@ -149,11 +144,10 @@ public class DependencyGraphParser
      * resource from 'prefix + resource'.
      */
     public DependencyNode parseResource( String resource )
-        throws IOException
+            throws IOException
     {
         URL res = this.getClass().getClassLoader().getResource( prefix + resource );
-        if ( res == null )
-        {
+        if( res == null ) {
             throw new IOException( "Could not find classpath resource " + prefix + resource );
         }
         return parse( res );
@@ -163,11 +157,10 @@ public class DependencyGraphParser
      * Parse multiple graphs in one resource, divided by "---".
      */
     public List<DependencyNode> parseMultiResource( String resource )
-        throws IOException
+            throws IOException
     {
         URL res = this.getClass().getClassLoader().getResource( prefix + resource );
-        if ( res == null )
-        {
+        if( res == null ) {
             throw new IOException( "Could not find classpath resource " + prefix + resource );
         }
 
@@ -175,8 +168,7 @@ public class DependencyGraphParser
 
         List<DependencyNode> ret = new ArrayList<>();
         DependencyNode root = null;
-        while ( ( root = parse( reader ) ) != null )
-        {
+        while( ( root = parse( reader ) ) != null ) {
             ret.add( root );
         }
         return ret;
@@ -186,33 +178,26 @@ public class DependencyGraphParser
      * Parse the graph definition read from the given URL.
      */
     public DependencyNode parse( URL resource )
-        throws IOException
+            throws IOException
     {
         BufferedReader reader = null;
-        try
-        {
+        try {
             reader = new BufferedReader( new InputStreamReader( resource.openStream(), StandardCharsets.UTF_8 ) );
             return parse( reader );
-        }
-        finally
-        {
-            try
-            {
-                if ( reader != null )
-                {
+        } finally {
+            try {
+                if( reader != null ) {
                     reader.close();
                     reader = null;
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
             }
         }
     }
 
     private DependencyNode parse( BufferedReader in )
-        throws IOException
+            throws IOException
     {
         Iterator<String> substitutionIterator = ( substitutions != null ) ? substitutions.iterator() : null;
 
@@ -226,70 +211,57 @@ public class DependencyGraphParser
         LinkedList<DependencyNode> stack = new LinkedList<>();
         boolean isRootNode = true;
 
-        while ( ( line = in.readLine() ) != null )
-        {
+        while( ( line = in.readLine() ) != null ) {
             line = cutComment( line );
 
-            if ( isEmpty( line ) )
-            {
+            if( isEmpty( line ) ) {
                 // skip empty line
                 continue;
             }
 
-            if ( isEOFMarker( line ) )
-            {
+            if( isEOFMarker( line ) ) {
                 // stop parsing
                 break;
             }
 
-            while ( line.contains( "%s" ) )
-            {
-                if ( !substitutionIterator.hasNext() )
-                {
+            while( line.contains( "%s" ) ) {
+                if( !substitutionIterator.hasNext() ) {
                     throw new IllegalStateException( "not enough substitutions to fill placeholders" );
                 }
                 line = line.replaceFirst( "%s", substitutionIterator.next() );
             }
 
             LineContext ctx = createContext( line );
-            if ( prevLevel < ctx.getLevel() )
-            {
+            if( prevLevel < ctx.getLevel() ) {
                 // previous node is new parent
                 stack.add( node );
             }
 
             // get to real parent
-            while ( prevLevel > ctx.getLevel() )
-            {
+            while( prevLevel > ctx.getLevel() ) {
                 stack.removeLast();
                 prevLevel -= 1;
             }
 
             prevLevel = ctx.getLevel();
 
-            if ( ctx.getDefinition() != null && ctx.getDefinition().reference != null )
-            {
+            if( ctx.getDefinition() != null && ctx.getDefinition().reference != null ) {
                 String reference = ctx.getDefinition().reference;
                 DependencyNode child = nodes.get( reference );
-                if ( child == null )
-                {
+                if( child == null ) {
                     throw new IllegalStateException( "undefined reference " + reference );
                 }
                 node.getChildren().add( child );
-            }
-            else
-            {
+            } else {
 
                 node = build( isRootNode ? null : stack.getLast(), ctx, isRootNode );
 
-                if ( isRootNode )
-                {
+                if( isRootNode ) {
                     root = node;
                     isRootNode = false;
                 }
 
-                if ( ctx.getDefinition() != null && ctx.getDefinition().id != null )
-                {
+                if( ctx.getDefinition() != null && ctx.getDefinition().id != null ) {
                     nodes.put( ctx.getDefinition().id, node );
                 }
             }
@@ -298,106 +270,84 @@ public class DependencyGraphParser
         return root;
     }
 
-    private boolean isEOFMarker( String line )
-    {
+    private boolean isEOFMarker( String line ) {
         return line.startsWith( "---" );
     }
 
-    private static boolean isEmpty( String line )
-    {
+    private static boolean isEmpty( String line ) {
         return line == null || line.length() == 0;
     }
 
-    private static String cutComment( String line )
-    {
+    private static String cutComment( String line ) {
         int idx = line.indexOf( '#' );
 
-        if ( idx != -1 )
-        {
+        if( idx != -1 ) {
             line = line.substring( 0, idx );
         }
 
         return line;
     }
 
-    private DependencyNode build( DependencyNode parent, LineContext ctx, boolean isRoot )
-    {
+    private DependencyNode build( DependencyNode parent, LineContext ctx, boolean isRoot ) {
         NodeDefinition def = ctx.getDefinition();
-        if ( !isRoot && parent == null )
-        {
+        if( !isRoot && parent == null ) {
             throw new IllegalStateException( "dangling node: " + def );
-        }
-        else if ( ctx.getLevel() == 0 && parent != null )
-        {
+        } else if( ctx.getLevel() == 0 && parent != null ) {
             throw new IllegalStateException( "inconsistent leveling (parent for level 0?): " + def );
         }
 
         DefaultDependencyNode node;
-        if ( def != null )
-        {
+        if( def != null ) {
             DefaultArtifact artifact = new DefaultArtifact( def.coords, def.properties );
             Dependency dependency = new Dependency( artifact, def.scope, def.optional );
             node = new DefaultDependencyNode( dependency );
             int managedBits = 0;
-            if ( def.premanagedScope != null )
-            {
+            if( def.premanagedScope != null ) {
                 managedBits |= DependencyNode.MANAGED_SCOPE;
                 node.setData( "premanaged.scope", def.premanagedScope );
             }
-            if ( def.premanagedVersion != null )
-            {
+            if( def.premanagedVersion != null ) {
                 managedBits |= DependencyNode.MANAGED_VERSION;
                 node.setData( "premanaged.version", def.premanagedVersion );
             }
             node.setManagedBits( managedBits );
-            if ( def.relocations != null )
-            {
+            if( def.relocations != null ) {
                 List<Artifact> relocations = new ArrayList<>();
-                for ( String relocation : def.relocations )
-                {
+                for( String relocation : def.relocations ) {
                     relocations.add( new DefaultArtifact( relocation ) );
                 }
                 node.setRelocations( relocations );
             }
-            try
-            {
+            try {
                 node.setVersion( versionScheme.parseVersion( artifact.getVersion() ) );
-                node.setVersionConstraint( versionScheme.parseVersionConstraint( def.range != null ? def.range
-                                : artifact.getVersion() ) );
-            }
-            catch ( InvalidVersionSpecificationException e )
-            {
+                node.setVersionConstraint(
+                        versionScheme.parseVersionConstraint( def.range != null ? def.range : artifact.getVersion() ) );
+            } catch( InvalidVersionSpecificationException e ) {
                 throw new IllegalArgumentException( "bad version: " + e.getMessage(), e );
             }
-        }
-        else
-        {
+        } else {
             node = new DefaultDependencyNode( (Dependency) null );
         }
 
-        if ( parent != null )
-        {
+        if( parent != null ) {
             parent.getChildren().add( node );
         }
 
         return node;
     }
 
-    public String dump( DependencyNode root )
-    {
+    public String dump( DependencyNode root ) {
         StringBuilder ret = new StringBuilder();
 
         List<NodeEntry> entries = new ArrayList<>();
 
         addNode( root, 0, entries );
 
-        for ( NodeEntry nodeEntry : entries )
-        {
+        for( NodeEntry nodeEntry : entries ) {
             char[] level = new char[( nodeEntry.getLevel() * 3 )];
             Arrays.fill( level, ' ' );
 
-            if ( level.length != 0 )
-            {
+            if( level.length != 0 ) {
                 level[level.length - 3] = '+';
                 level[level.length - 2] = '-';
             }
@@ -411,32 +361,25 @@ public class DependencyGraphParser
 
     }
 
-    private void addNode( DependencyNode root, int level, List<NodeEntry> entries )
-    {
+    private void addNode( DependencyNode root, int level, List<NodeEntry> entries ) {
 
         NodeEntry entry = new NodeEntry();
         Dependency dependency = root.getDependency();
         StringBuilder defBuilder = new StringBuilder();
-        if ( dependency == null )
-        {
+        if( dependency == null ) {
             defBuilder.append( "(null)" );
-        }
-        else
-        {
+        } else {
             Artifact artifact = dependency.getArtifact();
 
             defBuilder.append( artifact.getGroupId() ).append( ":" ).append( artifact.getArtifactId() ).append( ":" )
                     .append( artifact.getExtension() ).append( ":" ).append( artifact.getVersion() );
-            if ( dependency.getScope() != null && ( !"".equals( dependency.getScope() ) ) )
-            {
+            if( dependency.getScope() != null && ( !"".equals( dependency.getScope() ) ) ) {
                 defBuilder.append( ":" ).append( dependency.getScope() );
             }
 
             Map<String, String> properties = artifact.getProperties();
-            if ( !( properties == null || properties.isEmpty() ) )
-            {
-                for ( Map.Entry<String, String> prop : properties.entrySet() )
-                {
+            if( !( properties == null || properties.isEmpty() ) ) {
+                for( Map.Entry<String, String> prop : properties.entrySet() ) {
                     defBuilder.append( ";" ).append( prop.getKey() ).append( "=" ).append( prop.getValue() );
                 }
             }
@@ -447,71 +390,59 @@ public class DependencyGraphParser
 
         entries.add( entry );
 
-        for ( DependencyNode node : root.getChildren() )
-        {
+        for( DependencyNode node : root.getChildren() ) {
             addNode( node, level, entries );
         }
 
     }
 
-    class NodeEntry
-    {
+    class NodeEntry {
         int level;
 
         String definition;
 
         Map<String, String> properties;
 
-        public int getLevel()
-        {
+        public int getLevel() {
             return level;
         }
 
-        public void setLevel( int level )
-        {
+        public void setLevel( int level ) {
             this.level = level;
         }
 
-        public String getDefinition()
-        {
+        public String getDefinition() {
             return definition;
         }
 
-        public void setDefinition( String definition )
-        {
+        public void setDefinition( String definition ) {
             this.definition = definition;
         }
 
-        public Map<String, String> getProperties()
-        {
+        public Map<String, String> getProperties() {
             return properties;
         }
 
-        public void setProperties( Map<String, String> properties )
-        {
+        public void setProperties( Map<String, String> properties ) {
             this.properties = properties;
         }
     }
 
-    private static LineContext createContext( String line )
-    {
+    private static LineContext createContext( String line ) {
         LineContext ctx = new LineContext();
         String definition;
 
         String[] split = line.split( "- " );
-        if ( split.length == 1 ) // root
+        if( split.length == 1 ) // root
         {
             ctx.setLevel( 0 );
             definition = split[0];
-        }
-        else
-        {
+        } else {
             ctx.setLevel( (int) Math.ceil( (double) split[0].length() / (double) 3 ) );
             definition = split[1];
         }
 
-        if ( "(null)".equalsIgnoreCase( definition ) )
-        {
+        if( "(null)".equalsIgnoreCase( definition ) ) {
             return ctx;
         }
 
@@ -520,45 +451,37 @@ public class DependencyGraphParser
         return ctx;
     }
 
-    static class LineContext
-    {
+    static class LineContext {
         NodeDefinition definition;
 
         int level;
 
-        public NodeDefinition getDefinition()
-        {
+        public NodeDefinition getDefinition() {
             return definition;
         }
 
-        public void setDefinition( NodeDefinition definition )
-        {
+        public void setDefinition( NodeDefinition definition ) {
             this.definition = definition;
         }
 
-        public int getLevel()
-        {
+        public int getLevel() {
             return level;
         }
 
-        public void setLevel( int level )
-        {
+        public void setLevel( int level ) {
             this.level = level;
         }
     }
 
-    public Collection<String> getSubstitutions()
-    {
+    public Collection<String> getSubstitutions() {
         return substitutions;
     }
 
-    public void setSubstitutions( Collection<String> substitutions )
-    {
+    public void setSubstitutions( Collection<String> substitutions ) {
         this.substitutions = substitutions;
     }
 
-    public void setSubstitutions( String... substitutions )
-    {
+    public void setSubstitutions( String... substitutions ) {
         setSubstitutions( Arrays.asList( substitutions ) );
     }
 

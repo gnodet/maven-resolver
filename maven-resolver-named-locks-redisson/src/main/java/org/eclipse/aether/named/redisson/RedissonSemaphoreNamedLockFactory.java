@@ -1,5 +1,3 @@
-package org.eclipse.aether.named.redisson;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.named.redisson;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,15 +16,17 @@ package org.eclipse.aether.named.redisson;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import org.eclipse.aether.named.support.AdaptedSemaphoreNamedLock;
-import org.redisson.api.RSemaphore;
+package org.eclipse.aether.named.redisson;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
+
+import org.eclipse.aether.named.support.AdaptedSemaphoreNamedLock;
+import org.redisson.api.RSemaphore;
 
 /**
  * Provider of {@link RedissonSemaphoreNamedLockFactory} using Redisson and {@link org.redisson.api.RSemaphore}.
@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 @Named( RedissonSemaphoreNamedLockFactory.NAME )
 public class RedissonSemaphoreNamedLockFactory
-    extends RedissonNamedLockFactorySupport
+        extends RedissonNamedLockFactorySupport
 {
     public static final String NAME = "semaphore-redisson";
 
@@ -42,16 +42,13 @@ public class RedissonSemaphoreNamedLockFactory
 
     private final ConcurrentMap<String, RSemaphore> semaphores;
 
-    public RedissonSemaphoreNamedLockFactory()
-    {
+    public RedissonSemaphoreNamedLockFactory() {
         this.semaphores = new ConcurrentHashMap<>();
     }
 
     @Override
-    protected AdaptedSemaphoreNamedLock createLock( final String name )
-    {
-        RSemaphore semaphore = semaphores.computeIfAbsent( name, k ->
-        {
+    protected AdaptedSemaphoreNamedLock createLock( final String name ) {
+        RSemaphore semaphore = semaphores.computeIfAbsent( name, k -> {
             RSemaphore result = redissonClient.getSemaphore( TYPED_NAME_PREFIX + k );
             result.trySetPermits( Integer.MAX_VALUE );
             return result;
@@ -60,36 +57,35 @@ public class RedissonSemaphoreNamedLockFactory
     }
 
     @Override
-    protected void destroyLock( final String name )
-    {
+    protected void destroyLock( final String name ) {
         RSemaphore semaphore = semaphores.remove( name );
-        if ( semaphore == null )
-        {
+        if( semaphore == null ) {
             throw new IllegalStateException( "Semaphore expected, but does not exist: " + name );
         }
-        /* Threre is no reasonable way to destroy the semaphore in Redis because we cannot know
-         * when the last process has stopped using it.
+        /*
+         * Threre is no reasonable way to destroy the semaphore in Redis because we cannot know when the last process
+         * has stopped using it.
          */
     }
 
-    private static final class RedissonSemaphore implements AdaptedSemaphoreNamedLock.AdaptedSemaphore
+    private static final class RedissonSemaphore
+            implements AdaptedSemaphoreNamedLock.AdaptedSemaphore
     {
         private final RSemaphore semaphore;
 
-        private RedissonSemaphore( final RSemaphore semaphore )
-        {
+        private RedissonSemaphore( final RSemaphore semaphore ) {
             this.semaphore = semaphore;
         }
 
         @Override
-        public boolean tryAcquire( final int perms, final long time, final TimeUnit unit ) throws InterruptedException
+        public boolean tryAcquire( final int perms, final long time, final TimeUnit unit )
+                throws InterruptedException
         {
             return semaphore.tryAcquire( perms, time, unit );
         }
 
         @Override
-        public void release( final int perms )
-        {
+        public void release( final int perms ) {
             semaphore.release( perms );
         }
     }

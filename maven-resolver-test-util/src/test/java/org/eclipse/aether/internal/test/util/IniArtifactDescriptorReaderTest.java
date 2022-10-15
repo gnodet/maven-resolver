@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.test.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.test.util;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.internal.test.util;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.internal.test.util;
 
 import java.util.Iterator;
 import java.util.List;
@@ -36,25 +33,25 @@ import org.eclipse.aether.resolution.ArtifactDescriptorResult;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 /**
  */
-public class IniArtifactDescriptorReaderTest
-{
+public class IniArtifactDescriptorReaderTest {
 
     private IniArtifactDescriptorReader reader;
 
     private RepositorySystemSession session;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         reader = new IniArtifactDescriptorReader( "org/eclipse/aether/internal/test/util/" );
         session = TestUtils.newSession();
     }
 
     @Test( expected = ArtifactDescriptorException.class )
     public void testMissingDescriptor()
-        throws ArtifactDescriptorException
+            throws ArtifactDescriptorException
     {
         Artifact art = new DefaultArtifact( "missing:aid:ver:ext" );
         ArtifactDescriptorRequest request = new ArtifactDescriptorRequest( art, null, "" );
@@ -63,7 +60,7 @@ public class IniArtifactDescriptorReaderTest
 
     @Test
     public void testLookup()
-        throws ArtifactDescriptorException
+            throws ArtifactDescriptorException
     {
         Artifact art = new DefaultArtifact( "gid:aid:ext:ver" );
         ArtifactDescriptorRequest request = new ArtifactDescriptorRequest( art, null, "" );
@@ -90,8 +87,7 @@ public class IniArtifactDescriptorReaderTest
 
     }
 
-    private void assertDependencies( List<Dependency> deps )
-    {
+    private void assertDependencies( List<Dependency> deps ) {
         assertEquals( 4, deps.size() );
 
         Dependency dep = deps.get( 0 );

@@ -23,4 +23,3 @@
  * a stable API and are subject to change without prior notice.
  */
 package org.eclipse.aether.internal.test.util;
-

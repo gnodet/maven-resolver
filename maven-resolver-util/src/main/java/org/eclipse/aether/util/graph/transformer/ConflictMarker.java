@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.transformer;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.transformer;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.util.graph.transformer;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.graph.transformer;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -26,7 +25,6 @@ import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
-import static java.util.Objects.requireNonNull;
 
 import org.eclipse.aether.RepositoryException;
 import org.eclipse.aether.artifact.Artifact;
@@ -35,6 +33,8 @@ import org.eclipse.aether.collection.DependencyGraphTransformer;
 import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.graph.DependencyNode;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * A dependency graph transformer that identifies conflicting dependencies. When this transformer has executed, the
  * transformation context holds a {@code Map<DependencyNode, Object>} where dependency nodes that belong to the same
@@ -42,7 +42,7 @@ import org.eclipse.aether.graph.DependencyNode;
  * {@link TransformationContextKeys#CONFLICT_IDS}.
  */
 public final class ConflictMarker
-    implements DependencyGraphTransformer
+        implements DependencyGraphTransformer
 {
 
     /**
@@ -52,7 +52,7 @@ public final class ConflictMarker
      * @see DependencyGraphTransformer#transformGraph(DependencyNode, DependencyGraphTransformationContext)
      */
     public DependencyNode transformGraph( DependencyNode node, DependencyGraphTransformationContext context )
-        throws RepositoryException
+            throws RepositoryException
     {
         requireNonNull( node, "node cannot be null" );
         requireNonNull( context, "context cannot be null" );
@@ -71,8 +71,7 @@ public final class ConflictMarker
 
         context.put( TransformationContextKeys.CONFLICT_IDS, conflictIds );
 
-        if ( stats != null )
-        {
+        if( stats != null ) {
             long time3 = System.nanoTime();
             stats.put( "ConflictMarker.analyzeTime", time2 - time1 );
             stats.put( "ConflictMarker.markTime", time3 - time2 );
@@ -85,52 +84,37 @@ public final class ConflictMarker
     private void analyze( DependencyNode node, Map<DependencyNode, Object> nodes, Map<Object, ConflictGroup> groups,
                           int[] counter )
     {
-        if ( nodes.put( node, Boolean.TRUE ) != null )
-        {
+        if( nodes.put( node, Boolean.TRUE ) != null ) {
             return;
         }
 
         Set<Object> keys = getKeys( node );
-        if ( !keys.isEmpty() )
-        {
+        if( !keys.isEmpty() ) {
             ConflictGroup group = null;
             boolean fixMappings = false;
 
-            for ( Object key : keys )
-            {
+            for( Object key : keys ) {
                 ConflictGroup g = groups.get( key );
 
-                if ( group != g )
-                {
-                    if ( group == null )
-                    {
+                if( group != g ) {
+                    if( group == null ) {
                         Set<Object> newKeys = merge( g.keys, keys );
-                        if ( newKeys == g.keys )
-                        {
+                        if( newKeys == g.keys ) {
                             group = g;
                             break;
-                        }
-                        else
-                        {
+                        } else {
                             group = new ConflictGroup( newKeys, counter[0]++ );
                             fixMappings = true;
                         }
-                    }
-                    else if ( g == null )
-                    {
+                    } else if( g == null ) {
                         fixMappings = true;
-                    }
-                    else
-                    {
+                    } else {
                         Set<Object> newKeys = merge( g.keys, group.keys );
-                        if ( newKeys == g.keys )
-                        {
+                        if( newKeys == g.keys ) {
                             group = g;
                             fixMappings = false;
                             break;
-                        }
-                        else if ( newKeys != group.keys )
-                        {
+                        } else if( newKeys != group.keys ) {
                             group = new ConflictGroup( newKeys, counter[0]++ );
                             fixMappings = true;
                         }
@@ -138,42 +122,32 @@ public final class ConflictMarker
                 }
             }
 
-            if ( group == null )
-            {
+            if( group == null ) {
                 group = new ConflictGroup( keys, counter[0]++ );
                 fixMappings = true;
             }
-            if ( fixMappings )
-            {
-                for ( Object key : group.keys )
-                {
+            if( fixMappings ) {
+                for( Object key : group.keys ) {
                     groups.put( key, group );
                 }
             }
         }
 
-        for ( DependencyNode child : node.getChildren() )
-        {
+        for( DependencyNode child : node.getChildren() ) {
             analyze( child, nodes, groups, counter );
         }
     }
 
-    private Set<Object> merge( Set<Object> keys1, Set<Object> keys2 )
-    {
+    private Set<Object> merge( Set<Object> keys1, Set<Object> keys2 ) {
         int size1 = keys1.size();
         int size2 = keys2.size();
 
-        if ( size1 < size2 )
-        {
-            if ( keys2.containsAll( keys1 ) )
-            {
+        if( size1 < size2 ) {
+            if( keys2.containsAll( keys1 ) ) {
                 return keys2;
             }
-        }
-        else
-        {
-            if ( keys1.containsAll( keys2 ) )
-            {
+        } else {
+            if( keys1.containsAll( keys2 ) ) {
                 return keys1;
             }
         }
@@ -184,37 +158,28 @@ public final class ConflictMarker
         return keys;
     }
 
-    private Set<Object> getKeys( DependencyNode node )
-    {
+    private Set<Object> getKeys( DependencyNode node ) {
         Set<Object> keys;
 
         Dependency dependency = node.getDependency();
 
-        if ( dependency == null )
-        {
+        if( dependency == null ) {
             keys = Collections.emptySet();
-        }
-        else
-        {
+        } else {
             Object key = toKey( dependency.getArtifact() );
 
-            if ( node.getRelocations().isEmpty() && node.getAliases().isEmpty() )
-            {
+            if( node.getRelocations().isEmpty() && node.getAliases().isEmpty() ) {
                 keys = Collections.singleton( key );
-            }
-            else
-            {
+            } else {
                 keys = new HashSet<>();
                 keys.add( key );
 
-                for ( Artifact relocation : node.getRelocations() )
-                {
+                for( Artifact relocation : node.getRelocations() ) {
                     key = toKey( relocation );
                     keys.add( key );
                 }
 
-                for ( Artifact alias : node.getAliases() )
-                {
+                for( Artifact alias : node.getAliases() ) {
                     key = toKey( alias );
                     keys.add( key );
                 }
@@ -224,15 +189,12 @@ public final class ConflictMarker
         return keys;
     }
 
-    private Map<DependencyNode, Object> mark( Collection<DependencyNode> nodes, Map<Object, ConflictGroup> groups )
-    {
+    private Map<DependencyNode, Object> mark( Collection<DependencyNode> nodes, Map<Object, ConflictGroup> groups ) {
         Map<DependencyNode, Object> conflictIds = new IdentityHashMap<>( nodes.size() + 1 );
 
-        for ( DependencyNode node : nodes )
-        {
+        for( DependencyNode node : nodes ) {
             Dependency dependency = node.getDependency();
-            if ( dependency != null )
-            {
+            if( dependency != null ) {
                 Object key = toKey( dependency.getArtifact() );
                 conflictIds.put( node, groups.get( key ).index );
             }
@@ -241,63 +203,52 @@ public final class ConflictMarker
         return conflictIds;
     }
 
-    private static Object toKey( Artifact artifact )
-    {
+    private static Object toKey( Artifact artifact ) {
         return new Key( artifact );
     }
 
-    static class ConflictGroup
-    {
+    static class ConflictGroup {
 
         final Set<Object> keys;
 
         final int index;
 
-        ConflictGroup( Set<Object> keys, int index )
-        {
+        ConflictGroup( Set<Object> keys, int index ) {
             this.keys = keys;
             this.index = index;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return String.valueOf( keys );
         }
 
     }
 
-    static class Key
-    {
+    static class Key {
 
         private final Artifact artifact;
 
-        Key( Artifact artifact )
-        {
+        Key( Artifact artifact ) {
             this.artifact = artifact;
         }
 
         @Override
-        public boolean equals( Object obj )
-        {
-            if ( obj == this )
-            {
+        public boolean equals( Object obj ) {
+            if( obj == this ) {
                 return true;
-            }
-            else if ( !( obj instanceof Key ) )
-            {
+            } else if( !( obj instanceof Key ) ) {
                 return false;
             }
             Key that = (Key) obj;
             return artifact.getArtifactId().equals( that.artifact.getArtifactId() )
-                && artifact.getGroupId().equals( that.artifact.getGroupId() )
-                && artifact.getExtension().equals( that.artifact.getExtension() )
-                && artifact.getClassifier().equals( that.artifact.getClassifier() );
+                    && artifact.getGroupId().equals( that.artifact.getGroupId() )
+                    && artifact.getExtension().equals( that.artifact.getExtension() )
+                    && artifact.getClassifier().equals( that.artifact.getClassifier() );
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             int hash = 17;
             hash = hash * 31 + artifact.getArtifactId().hashCode();
             hash = hash * 31 + artifact.getGroupId().hashCode();
@@ -307,10 +258,9 @@ public final class ConflictMarker
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return artifact.getGroupId() + ':' + artifact.getArtifactId() + ':' + artifact.getClassifier() + ':'
-                + artifact.getExtension();
+                    + artifact.getExtension();
         }
 
     }

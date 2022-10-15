@@ -1,5 +1,3 @@
-package org.eclipse.aether.repository;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.repository;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.repository;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.repository;
 
 import java.io.File;
 import java.util.Map;
@@ -28,31 +25,26 @@ import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystemSession;
 import org.junit.Test;
 
-public class AuthenticationContextTest
-{
+import static org.junit.Assert.*;
 
-    private RepositorySystemSession newSession()
-    {
+public class AuthenticationContextTest {
+
+    private RepositorySystemSession newSession() {
         return new DefaultRepositorySystemSession();
     }
 
-    private RemoteRepository newRepo( Authentication auth, Proxy proxy )
-    {
+    private RemoteRepository newRepo( Authentication auth, Proxy proxy ) {
         return new RemoteRepository.Builder( "test", "default", "http://localhost" ) //
-        .setAuthentication( auth ).setProxy( proxy ).build();
+                .setAuthentication( auth ).setProxy( proxy ).build();
     }
 
-    private Proxy newProxy( Authentication auth )
-    {
+    private Proxy newProxy( Authentication auth ) {
         return new Proxy( Proxy.TYPE_HTTP, "localhost", 8080, auth );
     }
 
-    private Authentication newAuth()
-    {
-        return new Authentication()
-        {
-            public void fill( AuthenticationContext context, String key, Map<String, String> data )
-            {
+    private Authentication newAuth() {
+        return new Authentication() {
+            public void fill( AuthenticationContext context, String key, Map<String, String> data ) {
                 assertNotNull( context );
                 assertNotNull( context.getSession() );
                 assertNotNull( context.getRepository() );
@@ -60,16 +52,14 @@ public class AuthenticationContextTest
                 context.put( "key", "value" );
             }
 
-            public void digest( AuthenticationDigest digest )
-            {
+            public void digest( AuthenticationDigest digest ) {
                 fail( "AuthenticationContext should not call digest()" );
             }
         };
     }
 
     @Test
-    public void testForRepository()
-    {
+    public void testForRepository() {
         RepositorySystemSession session = newSession();
         RemoteRepository repo = newRepo( newAuth(), newProxy( newAuth() ) );
         AuthenticationContext context = AuthenticationContext.forRepository( session, repo );
@@ -82,8 +72,7 @@ public class AuthenticationContextTest
     }
 
     @Test
-    public void testForRepository_NoAuth()
-    {
+    public void testForRepository_NoAuth() {
         RepositorySystemSession session = newSession();
         RemoteRepository repo = newRepo( null, newProxy( newAuth() ) );
         AuthenticationContext context = AuthenticationContext.forRepository( session, repo );
@@ -91,8 +80,7 @@ public class AuthenticationContextTest
     }
 
     @Test
-    public void testForProxy()
-    {
+    public void testForProxy() {
         RepositorySystemSession session = newSession();
         Proxy proxy = newProxy( newAuth() );
         RemoteRepository repo = newRepo( newAuth(), proxy );
@@ -106,8 +94,7 @@ public class AuthenticationContextTest
     }
 
     @Test
-    public void testForProxy_NoProxy()
-    {
+    public void testForProxy_NoProxy() {
         RepositorySystemSession session = newSession();
         Proxy proxy = null;
         RemoteRepository repo = newRepo( newAuth(), proxy );
@@ -116,8 +103,7 @@ public class AuthenticationContextTest
     }
 
     @Test
-    public void testForProxy_NoProxyAuth()
-    {
+    public void testForProxy_NoProxyAuth() {
         RepositorySystemSession session = newSession();
         Proxy proxy = newProxy( null );
         RemoteRepository repo = newRepo( newAuth(), proxy );
@@ -126,8 +112,7 @@ public class AuthenticationContextTest
     }
 
     @Test
-    public void testGet_StringVsChars()
-    {
+    public void testGet_StringVsChars() {
         AuthenticationContext context = AuthenticationContext.forRepository( newSession(), newRepo( newAuth(), null ) );
         context.put( "key", new char[] { 'v', 'a', 'l', '1' } );
         assertEquals( "val1", context.get( "key" ) );
@@ -136,8 +121,7 @@ public class AuthenticationContextTest
     }
 
     @Test
-    public void testGet_StringVsFile()
-    {
+    public void testGet_StringVsFile() {
         AuthenticationContext context = AuthenticationContext.forRepository( newSession(), newRepo( newAuth(), null ) );
         context.put( "key", "val1" );
         assertEquals( new File( "val1" ), context.get( "key", File.class ) );
@@ -146,8 +130,7 @@ public class AuthenticationContextTest
     }
 
     @Test
-    public void testPut_EraseCharArrays()
-    {
+    public void testPut_EraseCharArrays() {
         AuthenticationContext context = AuthenticationContext.forRepository( newSession(), newRepo( newAuth(), null ) );
         char[] secret = { 'v', 'a', 'l', 'u', 'e' };
         context.put( "key", secret );
@@ -156,8 +139,7 @@ public class AuthenticationContextTest
     }
 
     @Test
-    public void testClose_EraseCharArrays()
-    {
+    public void testClose_EraseCharArrays() {
         AuthenticationContext.close( null );
 
         AuthenticationContext context = AuthenticationContext.forRepository( newSession(), newRepo( newAuth(), null ) );

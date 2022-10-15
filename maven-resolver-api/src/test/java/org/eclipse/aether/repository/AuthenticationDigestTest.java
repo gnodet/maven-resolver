@@ -1,5 +1,3 @@
-package org.eclipse.aether.repository;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.repository;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.repository;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.repository;
 
 import java.util.Map;
 
@@ -27,40 +24,34 @@ import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.RepositorySystemSession;
 import org.junit.Test;
 
-public class AuthenticationDigestTest
-{
+import static org.junit.Assert.*;
 
-    private RepositorySystemSession newSession()
-    {
+public class AuthenticationDigestTest {
+
+    private RepositorySystemSession newSession() {
         return new DefaultRepositorySystemSession();
     }
 
-    private RemoteRepository newRepo( Authentication auth, Proxy proxy )
-    {
+    private RemoteRepository newRepo( Authentication auth, Proxy proxy ) {
         return new RemoteRepository.Builder( "test", "default", "http://localhost" ) //
-        .setAuthentication( auth ).setProxy( proxy ).build();
+                .setAuthentication( auth ).setProxy( proxy ).build();
     }
 
-    private Proxy newProxy( Authentication auth )
-    {
+    private Proxy newProxy( Authentication auth ) {
         return new Proxy( Proxy.TYPE_HTTP, "localhost", 8080, auth );
     }
 
     @Test
-    public void testForRepository()
-    {
+    public void testForRepository() {
         final RepositorySystemSession session = newSession();
         final RemoteRepository[] repos = { null };
 
-        Authentication auth = new Authentication()
-        {
-            public void fill( AuthenticationContext context, String key, Map<String, String> data )
-            {
+        Authentication auth = new Authentication() {
+            public void fill( AuthenticationContext context, String key, Map<String, String> data ) {
                 fail( "AuthenticationDigest should not call fill()" );
             }
 
-            public void digest( AuthenticationDigest digest )
-            {
+            public void digest( AuthenticationDigest digest ) {
                 assertNotNull( digest );
                 assertSame( session, digest.getSession() );
                 assertNotNull( digest.getRepository() );
@@ -84,8 +75,7 @@ public class AuthenticationDigestTest
     }
 
     @Test
-    public void testForRepository_NoAuth()
-    {
+    public void testForRepository_NoAuth() {
         RemoteRepository repo = newRepo( null, null );
 
         String digest = AuthenticationDigest.forRepository( newSession(), repo );
@@ -93,20 +83,16 @@ public class AuthenticationDigestTest
     }
 
     @Test
-    public void testForProxy()
-    {
+    public void testForProxy() {
         final RepositorySystemSession session = newSession();
         final Proxy[] proxies = { null };
 
-        Authentication auth = new Authentication()
-        {
-            public void fill( AuthenticationContext context, String key, Map<String, String> data )
-            {
+        Authentication auth = new Authentication() {
+            public void fill( AuthenticationContext context, String key, Map<String, String> data ) {
                 fail( "AuthenticationDigest should not call fill()" );
             }
 
-            public void digest( AuthenticationDigest digest )
-            {
+            public void digest( AuthenticationDigest digest ) {
                 assertNotNull( digest );
                 assertSame( session, digest.getSession() );
                 assertNotNull( digest.getRepository() );
@@ -130,8 +116,7 @@ public class AuthenticationDigestTest
     }
 
     @Test
-    public void testForProxy_NoProxy()
-    {
+    public void testForProxy_NoProxy() {
         RemoteRepository repo = newRepo( null, null );
 
         String digest = AuthenticationDigest.forProxy( newSession(), repo );
@@ -139,8 +124,7 @@ public class AuthenticationDigestTest
     }
 
     @Test
-    public void testForProxy_NoProxyAuth()
-    {
+    public void testForProxy_NoProxyAuth() {
         RemoteRepository repo = newRepo( null, newProxy( null ) );
 
         String digest = AuthenticationDigest.forProxy( newSession(), repo );

@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.traverser;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.traverser;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,9 +16,9 @@ package org.eclipse.aether.util.graph.traverser;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.graph.traverser;
 
-import static java.util.Objects.requireNonNull;
-import static org.junit.Assert.*;
+import java.util.Collections;
 
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.DefaultArtifact;
@@ -33,44 +31,39 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
+import static java.util.Objects.requireNonNull;
+import static org.junit.Assert.*;
 
-public class AndDependencyTraverserTest
-{
+public class AndDependencyTraverserTest {
 
     static class DummyDependencyTraverser
-        implements DependencyTraverser
+            implements DependencyTraverser
     {
 
         private final boolean traverse;
 
         private final DependencyTraverser child;
 
-        public DummyDependencyTraverser()
-        {
+        public DummyDependencyTraverser() {
             this( true );
         }
 
-        public DummyDependencyTraverser( boolean traverse )
-        {
+        public DummyDependencyTraverser( boolean traverse ) {
             this.traverse = traverse;
             this.child = this;
         }
 
-        public DummyDependencyTraverser( boolean traverse, DependencyTraverser child )
-        {
+        public DummyDependencyTraverser( boolean traverse, DependencyTraverser child ) {
             this.traverse = traverse;
             this.child = child;
         }
 
-        public boolean traverseDependency( Dependency dependency )
-        {
+        public boolean traverseDependency( Dependency dependency ) {
             requireNonNull( dependency, "dependency cannot be null" );
             return traverse;
         }
 
-        public DependencyTraverser deriveChildTraverser( DependencyCollectionContext context )
-        {
+        public DependencyTraverser deriveChildTraverser( DependencyCollectionContext context ) {
             requireNonNull( context, "context cannot be null" );
             return child;
         }
@@ -78,20 +71,20 @@ public class AndDependencyTraverserTest
     }
 
     private RepositorySystemSession session;
+
     private DependencyCollectionContext context;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         session = TestUtils.newSession();
         context = TestUtils.newCollectionContext( session, null, Collections.emptyList() );
     }
 
     @After
-    public void teardown() throws Exception
+    public void teardown()
+            throws Exception
     {
-        if ( session.getLocalRepository() != null )
-        {
+        if( session.getLocalRepository() != null ) {
             TestFileUtils.deleteFile( session.getLocalRepository().getBasedir() );
         }
         session = null;
@@ -99,8 +92,7 @@ public class AndDependencyTraverserTest
     }
 
     @Test
-    public void testNewInstance()
-    {
+    public void testNewInstance() {
         assertNull( AndDependencyTraverser.newInstance( null, null ) );
         DependencyTraverser traverser = new DummyDependencyTraverser();
         assertSame( traverser, AndDependencyTraverser.newInstance( traverser, null ) );
@@ -110,29 +102,27 @@ public class AndDependencyTraverserTest
     }
 
     @Test
-    public void testTraverseDependency()
-    {
+    public void testTraverseDependency() {
         Dependency dependency = new Dependency( new DefaultArtifact( "g:a:v:1" ), "runtime" );
 
         DependencyTraverser traverser = new AndDependencyTraverser();
         assertTrue( traverser.traverseDependency( dependency ) );
 
-        traverser =
-            new AndDependencyTraverser( new DummyDependencyTraverser( false ), new DummyDependencyTraverser( false ) );
+        traverser = new AndDependencyTraverser( new DummyDependencyTraverser( false ),
+                                                new DummyDependencyTraverser( false ) );
         assertFalse( traverser.traverseDependency( dependency ) );
 
-        traverser =
-            new AndDependencyTraverser( new DummyDependencyTraverser( true ), new DummyDependencyTraverser( false ) );
+        traverser = new AndDependencyTraverser( new DummyDependencyTraverser( true ),
+                                                new DummyDependencyTraverser( false ) );
         assertFalse( traverser.traverseDependency( dependency ) );
 
-        traverser =
-            new AndDependencyTraverser( new DummyDependencyTraverser( true ), new DummyDependencyTraverser( true ) );
+        traverser = new AndDependencyTraverser( new DummyDependencyTraverser( true ),
+                                                new DummyDependencyTraverser( true ) );
         assertTrue( traverser.traverseDependency( dependency ) );
     }
 
     @Test
-    public void testDeriveChildTraverser_Unchanged()
-    {
+    public void testDeriveChildTraverser_Unchanged() {
         DependencyTraverser other1 = new DummyDependencyTraverser( true );
         DependencyTraverser other2 = new DummyDependencyTraverser( false );
         DependencyTraverser traverser = new AndDependencyTraverser( other1, other2 );
@@ -140,8 +130,7 @@ public class AndDependencyTraverserTest
     }
 
     @Test
-    public void testDeriveChildTraverser_OneRemaining()
-    {
+    public void testDeriveChildTraverser_OneRemaining() {
         DependencyTraverser other1 = new DummyDependencyTraverser( true );
         DependencyTraverser other2 = new DummyDependencyTraverser( false, null );
         DependencyTraverser traverser = new AndDependencyTraverser( other1, other2 );
@@ -149,8 +138,7 @@ public class AndDependencyTraverserTest
     }
 
     @Test
-    public void testDeriveChildTraverser_ZeroRemaining()
-    {
+    public void testDeriveChildTraverser_ZeroRemaining() {
         DependencyTraverser other1 = new DummyDependencyTraverser( true, null );
         DependencyTraverser other2 = new DummyDependencyTraverser( false, null );
         DependencyTraverser traverser = new AndDependencyTraverser( other1, other2 );
@@ -158,8 +146,7 @@ public class AndDependencyTraverserTest
     }
 
     @Test
-    public void testEquals()
-    {
+    public void testEquals() {
         DependencyTraverser other1 = new DummyDependencyTraverser( true );
         DependencyTraverser other2 = new DummyDependencyTraverser( false );
         DependencyTraverser traverser1 = new AndDependencyTraverser( other1, other2 );
@@ -173,8 +160,7 @@ public class AndDependencyTraverserTest
     }
 
     @Test
-    public void testHashCode()
-    {
+    public void testHashCode() {
         DependencyTraverser other1 = new DummyDependencyTraverser( true );
         DependencyTraverser other2 = new DummyDependencyTraverser( false );
         DependencyTraverser traverser1 = new AndDependencyTraverser( other1, other2 );

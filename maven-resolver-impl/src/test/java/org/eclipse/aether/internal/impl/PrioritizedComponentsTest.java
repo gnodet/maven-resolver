@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.impl;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,10 +16,7 @@ package org.eclipse.aether.internal.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+package org.eclipse.aether.internal.impl;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,27 +27,26 @@ import java.util.concurrent.ThreadFactory;
 import org.eclipse.aether.ConfigurationProperties;
 import org.junit.Test;
 
-public class PrioritizedComponentsTest
-{
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+
+public class PrioritizedComponentsTest {
 
     @Test
-    public void testGetConfigKeys()
-    {
-        String[] keys =
-            { ConfigurationProperties.PREFIX_PRIORITY + "java.lang.String",
+    public void testGetConfigKeys() {
+        String[] keys = { ConfigurationProperties.PREFIX_PRIORITY + "java.lang.String",
                 ConfigurationProperties.PREFIX_PRIORITY + "String" };
         assertArrayEquals( keys, PrioritizedComponents.getConfigKeys( String.class ) );
 
-        keys =
-            new String[] { ConfigurationProperties.PREFIX_PRIORITY + "java.util.concurrent.ThreadFactory",
+        keys = new String[] { ConfigurationProperties.PREFIX_PRIORITY + "java.util.concurrent.ThreadFactory",
                 ConfigurationProperties.PREFIX_PRIORITY + "ThreadFactory",
                 ConfigurationProperties.PREFIX_PRIORITY + "Thread" };
         assertArrayEquals( keys, PrioritizedComponents.getConfigKeys( ThreadFactory.class ) );
     }
 
     @Test
-    public void testAdd_PriorityOverride()
-    {
+    public void testAdd_PriorityOverride() {
         Exception comp1 = new IllegalArgumentException();
         Exception comp2 = new NullPointerException();
         Map<Object, Object> config = new HashMap<>();
@@ -70,8 +64,7 @@ public class PrioritizedComponentsTest
     }
 
     @Test
-    public void testAdd_ImplicitPriority()
-    {
+    public void testAdd_ImplicitPriority() {
         Exception comp1 = new IllegalArgumentException();
         Exception comp2 = new NullPointerException();
         Map<Object, Object> config = new HashMap<>();
@@ -86,8 +79,7 @@ public class PrioritizedComponentsTest
     }
 
     @Test
-    public void testAdd_Disabled()
-    {
+    public void testAdd_Disabled() {
         Exception comp1 = new IllegalArgumentException();
         Exception comp2 = new NullPointerException();
         Map<Object, Object> config = new HashMap<>();
@@ -115,8 +107,7 @@ public class PrioritizedComponentsTest
     }
 
     @Test
-    public void testList()
-    {
+    public void testList() {
         Exception comp1 = new IllegalArgumentException();
         Exception comp2 = new NullPointerException();
 

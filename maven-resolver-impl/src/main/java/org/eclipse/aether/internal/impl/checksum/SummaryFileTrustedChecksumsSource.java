@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl.checksum;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl.checksum;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.impl.checksum;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl.checksum;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -47,10 +46,10 @@ import org.slf4j.LoggerFactory;
 import static java.util.Objects.requireNonNull;
 
 /**
- * Compact file {@link FileTrustedChecksumsSourceSupport} implementation that use specified directory as base
- * directory, where it expects a "summary" file named as "checksums.${checksumExt}" for each checksum algorithm, and
- * file format is artifact ID and checksum separated by space per line. The format supports comments "#" (hash) and
- * empty lines (both are ignored).
+ * Compact file {@link FileTrustedChecksumsSourceSupport} implementation that use specified directory as base directory,
+ * where it expects a "summary" file named as "checksums.${checksumExt}" for each checksum algorithm, and file format is
+ * artifact ID and checksum separated by space per line. The format supports comments "#" (hash) and empty lines (both
+ * are ignored).
  * <p>
  * The source may be configured to be "origin aware", in that case it will factor in origin repository ID as well into
  * file name (for example "checksums-central.sha1").
@@ -76,35 +75,27 @@ public final class SummaryFileTrustedChecksumsSource
 
     private static final Logger LOGGER = LoggerFactory.getLogger( SummaryFileTrustedChecksumsSource.class );
 
-    public SummaryFileTrustedChecksumsSource()
-    {
+    public SummaryFileTrustedChecksumsSource() {
         super( NAME );
     }
 
     @SuppressWarnings( "unchecked" )
     @Override
-    protected Map<String, String> performLookup( RepositorySystemSession session,
-                                                 Path basedir,
-                                                 Artifact artifact,
+    protected Map<String, String> performLookup( RepositorySystemSession session, Path basedir, Artifact artifact,
                                                  ArtifactRepository artifactRepository,
                                                  List<ChecksumAlgorithmFactory> checksumAlgorithmFactories )
     {
         final boolean originAware = isOriginAware( session );
-        final ConcurrentHashMap<String, ConcurrentHashMap<String, String>> basedirProvidedChecksums =
-                (ConcurrentHashMap<String, ConcurrentHashMap<String, String>>) session.getData()
-                        .computeIfAbsent( CHECKSUMS_CACHE_KEY, ConcurrentHashMap::new );
+        final ConcurrentHashMap<String, ConcurrentHashMap<String, String>> basedirProvidedChecksums = (ConcurrentHashMap<String, ConcurrentHashMap<String, String>>) session
+                .getData().computeIfAbsent( CHECKSUMS_CACHE_KEY, ConcurrentHashMap::new );
 
         final HashMap<String, String> checksums = new HashMap<>();
-        for ( ChecksumAlgorithmFactory checksumAlgorithmFactory : checksumAlgorithmFactories )
-        {
-            ConcurrentHashMap<String, String> algorithmChecksums = basedirProvidedChecksums.computeIfAbsent(
-                    checksumAlgorithmFactory.getName(),
-                    algName -> loadProvidedChecksums(
-                            basedir, originAware, artifactRepository, checksumAlgorithmFactory )
-            );
+        for( ChecksumAlgorithmFactory checksumAlgorithmFactory : checksumAlgorithmFactories ) {
+            ConcurrentHashMap<String, String> algorithmChecksums = basedirProvidedChecksums
+                    .computeIfAbsent( checksumAlgorithmFactory.getName(), algName -> loadProvidedChecksums( basedir,
+                            originAware, artifactRepository, checksumAlgorithmFactory ) );
             String checksum = algorithmChecksums.get( ArtifactIdUtils.toId( artifact ) );
-            if ( checksum != null )
-            {
+            if( checksum != null ) {
                 checksums.put( checksumAlgorithmFactory.getName(), checksum );
             }
         }
@@ -112,72 +103,54 @@ public final class SummaryFileTrustedChecksumsSource
     }
 
     @Override
-    protected SummaryFileWriter getWriter( RepositorySystemSession session, Path basedir )
-    {
+    protected SummaryFileWriter getWriter( RepositorySystemSession session, Path basedir ) {
         return new SummaryFileWriter( basedir, isOriginAware( session ) );
     }
 
-    private ConcurrentHashMap<String, String> loadProvidedChecksums( Path basedir,
-                                                                     boolean originAware,
+    private ConcurrentHashMap<String, String> loadProvidedChecksums( Path basedir, boolean originAware,
                                                                      ArtifactRepository artifactRepository,
                                                                      ChecksumAlgorithmFactory checksumAlgorithmFactory )
     {
-        Path checksumsFile = basedir.resolve(
-                calculateSummaryPath( originAware, artifactRepository, checksumAlgorithmFactory ) );
+        Path checksumsFile = basedir
+                .resolve( calculateSummaryPath( originAware, artifactRepository, checksumAlgorithmFactory ) );
         ConcurrentHashMap<String, String> result = new ConcurrentHashMap<>();
-        if ( Files.isReadable( checksumsFile ) )
-        {
-            try ( BufferedReader reader = Files.newBufferedReader( checksumsFile, StandardCharsets.UTF_8 ) )
-            {
+        if( Files.isReadable( checksumsFile ) ) {
+            try( BufferedReader reader = Files.newBufferedReader( checksumsFile, StandardCharsets.UTF_8 ) ) {
                 LOGGER.debug( "Loading {} trusted checksums for remote repository {} from '{}'",
                         checksumAlgorithmFactory.getName(), artifactRepository.getId(), checksumsFile );
                 String line;
-                while ( ( line = reader.readLine() ) != null )
-                {
-                    if ( !line.startsWith( "#" ) && !line.isEmpty() )
-                    {
+                while( ( line = reader.readLine() ) != null ) {
+                    if( !line.startsWith( "#" ) && !line.isEmpty() ) {
                         String[] parts = line.split( " ", 2 );
-                        if ( parts.length == 2 )
-                        {
+                        if( parts.length == 2 ) {
                             String newChecksum = parts[1];
                             String oldChecksum = result.put( parts[0], newChecksum );
-                            if ( oldChecksum != null )
-                            {
-                                if ( Objects.equals( oldChecksum, newChecksum ) )
-                                {
+                            if( oldChecksum != null ) {
+                                if( Objects.equals( oldChecksum, newChecksum ) ) {
                                     LOGGER.warn( "Checksums file '{}' contains duplicate checksums for artifact {}: {}",
                                             checksumsFile, parts[0], oldChecksum );
-                                }
-                                else
-                                {
-                                    LOGGER.warn( "Checksums file '{}' contains different checksums for artifact {}: "
-                                                    + "old '{}' replaced by new '{}'", checksumsFile, parts[0],
-                                            oldChecksum, newChecksum );
+                                } else {
+                                    LOGGER.warn(
+                                            "Checksums file '{}' contains different checksums for artifact {}: "
+                                                    + "old '{}' replaced by new '{}'",
+                                            checksumsFile, parts[0], oldChecksum, newChecksum );
                                 }
                             }
-                        }
-                        else
-                        {
+                        } else {
                             LOGGER.warn( "Checksums file '{}' ignored malformed line '{}'", checksumsFile, line );
                         }
                     }
                 }
-                LOGGER.info( "Loaded {} {} trusted checksums for remote repository {}",
-                        result.size(), checksumAlgorithmFactory.getName(), artifactRepository.getId() );
-            }
-            catch ( NoSuchFileException e )
-            {
+                LOGGER.info( "Loaded {} {} trusted checksums for remote repository {}", result.size(),
+                        checksumAlgorithmFactory.getName(), artifactRepository.getId() );
+            } catch( NoSuchFileException e ) {
                 // strange: we tested for it above, still, we should not fail
                 LOGGER.debug( "The {} trusted checksums for remote repository {} not exist at '{}'",
                         checksumAlgorithmFactory.getName(), artifactRepository.getId(), checksumsFile );
-            }
-            catch ( IOException e )
-            {
+            } catch( IOException e ) {
                 throw new UncheckedIOException( e );
             }
-        }
-        else
-        {
+        } else {
             LOGGER.debug( "The {} trusted checksums for remote repository {} not exist at '{}'",
                     checksumAlgorithmFactory.getName(), artifactRepository.getId(), checksumsFile );
         }
@@ -185,17 +158,13 @@ public final class SummaryFileTrustedChecksumsSource
         return result;
     }
 
-    private String calculateSummaryPath( boolean originAware,
-                                         ArtifactRepository artifactRepository,
+    private String calculateSummaryPath( boolean originAware, ArtifactRepository artifactRepository,
                                          ChecksumAlgorithmFactory checksumAlgorithmFactory )
     {
         final String fileName;
-        if ( originAware )
-        {
+        if( originAware ) {
             fileName = CHECKSUMS_FILE_PREFIX + "-" + artifactRepository.getId();
-        }
-        else
-        {
+        } else {
             fileName = CHECKSUMS_FILE_PREFIX;
         }
         return fileName + "." + checksumAlgorithmFactory.getFileExtension();
@@ -203,20 +172,19 @@ public final class SummaryFileTrustedChecksumsSource
 
     /**
      * Note: this implementation will work only in single-thread (T1) model. While not ideal, the "workaround" is
-     * possible in both, Maven and Maven Daemon: force single threaded execution model while "recording" (in mvn:
-     * do not pass any {@code -T} CLI parameter, while for mvnd use {@code -1} CLI parameter.
-     * 
-     * TODO: this will need to be reworked for at least two reasons: a) avoid duplicates in summary file and b)
-     * support multi threaded builds (probably will need "on session close" hook).
+     * possible in both, Maven and Maven Daemon: force single threaded execution model while "recording" (in mvn: do not
+     * pass any {@code -T} CLI parameter, while for mvnd use {@code -1} CLI parameter. TODO: this will need to be
+     * reworked for at least two reasons: a) avoid duplicates in summary file and b) support multi threaded builds
+     * (probably will need "on session close" hook).
      */
-    private class SummaryFileWriter implements Writer
+    private class SummaryFileWriter
+            implements Writer
     {
         private final Path basedir;
 
         private final boolean originAware;
 
-        private SummaryFileWriter( Path basedir, boolean originAware )
-        {
+        private SummaryFileWriter( Path basedir, boolean originAware ) {
             this.basedir = basedir;
             this.originAware = originAware;
         }
@@ -224,24 +192,22 @@ public final class SummaryFileTrustedChecksumsSource
         @Override
         public void addTrustedArtifactChecksums( Artifact artifact, ArtifactRepository artifactRepository,
                                                  List<ChecksumAlgorithmFactory> checksumAlgorithmFactories,
-                                                 Map<String, String> trustedArtifactChecksums ) throws IOException
+                                                 Map<String, String> trustedArtifactChecksums )
+                throws IOException
         {
-            for ( ChecksumAlgorithmFactory checksumAlgorithmFactory : checksumAlgorithmFactories )
-            {
-                String checksum = requireNonNull(
-                        trustedArtifactChecksums.get( checksumAlgorithmFactory.getName() ) );
+            for( ChecksumAlgorithmFactory checksumAlgorithmFactory : checksumAlgorithmFactories ) {
+                String checksum = requireNonNull( trustedArtifactChecksums.get( checksumAlgorithmFactory.getName() ) );
                 String summaryLine = ArtifactIdUtils.toId( artifact ) + " " + checksum + "\n";
-                Path summaryPath = basedir.resolve(
-                        calculateSummaryPath( originAware, artifactRepository, checksumAlgorithmFactory ) );
+                Path summaryPath = basedir
+                        .resolve( calculateSummaryPath( originAware, artifactRepository, checksumAlgorithmFactory ) );
                 Files.createDirectories( summaryPath.getParent() );
-                Files.write( summaryPath, summaryLine.getBytes( StandardCharsets.UTF_8 ),
-                        StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.APPEND );
+                Files.write( summaryPath, summaryLine.getBytes( StandardCharsets.UTF_8 ), StandardOpenOption.CREATE,
+                        StandardOpenOption.WRITE, StandardOpenOption.APPEND );
             }
         }
 
         @Override
-        public void close()
-        {
+        public void close() {
             // nop
         }
     }

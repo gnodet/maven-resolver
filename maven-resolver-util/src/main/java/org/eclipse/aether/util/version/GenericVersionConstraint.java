@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.version;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.version;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,20 +16,21 @@ package org.eclipse.aether.util.version;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.version;
 
-import static java.util.Objects.requireNonNull;
+import java.util.Objects;
 
 import org.eclipse.aether.version.Version;
 import org.eclipse.aether.version.VersionConstraint;
 import org.eclipse.aether.version.VersionRange;
 
-import java.util.Objects;
+import static java.util.Objects.requireNonNull;
 
 /**
  * A constraint on versions for a dependency.
  */
 final class GenericVersionConstraint
-    implements VersionConstraint
+        implements VersionConstraint
 {
 
     private final VersionRange range;
@@ -43,8 +42,7 @@ final class GenericVersionConstraint
      *
      * @param range The version range, must not be {@code null}.
      */
-    GenericVersionConstraint( VersionRange range )
-    {
+    GenericVersionConstraint( VersionRange range ) {
         this.range = requireNonNull( range, "version range cannot be null" );
         this.version = null;
     }
@@ -54,49 +52,38 @@ final class GenericVersionConstraint
      *
      * @param version The version, must not be {@code null}.
      */
-    GenericVersionConstraint( Version version )
-    {
+    GenericVersionConstraint( Version version ) {
         this.version = requireNonNull( version, "version cannot be null" );
         this.range = null;
     }
 
-    public VersionRange getRange()
-    {
+    public VersionRange getRange() {
         return range;
     }
 
-    public Version getVersion()
-    {
+    public Version getVersion() {
         return version;
     }
 
-    public boolean containsVersion( Version version )
-    {
-        if ( range == null )
-        {
+    public boolean containsVersion( Version version ) {
+        if( range == null ) {
             return version.equals( this.version );
-        }
-        else
-        {
+        } else {
             return range.containsVersion( version );
         }
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.valueOf( ( range == null ) ? version : range );
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
-        if ( this == obj )
-        {
+    public boolean equals( Object obj ) {
+        if( this == obj ) {
             return true;
         }
-        if ( obj == null || !getClass().equals( obj.getClass() ) )
-        {
+        if( obj == null || !getClass().equals( obj.getClass() ) ) {
             return false;
         }
 
@@ -106,16 +93,14 @@ final class GenericVersionConstraint
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 17;
         hash = hash * 31 + hash( getRange() );
         hash = hash * 31 + hash( getVersion() );
         return hash;
     }
 
-    private static int hash( Object obj )
-    {
+    private static int hash( Object obj ) {
         return obj != null ? obj.hashCode() : 0;
     }
 

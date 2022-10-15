@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.test.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.test.util;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.internal.test.util;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.internal.test.util;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,31 +25,28 @@ import java.util.regex.Pattern;
 
 import org.junit.Test;
 
-public class NodeDefinitionTest
-{
+import static org.junit.Assert.*;
 
-    private void assertMatch( String text, String regex, String... groups )
-    {
+public class NodeDefinitionTest {
+
+    private void assertMatch( String text, String regex, String... groups ) {
         Pattern pattern = Pattern.compile( regex );
         Matcher matcher = pattern.matcher( text );
         assertTrue( matcher.matches() );
         assertTrue( groups.length + " vs " + matcher.groupCount(), groups.length <= matcher.groupCount() );
-        for ( int i = 1; i <= groups.length; i++ )
-        {
+        for( int i = 1; i <= groups.length; i++ ) {
             assertEquals( "Mismatch for group " + i, groups[i - 1], matcher.group( i ) );
         }
     }
 
-    private void assertNoMatch( String text, String regex )
-    {
+    private void assertNoMatch( String text, String regex ) {
         Pattern pattern = Pattern.compile( regex );
         Matcher matcher = pattern.matcher( text );
         assertFalse( matcher.matches() );
     }
 
     @Test
-    public void testPatterns()
-    {
+    public void testPatterns() {
         assertMatch( "(Example-ID_0123456789)", NodeDefinition.ID, "Example-ID_0123456789" );
         assertMatch( "^Example-ID_0123456789", NodeDefinition.IDREF, "Example-ID_0123456789" );
 
@@ -85,23 +79,21 @@ public class NodeDefinitionTest
         assertMatch( "gid:aid:1(, 2)<[1, 3]", NodeDefinition.COORDSX, "gid:aid:1", "(, 2)", "[1, 3]" );
 
         assertMatch( "gid:aid:1(, 2)<[1, 3] props=k:v scope=c<r optional relocations=g:a:v (id)", NodeDefinition.NODE,
-                     "gid:aid:1", "(, 2)", "[1, 3]", "k:v", "c", "r", "optional", "g:a:v", "id" );
+                "gid:aid:1", "(, 2)", "[1, 3]", "k:v", "c", "r", "optional", "g:a:v", "id" );
 
         assertMatch( "gid:aid:1(, 2)<[1, 3] props=k:v c<r optional relocations=g:a:v (id)", NodeDefinition.LINE, null,
-                     "gid:aid:1", "(, 2)", "[1, 3]", "k:v", "c", "r", "optional", "g:a:v", "id" );
+                "gid:aid:1", "(, 2)", "[1, 3]", "k:v", "c", "r", "optional", "g:a:v", "id" );
         assertMatch( "^id", NodeDefinition.LINE, "id", null, null, null );
     }
 
     @Test
-    public void testParsing_Reference()
-    {
+    public void testParsing_Reference() {
         NodeDefinition desc = new NodeDefinition( "^id" );
         assertEquals( "id", desc.reference );
     }
 
     @Test
-    public void testParsing_Node()
-    {
+    public void testParsing_Node() {
         NodeDefinition desc = new NodeDefinition( "g:a:1" );
         assertNull( desc.reference );
         assertEquals( "g:a:1", desc.coords );
@@ -138,8 +130,7 @@ public class NodeDefinitionTest
         assertNull( desc.relocations );
         assertNull( desc.id );
 
-        desc =
-            new NodeDefinition( "gid:aid:1(, 2)<[1, 3]" + " props = k:v" + " scope=c<r" + " optional"
+        desc = new NodeDefinition( "gid:aid:1(, 2)<[1, 3]" + " props = k:v" + " scope=c<r" + " optional"
                 + " relocations = g:a:v , g:a:1" + " (id)" );
         assertNull( desc.reference );
         assertEquals( "gid:aid:1", desc.coords );

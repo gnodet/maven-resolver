@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.visitor;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.visitor;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.util.graph.visitor;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.util.graph.visitor;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
@@ -33,7 +32,7 @@ import org.eclipse.aether.graph.DependencyVisitor;
  * subclass and override {@link #clone(DependencyNode)} to alter the clone process.
  */
 public class CloningDependencyVisitor
-    implements DependencyVisitor
+        implements DependencyVisitor
 {
 
     private final Map<DependencyNode, DependencyNode> clones;
@@ -45,8 +44,7 @@ public class CloningDependencyVisitor
     /**
      * Creates a new visitor that clones the visited nodes.
      */
-    public CloningDependencyVisitor()
-    {
+    public CloningDependencyVisitor() {
         parents = new Stack<>();
         clones = new IdentityHashMap<>( 256 );
     }
@@ -56,8 +54,7 @@ public class CloningDependencyVisitor
      * 
      * @return The root node of the cloned dependency graph or {@code null}.
      */
-    public final DependencyNode getRootNode()
-    {
+    public final DependencyNode getRootNode() {
         return root;
     }
 
@@ -67,34 +64,26 @@ public class CloningDependencyVisitor
      * @param node The node to clone, must not be {@code null}.
      * @return The cloned node, never {@code null}.
      */
-    protected DependencyNode clone( DependencyNode node )
-    {
+    protected DependencyNode clone( DependencyNode node ) {
         return new DefaultDependencyNode( node );
     }
 
-    public final boolean visitEnter( DependencyNode node )
-    {
+    public final boolean visitEnter( DependencyNode node ) {
         boolean recurse = true;
 
         DependencyNode clone = clones.get( node );
-        if ( clone == null )
-        {
+        if( clone == null ) {
             clone = clone( node );
             clones.put( node, clone );
-        }
-        else
-        {
+        } else {
             recurse = false;
         }
 
         DependencyNode parent = parents.peek();
 
-        if ( parent == null )
-        {
+        if( parent == null ) {
             root = clone;
-        }
-        else
-        {
+        } else {
             parent.getChildren().add( clone );
         }
 
@@ -103,8 +92,7 @@ public class CloningDependencyVisitor
         return recurse;
     }
 
-    public final boolean visitLeave( DependencyNode node )
-    {
+    public final boolean visitLeave( DependencyNode node ) {
         parents.pop();
 
         return true;

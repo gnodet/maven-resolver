@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.test.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.test.util;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.test.util;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.test.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,16 +41,14 @@ import org.eclipse.aether.repository.RemoteRepository;
 /**
  * @see IniArtifactDescriptorReader
  */
-class IniArtifactDataReader
-{
+class IniArtifactDataReader {
 
     private String prefix = "";
 
     /**
      * Constructs a data reader with the prefix {@code ""}.
      */
-    IniArtifactDataReader()
-    {
+    IniArtifactDataReader() {
         this( "" );
     }
 
@@ -60,8 +57,7 @@ class IniArtifactDataReader
      * 
      * @param prefix the prefix to use for loading resources from the classpath.
      */
-    IniArtifactDataReader( String prefix )
-    {
+    IniArtifactDataReader( String prefix ) {
         this.prefix = prefix;
 
     }
@@ -70,12 +66,11 @@ class IniArtifactDataReader
      * Load an artifact description from the classpath and parse it.
      */
     public ArtifactDescription parse( String resource )
-        throws IOException
+            throws IOException
     {
         URL res = this.getClass().getClassLoader().getResource( prefix + resource );
 
-        if ( res == null )
-        {
+        if( res == null ) {
             throw new IOException( "cannot find resource: " + resource );
         }
         return parse( res );
@@ -85,7 +80,7 @@ class IniArtifactDataReader
      * Open the given URL and parse ist.
      */
     public ArtifactDescription parse( URL res )
-        throws IOException
+            throws IOException
     {
         return parse( new InputStreamReader( res.openStream(), StandardCharsets.UTF_8 ) );
     }
@@ -94,19 +89,18 @@ class IniArtifactDataReader
      * Parse the given String.
      */
     public ArtifactDescription parseLiteral( String description )
-        throws IOException
+            throws IOException
     {
         StringReader reader = new StringReader( description );
         return parse( reader );
     }
 
-    private enum State
-    {
+    private enum State {
         NONE, RELOCATION, DEPENDENCIES, MANAGEDDEPENDENCIES, REPOSITORIES
     }
 
     private ArtifactDescription parse( Reader reader )
-        throws IOException
+            throws IOException
     {
         String line = null;
 
@@ -115,37 +109,27 @@ class IniArtifactDataReader
         Map<State, List<String>> sections = new HashMap<>();
 
         BufferedReader in = null;
-        try
-        {
+        try {
             in = new BufferedReader( reader );
-            while ( ( line = in.readLine() ) != null )
-            {
+            while( ( line = in.readLine() ) != null ) {
 
                 line = cutComment( line );
-                if ( isEmpty( line ) )
-                {
+                if( isEmpty( line ) ) {
                     continue;
                 }
 
-                if ( line.startsWith( "[" ) )
-                {
-                    try
-                    {
+                if( line.startsWith( "[" ) ) {
+                    try {
                         String name = line.substring( 1, line.length() - 1 );
                         name = name.replace( "-", "" ).toUpperCase( Locale.ENGLISH );
                         state = State.valueOf( name );
                         sections.put( state, new ArrayList<String>() );
-                    }
-                    catch ( IllegalArgumentException e )
-                    {
+                    } catch( IllegalArgumentException e ) {
                         throw new IOException( "unknown section: " + line );
                     }
-                }
-                else
-                {
+                } else {
                     List<String> lines = sections.get( state );
-                    if ( lines == null )
-                    {
+                    if( lines == null ) {
                         throw new IOException( "missing section: " + line );
                     }
                     lines.add( line.trim() );
@@ -154,18 +138,12 @@ class IniArtifactDataReader
 
             in.close();
             in = null;
-        }
-        finally
-        {
-            try
-            {
-                if ( in != null )
-                {
+        } finally {
+            try {
+                if( in != null ) {
                     in.close();
                 }
-            }
-            catch ( final IOException e )
-            {
+            } catch( final IOException e ) {
                 // Suppressed due to an exception already thrown in the try block.
             }
         }
@@ -178,15 +156,12 @@ class IniArtifactDataReader
         return new ArtifactDescription( relocation, dependencies, managedDependencies, repositories );
     }
 
-    private List<RemoteRepository> repositories( List<String> list )
-    {
+    private List<RemoteRepository> repositories( List<String> list ) {
         ArrayList<RemoteRepository> ret = new ArrayList<>();
-        if ( list == null )
-        {
+        if( list == null ) {
             return ret;
         }
-        for ( String coords : list )
-        {
+        for( String coords : list ) {
             String[] split = coords.split( ":", 3 );
             String id = split[0];
             String type = split[1];
@@ -197,11 +172,9 @@ class IniArtifactDataReader
         return ret;
     }
 
-    private List<Dependency> dependencies( List<String> list, boolean managed )
-    {
+    private List<Dependency> dependencies( List<String> list, boolean managed ) {
         List<Dependency> ret = new ArrayList<>();
-        if ( list == null )
-        {
+        if( list == null ) {
             return ret;
         }
 
@@ -211,18 +184,13 @@ class IniArtifactDataReader
         Artifact artifact = null;
         String scope = null;
 
-        for ( String coords : list )
-        {
-            if ( coords.startsWith( "-" ) )
-            {
+        for( String coords : list ) {
+            if( coords.startsWith( "-" ) ) {
                 coords = coords.substring( 1 );
                 String[] split = coords.split( ":" );
                 exclusions.add( new Exclusion( split[0], split[1], "*", "*" ) );
-            }
-            else
-            {
-                if ( artifact != null )
-                {
+            } else {
+                if( artifact != null ) {
                     // commit dependency
                     Dependency dep = new Dependency( artifact, scope, optional, exclusions );
                     ret.add( dep );
@@ -236,13 +204,11 @@ class IniArtifactDataReader
 
                 scope = "".equals( def.getScope() ) && !managed ? "compile" : def.getScope();
 
-                artifact =
-                    new DefaultArtifact( def.getGroupId(), def.getArtifactId(), "", def.getExtension(),
-                                         def.getVersion() );
+                artifact = new DefaultArtifact( def.getGroupId(), def.getArtifactId(), "", def.getExtension(),
+                                                def.getVersion() );
             }
         }
-        if ( artifact != null )
-        {
+        if( artifact != null ) {
             // commit dependency
             Dependency dep = new Dependency( artifact, scope, optional, exclusions );
             ret.add( dep );
@@ -251,10 +217,8 @@ class IniArtifactDataReader
         return ret;
     }
 
-    private Artifact relocation( List<String> list )
-    {
-        if ( list == null || list.isEmpty() )
-        {
+    private Artifact relocation( List<String> list ) {
+        if( list == null || list.isEmpty() ) {
             return null;
         }
         String coords = list.get( 0 );
@@ -262,25 +226,21 @@ class IniArtifactDataReader
         return new DefaultArtifact( def.getGroupId(), def.getArtifactId(), "", def.getExtension(), def.getVersion() );
     }
 
-    private static boolean isEmpty( String line )
-    {
+    private static boolean isEmpty( String line ) {
         return line == null || line.length() == 0;
     }
 
-    private static String cutComment( String line )
-    {
+    private static String cutComment( String line ) {
         int idx = line.indexOf( '#' );
 
-        if ( idx != -1 )
-        {
+        if( idx != -1 ) {
             line = line.substring( 0, idx );
         }
 
         return line;
     }
 
-    static class Definition
-    {
+    static class Definition {
         private String groupId;
 
         private String artifactId;
@@ -299,95 +259,77 @@ class IniArtifactDataReader
 
         private boolean optional = false;
 
-        Definition( String def )
-        {
+        Definition( String def ) {
             this.definition = def.trim();
 
-            if ( definition.startsWith( "(" ) )
-            {
+            if( definition.startsWith( "(" ) ) {
                 int idx = definition.indexOf( ')' );
                 this.id = definition.substring( 1, idx );
                 this.definition = definition.substring( idx + 1 );
-            }
-            else if ( definition.startsWith( "^" ) )
-            {
+            } else if( definition.startsWith( "^" ) ) {
                 this.reference = definition.substring( 1 );
                 return;
             }
 
             String[] split = definition.split( ":" );
-            if ( split.length < 4 )
-            {
+            if( split.length < 4 ) {
                 throw new IllegalArgumentException( "Need definition like 'gid:aid:ext:ver[:scope]', but was: "
-                    + definition );
+                        + definition );
             }
             groupId = split[0];
             artifactId = split[1];
             extension = split[2];
             version = split[3];
-            if ( split.length > 4 )
-            {
+            if( split.length > 4 ) {
                 scope = split[4];
             }
-            if ( split.length > 5 && "true".equalsIgnoreCase( split[5] ) )
-            {
+            if( split.length > 5 && "true".equalsIgnoreCase( split[5] ) ) {
                 optional = true;
             }
         }
 
-        public String getGroupId()
-        {
+        public String getGroupId() {
             return groupId;
         }
 
-        public String getArtifactId()
-        {
+        public String getArtifactId() {
             return artifactId;
         }
 
-        public String getType()
-        {
+        public String getType() {
             return extension;
         }
 
-        public String getVersion()
-        {
+        public String getVersion() {
             return version;
         }
 
-        public String getScope()
-        {
+        public String getScope() {
             return scope;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return definition;
         }
 
-        public String getId()
-        {
+        public String getId() {
             return id;
         }
 
-        public String getReference()
-        {
+        public String getReference() {
             return reference;
         }
 
-        public boolean isReference()
-        {
+        public boolean isReference() {
             return reference != null;
         }
 
-        public boolean hasId()
-        {
+        public boolean hasId() {
             return id != null;
         }
 
-        public boolean isOptional()
-        {
+        public boolean isOptional() {
             return optional;
         }
     }

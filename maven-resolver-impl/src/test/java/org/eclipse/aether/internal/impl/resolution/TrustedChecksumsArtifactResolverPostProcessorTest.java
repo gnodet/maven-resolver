@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl.resolution;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl.resolution;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.impl.resolution;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl.resolution;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,7 +53,8 @@ import static org.hamcrest.Matchers.notNullValue;
 /**
  * UT for {@link TrustedChecksumsArtifactResolverPostProcessor}.
  */
-public class TrustedChecksumsArtifactResolverPostProcessorTest implements TrustedChecksumsSource
+public class TrustedChecksumsArtifactResolverPostProcessorTest
+        implements TrustedChecksumsSource
 {
     private static final String TRUSTED_SOURCE_NAME = "test";
 
@@ -73,7 +73,8 @@ public class TrustedChecksumsArtifactResolverPostProcessorTest implements Truste
     private TrustedChecksumsSource.Writer trustedChecksumsWriter;
 
     @Before
-    public void prepareSubject() throws IOException
+    public void prepareSubject()
+            throws IOException
     {
         // make the two artifacts, BOTH as resolved
         File tmp = Files.createTempFile( "artifact", "tmp" ).toFile();
@@ -82,26 +83,22 @@ public class TrustedChecksumsArtifactResolverPostProcessorTest implements Truste
         artifactTrustedChecksum = "da39a3ee5e6b4b0d3255bfef95601890afd80709"; // empty file
 
         session = TestUtils.newSession();
-        ChecksumAlgorithmFactorySelector selector = new ChecksumAlgorithmFactorySelector()
-        {
+        ChecksumAlgorithmFactorySelector selector = new ChecksumAlgorithmFactorySelector() {
             @Override
-            public ChecksumAlgorithmFactory select( String algorithmName )
-            {
-                if ( checksumAlgorithmFactory.getName().equals( algorithmName ) )
-                {
+            public ChecksumAlgorithmFactory select( String algorithmName ) {
+                if( checksumAlgorithmFactory.getName().equals( algorithmName ) ) {
                     return checksumAlgorithmFactory;
                 }
-                throw new IllegalArgumentException("no alg factory for " + algorithmName);
+                throw new IllegalArgumentException( "no alg factory for " + algorithmName );
             }
 
             @Override
-            public Collection<ChecksumAlgorithmFactory> getChecksumAlgorithmFactories()
-            {
+            public Collection<ChecksumAlgorithmFactory> getChecksumAlgorithmFactories() {
                 return Collections.singletonList( checksumAlgorithmFactory );
             }
         };
-        subject = new TrustedChecksumsArtifactResolverPostProcessor( selector,
-                Collections.singletonMap( TRUSTED_SOURCE_NAME, this ) );
+        subject = new TrustedChecksumsArtifactResolverPostProcessor( selector, Collections
+                .singletonMap( TRUSTED_SOURCE_NAME, this ) );
         trustedChecksumsWriter = null;
         session.setConfigProperty( "aether.artifactResolver.postProcessor.trusted-checksums", Boolean.TRUE.toString() );
     }
@@ -113,26 +110,21 @@ public class TrustedChecksumsArtifactResolverPostProcessorTest implements Truste
                                                             ArtifactRepository artifactRepository,
                                                             List<ChecksumAlgorithmFactory> checksumAlgorithmFactories )
     {
-        if ( ArtifactIdUtils.toId( artifactWithTrustedChecksum ).equals( ArtifactIdUtils.toId( artifact ) ) )
-        {
+        if( ArtifactIdUtils.toId( artifactWithTrustedChecksum ).equals( ArtifactIdUtils.toId( artifact ) ) ) {
             return Collections.singletonMap( checksumAlgorithmFactory.getName(), artifactTrustedChecksum );
-        }
-        else
-        {
+        } else {
             return Collections.emptyMap();
         }
     }
 
     @Override
-    public Writer getTrustedArtifactChecksumsWriter( RepositorySystemSession session )
-    {
+    public Writer getTrustedArtifactChecksumsWriter( RepositorySystemSession session ) {
         return trustedChecksumsWriter;
     }
 
     // -- TrustedChecksumsSource interface END
 
-    private ArtifactResult createArtifactResult( Artifact artifact )
-    {
+    private ArtifactResult createArtifactResult( Artifact artifact ) {
         ArtifactResult artifactResult = new ArtifactResult( new ArtifactRequest().setArtifact( artifact ) );
         artifactResult.setArtifact( artifact );
         return artifactResult;
@@ -141,8 +133,7 @@ public class TrustedChecksumsArtifactResolverPostProcessorTest implements Truste
     // UTs below
 
     @Test
-    public void haveMatchingChecksumPass()
-    {
+    public void haveMatchingChecksumPass() {
         ArtifactResult artifactResult = createArtifactResult( artifactWithTrustedChecksum );
         assertThat( artifactResult.isResolved(), equalTo( true ) );
 
@@ -151,8 +142,7 @@ public class TrustedChecksumsArtifactResolverPostProcessorTest implements Truste
     }
 
     @Test
-    public void haveNoChecksumPass()
-    {
+    public void haveNoChecksumPass() {
         ArtifactResult artifactResult = createArtifactResult( artifactWithoutTrustedChecksum );
         assertThat( artifactResult.isResolved(), equalTo( true ) );
 
@@ -161,8 +151,7 @@ public class TrustedChecksumsArtifactResolverPostProcessorTest implements Truste
     }
 
     @Test
-    public void haveNoChecksumFailIfMissingEnabledFail()
-    {
+    public void haveNoChecksumFailIfMissingEnabledFail() {
         session.setConfigProperty( "aether.artifactResolver.postProcessor.trusted-checksums.failIfMissing",
                 Boolean.TRUE.toString() );
         ArtifactResult artifactResult = createArtifactResult( artifactWithoutTrustedChecksum );
@@ -176,8 +165,7 @@ public class TrustedChecksumsArtifactResolverPostProcessorTest implements Truste
     }
 
     @Test
-    public void haveMismatchingChecksumFail()
-    {
+    public void haveMismatchingChecksumFail() {
         artifactTrustedChecksum = "foobar";
         ArtifactResult artifactResult = createArtifactResult( artifactWithTrustedChecksum );
         assertThat( artifactResult.isResolved(), equalTo( true ) );
@@ -192,11 +180,9 @@ public class TrustedChecksumsArtifactResolverPostProcessorTest implements Truste
     }
 
     @Test
-    public void recordCalculatedChecksum()
-    {
-        AtomicReference<String> recordedChecksum = new AtomicReference<>(null);
-        this.trustedChecksumsWriter = new Writer()
-        {
+    public void recordCalculatedChecksum() {
+        AtomicReference<String> recordedChecksum = new AtomicReference<>( null );
+        this.trustedChecksumsWriter = new Writer() {
             @Override
             public void addTrustedArtifactChecksums( Artifact artifact, ArtifactRepository artifactRepository,
                                                      List<ChecksumAlgorithmFactory> checksumAlgorithmFactories,
@@ -206,8 +192,7 @@ public class TrustedChecksumsArtifactResolverPostProcessorTest implements Truste
             }
 
             @Override
-            public void close()
-            {
+            public void close() {
                 // nop
             }
         };

@@ -19,7 +19,6 @@
  */
 /**
  * The support infrastructure for repository connectors to apply checksum policies when validating the integrity of
- * downloaded files.  
+ * downloaded files.
  */
 package org.eclipse.aether.spi.connector.checksum;
-

@@ -21,4 +21,3 @@
  * Miscellaneous utility classes.
  */
 package org.eclipse.aether.util;
-

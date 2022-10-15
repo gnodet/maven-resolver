@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,10 @@ package org.eclipse.aether.internal.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,9 +31,6 @@ import java.io.RandomAccessFile;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,18 +40,15 @@ import org.slf4j.LoggerFactory;
 @Singleton
 @Named
 public final class DefaultTrackingFileManager
-    implements TrackingFileManager
+        implements TrackingFileManager
 {
     private static final Logger LOGGER = LoggerFactory.getLogger( DefaultTrackingFileManager.class );
 
     @Override
-    public Properties read( File file )
-    {
+    public Properties read( File file ) {
         FileInputStream stream = null;
-        try
-        {
-            if ( !file.exists() )
-            {
+        try {
+            if( !file.exists() ) {
                 return null;
             }
 
@@ -62,13 +58,9 @@ public final class DefaultTrackingFileManager
             props.load( stream );
 
             return props;
-        }
-        catch ( IOException e )
-        {
+        } catch( IOException e ) {
             LOGGER.warn( "Failed to read tracking file {}", file, e );
-        }
-        finally
-        {
+        } finally {
             close( stream, file );
         }
 
@@ -76,24 +68,20 @@ public final class DefaultTrackingFileManager
     }
 
     @Override
-    public Properties update( File file, Map<String, String> updates )
-    {
+    public Properties update( File file, Map<String, String> updates ) {
         Properties props = new Properties();
 
         File directory = file.getParentFile();
-        if ( !directory.mkdirs() && !directory.exists() )
-        {
+        if( !directory.mkdirs() && !directory.exists() ) {
             LOGGER.warn( "Failed to create parent directories for tracking file {}", file );
             return props;
         }
 
         RandomAccessFile raf = null;
-        try
-        {
+        try {
             raf = new RandomAccessFile( file, "rw" );
 
-            if ( file.canRead() )
-            {
+            if( file.canRead() ) {
                 byte[] buffer = new byte[(int) raf.length()];
 
                 raf.readFully( buffer );
@@ -103,14 +91,10 @@ public final class DefaultTrackingFileManager
                 props.load( stream );
             }
 
-            for ( Map.Entry<String, String> update : updates.entrySet() )
-            {
-                if ( update.getValue() == null )
-                {
+            for( Map.Entry<String, String> update : updates.entrySet() ) {
+                if( update.getValue() == null ) {
                     props.remove( update.getKey() );
-                }
-                else
-                {
+                } else {
                     props.setProperty( update.getKey(), update.getValue() );
                 }
             }
@@ -119,34 +103,25 @@ public final class DefaultTrackingFileManager
 
             LOGGER.debug( "Writing tracking file {}", file );
             props.store( stream, "NOTE: This is a Maven Resolver internal implementation file"
-                + ", its format can be changed without prior notice." );
+                    + ", its format can be changed without prior notice." );
 
             raf.seek( 0 );
             raf.write( stream.toByteArray() );
             raf.setLength( raf.getFilePointer() );
-        }
-        catch ( IOException e )
-        {
+        } catch( IOException e ) {
             LOGGER.warn( "Failed to write tracking file {}", file, e );
-        }
-        finally
-        {
+        } finally {
             close( raf, file );
         }
 
         return props;
     }
 
-    private void close( Closeable closeable, File file )
-    {
-        if ( closeable != null )
-        {
-            try
-            {
+    private void close( Closeable closeable, File file ) {
+        if( closeable != null ) {
+            try {
                 closeable.close();
-            }
-            catch ( IOException e )
-            {
+            } catch( IOException e ) {
                 LOGGER.warn( "Error closing tracking file {}", file, e );
             }
         }

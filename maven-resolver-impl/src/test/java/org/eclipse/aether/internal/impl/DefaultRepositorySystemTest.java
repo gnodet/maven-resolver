@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.impl;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.internal.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.internal.impl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,16 +33,18 @@ import org.eclipse.aether.util.repository.DefaultProxySelector;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DefaultRepositorySystemTest
-{
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+
+public class DefaultRepositorySystemTest {
 
     private DefaultRepositorySystem system;
 
     private DefaultRepositorySystemSession session;
 
     @Before
-    public void init()
-    {
+    public void init() {
         DefaultRemoteRepositoryManager remoteRepoManager = new DefaultRemoteRepositoryManager();
         system = new DefaultRepositorySystem();
         system.setRemoteRepositoryManager( remoteRepoManager );
@@ -53,8 +52,7 @@ public class DefaultRepositorySystemTest
     }
 
     @Test
-    public void testNewResolutionRepositories()
-    {
+    public void testNewResolutionRepositories() {
         Proxy proxy = new Proxy( "http", "localhost", 8080 );
         DefaultProxySelector proxySelector = new DefaultProxySelector();
         proxySelector.add( proxy, null );
@@ -72,8 +70,8 @@ public class DefaultRepositorySystemTest
 
         RemoteRepository rawRepo1 = new RemoteRepository.Builder( "test-1", "default", "http://void" ).build();
         RemoteRepository rawRepo2 = new RemoteRepository.Builder( "test-2", "default", "http://null" ).build();
-        List<RemoteRepository> resolveRepos =
-            system.newResolutionRepositories( session, Arrays.asList( rawRepo1, rawRepo2 ) );
+        List<RemoteRepository> resolveRepos = system.newResolutionRepositories( session,
+                Arrays.asList( rawRepo1, rawRepo2 ) );
         assertNotNull( resolveRepos );
         assertEquals( 2, resolveRepos.size() );
         RemoteRepository resolveRepo = resolveRepos.get( 0 );
@@ -89,8 +87,7 @@ public class DefaultRepositorySystemTest
     }
 
     @Test
-    public void testNewDeploymentRepository()
-    {
+    public void testNewDeploymentRepository() {
         Proxy proxy = new Proxy( "http", "localhost", 8080 );
         DefaultProxySelector proxySelector = new DefaultProxySelector();
         proxySelector.add( proxy, null );

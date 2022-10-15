@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.test.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.test.util;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,8 +16,7 @@ package org.eclipse.aether.internal.test.util;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.internal.test.util;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -29,28 +26,26 @@ import java.util.List;
 import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.graph.Exclusion;
-import org.eclipse.aether.internal.test.util.ArtifactDescription;
-import org.eclipse.aether.internal.test.util.IniArtifactDataReader;
 import org.eclipse.aether.repository.RemoteRepository;
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.*;
+
 /**
  */
-public class IniArtifactDataReaderTest
-{
+public class IniArtifactDataReaderTest {
 
     private IniArtifactDataReader parser;
 
     @Before
-    public void setup()
-    {
+    public void setup() {
         this.parser = new IniArtifactDataReader( "org/eclipse/aether/internal/test/util/" );
     }
 
     @Test
     public void testRelocation()
-        throws IOException
+            throws IOException
     {
         String def = "[relocation]\ngid:aid:ext:ver";
 
@@ -66,7 +61,7 @@ public class IniArtifactDataReaderTest
 
     @Test
     public void testDependencies()
-        throws IOException
+            throws IOException
     {
         String def = "[dependencies]\ngid:aid:ext:ver\n-exclusion:aid\ngid2:aid2:ext2:ver2";
 
@@ -107,7 +102,7 @@ public class IniArtifactDataReaderTest
 
     @Test
     public void testManagedDependencies()
-        throws IOException
+            throws IOException
     {
         String def = "[managed-dependencies]\ngid:aid:ext:ver\n-exclusion:aid\ngid2:aid2:ext2:ver2:runtime";
 
@@ -151,7 +146,7 @@ public class IniArtifactDataReaderTest
 
     @Test
     public void testResource()
-        throws IOException
+            throws IOException
     {
         ArtifactDescription description = parser.parse( "ArtifactDataReaderTest.ini" );
 
@@ -172,8 +167,7 @@ public class IniArtifactDataReaderTest
 
     }
 
-    private void assertDependencies( List<Dependency> deps )
-    {
+    private void assertDependencies( List<Dependency> deps ) {
         assertEquals( 4, deps.size() );
 
         Dependency dep = deps.get( 0 );

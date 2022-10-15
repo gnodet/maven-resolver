@@ -1,5 +1,3 @@
-package org.eclipse.aether;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,10 +16,7 @@ package org.eclipse.aether;
  * specific language governing permissions and limitations
  * under the License.
  */
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
+package org.eclipse.aether;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -34,14 +29,17 @@ import org.eclipse.aether.repository.RemoteRepository;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
+
 /**
  */
-public class DefaultRepositorySystemSessionTest
-{
+public class DefaultRepositorySystemSessionTest {
 
     @Test
-    public void testDefaultProxySelectorUsesExistingProxy()
-    {
+    public void testDefaultProxySelectorUsesExistingProxy() {
         DefaultRepositorySystemSession session = new DefaultRepositorySystemSession();
 
         RemoteRepository repo = new RemoteRepository.Builder( "id", "default", "void" ).build();
@@ -53,21 +51,17 @@ public class DefaultRepositorySystemSessionTest
     }
 
     @Test
-    public void testDefaultAuthenticationSelectorUsesExistingAuth()
-    {
+    public void testDefaultAuthenticationSelectorUsesExistingAuth() {
         DefaultRepositorySystemSession session = new DefaultRepositorySystemSession();
 
         RemoteRepository repo = new RemoteRepository.Builder( "id", "default", "void" ).build();
         assertSame( null, session.getAuthenticationSelector().getAuthentication( repo ) );
 
-        Authentication auth = new Authentication()
-        {
-            public void fill( AuthenticationContext context, String key, Map<String, String> data )
-            {
+        Authentication auth = new Authentication() {
+            public void fill( AuthenticationContext context, String key, Map<String, String> data ) {
             }
 
-            public void digest( AuthenticationDigest digest )
-            {
+            public void digest( AuthenticationDigest digest ) {
             }
         };
         repo = new RemoteRepository.Builder( repo ).setAuthentication( auth ).build();
@@ -75,8 +69,7 @@ public class DefaultRepositorySystemSessionTest
     }
 
     @Test
-    public void testCopyConstructorCopiesPropertiesDeep()
-    {
+    public void testCopyConstructorCopiesPropertiesDeep() {
         DefaultRepositorySystemSession session1 = new DefaultRepositorySystemSession();
         session1.setUserProperties( System.getProperties() );
         session1.setSystemProperties( System.getProperties() );
@@ -93,44 +86,34 @@ public class DefaultRepositorySystemSessionTest
     }
 
     @Test
-    public void testReadOnlyProperties()
-    {
+    public void testReadOnlyProperties() {
         DefaultRepositorySystemSession session = new DefaultRepositorySystemSession();
 
-        try
-        {
+        try {
             session.getUserProperties().put( "key", "test" );
             fail( "user properties are modifiable" );
-        }
-        catch ( UnsupportedOperationException e )
-        {
+        } catch( UnsupportedOperationException e ) {
             // expected
         }
 
-        try
-        {
+        try {
             session.getSystemProperties().put( "key", "test" );
             fail( "system properties are modifiable" );
-        }
-        catch ( UnsupportedOperationException e )
-        {
+        } catch( UnsupportedOperationException e ) {
             // expected
         }
 
-        try
-        {
+        try {
             session.getConfigProperties().put( "key", "test" );
             fail( "config properties are modifiable" );
-        }
-        catch ( UnsupportedOperationException e )
-        {
+        } catch( UnsupportedOperationException e ) {
             // expected
         }
     }
 
-
     @Test
-    public void testCopyRepositorySystemSession() throws Exception
+    public void testCopyRepositorySystemSession()
+            throws Exception
     {
         RepositorySystemSession session = Mockito.mock( RepositorySystemSession.class, Mockito.RETURNS_MOCKS );
 
@@ -138,8 +121,7 @@ public class DefaultRepositorySystemSessionTest
 
         Method[] methods = RepositorySystemSession.class.getMethods();
 
-        for ( Method method : methods )
-        {
+        for( Method method : methods ) {
             assertEquals( method.getName(), method.invoke( session ) == null, method.invoke( newSession ) == null );
         }
     }

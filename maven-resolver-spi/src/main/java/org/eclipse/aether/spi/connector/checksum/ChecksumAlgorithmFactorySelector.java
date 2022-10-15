@@ -1,5 +1,3 @@
-package org.eclipse.aether.spi.connector.checksum;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.spi.connector.checksum;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.spi.connector.checksum;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.spi.connector.checksum;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,8 +28,7 @@ import static java.util.stream.Collectors.toList;
  *
  * @since 1.8.0
  */
-public interface ChecksumAlgorithmFactorySelector
-{
+public interface ChecksumAlgorithmFactorySelector {
     /**
      * Returns factory for given algorithm name, or throws if algorithm not supported.
      *
@@ -39,23 +37,22 @@ public interface ChecksumAlgorithmFactorySelector
     ChecksumAlgorithmFactory select( String algorithmName );
 
     /**
-     * Returns list of factories for given algorithm names in order as collection is ordered, or throws if algorithm
-     * not supported.
+     * Returns list of factories for given algorithm names in order as collection is ordered, or throws if algorithm not
+     * supported.
      *
      * @throws IllegalArgumentException if asked algorithm name is not supported.
-     * @throws NullPointerException if passed in list of names is {@code null}.
+     * @throws NullPointerException     if passed in list of names is {@code null}.
      * @since TBD
      */
-    default List<ChecksumAlgorithmFactory> select( Collection<String> algorithmNames )
-    {
+    default List<ChecksumAlgorithmFactory> select( Collection<String> algorithmNames ) {
         return algorithmNames.stream().map( this::select ).collect( toList() );
     }
 
     /**
-     * Returns a collection of supported algorithms. This set represents ALL the algorithms supported by Resolver,
-     * and is NOT in any relation to given repository layout used checksums, returned by method {@link
-     * org.eclipse.aether.spi.connector.layout.RepositoryLayout#getChecksumAlgorithmFactories()} (in fact, is super set
-     * of it).
+     * Returns a collection of supported algorithms. This set represents ALL the algorithms supported by Resolver, and
+     * is NOT in any relation to given repository layout used checksums, returned by method
+     * {@link org.eclipse.aether.spi.connector.layout.RepositoryLayout#getChecksumAlgorithmFactories()} (in fact, is
+     * super set of it).
      */
     Collection<ChecksumAlgorithmFactory> getChecksumAlgorithmFactories();
 }

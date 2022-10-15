@@ -21,4 +21,3 @@
  * Ready-to-use selectors for authentication, proxies and mirrors and a few other repository related utilities.
  */
 package org.eclipse.aether.util.repository;
-

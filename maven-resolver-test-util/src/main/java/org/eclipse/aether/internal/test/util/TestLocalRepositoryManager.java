@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.test.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.test.util;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.test.util;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.test.util;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +42,7 @@ import static java.util.Objects.requireNonNull;
  * A simplistic local repository manager that uses a temporary base directory.
  */
 public class TestLocalRepositoryManager
-    implements LocalRepositoryManager
+        implements LocalRepositoryManager
 {
 
     private LocalRepository localRepository;
@@ -54,25 +53,19 @@ public class TestLocalRepositoryManager
 
     private final Set<Metadata> metadataRegistrations = new HashSet<>();
 
-    public TestLocalRepositoryManager()
-    {
-        try
-        {
+    public TestLocalRepositoryManager() {
+        try {
             localRepository = new LocalRepository( TestFileUtils.createTempDir( "test-local-repo" ) );
-        }
-        catch ( IOException e )
-        {
+        } catch( IOException e ) {
             throw new IllegalStateException( e );
         }
     }
 
-    public LocalRepository getRepository()
-    {
+    public LocalRepository getRepository() {
         return localRepository;
     }
 
-    public String getPathForLocalArtifact( Artifact artifact )
-    {
+    public String getPathForLocalArtifact( Artifact artifact ) {
         requireNonNull( artifact, "artifact cannot be null" );
 
         String artifactId = artifact.getArtifactId();
@@ -82,19 +75,17 @@ public class TestLocalRepositoryManager
         String classifier = artifact.getClassifier();
 
         return String.format( "%s/%s/%s/%s-%s-%s%s.%s", groupId, artifactId, version, groupId, artifactId, version,
-                       classifier, extension );
+                classifier, extension );
     }
 
-    public String getPathForRemoteArtifact( Artifact artifact, RemoteRepository repository, String context )
-    {
+    public String getPathForRemoteArtifact( Artifact artifact, RemoteRepository repository, String context ) {
         requireNonNull( artifact, "artifact cannot be null" );
         requireNonNull( repository, "repository cannot be null" );
 
         return getPathForLocalArtifact( artifact );
     }
 
-    public String getPathForLocalMetadata( Metadata metadata )
-    {
+    public String getPathForLocalMetadata( Metadata metadata ) {
         requireNonNull( metadata, "metadata cannot be null" );
 
         String artifactId = metadata.getArtifactId();
@@ -103,16 +94,14 @@ public class TestLocalRepositoryManager
         return String.format( "%s/%s/%s/%s-%s-%s.xml", groupId, artifactId, version, groupId, artifactId, version );
     }
 
-    public String getPathForRemoteMetadata( Metadata metadata, RemoteRepository repository, String context )
-    {
+    public String getPathForRemoteMetadata( Metadata metadata, RemoteRepository repository, String context ) {
         requireNonNull( metadata, "metadata cannot be null" );
         requireNonNull( repository, "repository cannot be null" );
 
         return getPathForLocalMetadata( metadata );
     }
 
-    public LocalArtifactResult find( RepositorySystemSession session, LocalArtifactRequest request )
-    {
+    public LocalArtifactResult find( RepositorySystemSession session, LocalArtifactRequest request ) {
         requireNonNull( session, "session cannot be null" );
         requireNonNull( request, "request cannot be null" );
 
@@ -126,16 +115,14 @@ public class TestLocalRepositoryManager
         return result;
     }
 
-    public void add( RepositorySystemSession session, LocalArtifactRegistration request )
-    {
+    public void add( RepositorySystemSession session, LocalArtifactRegistration request ) {
         requireNonNull( session, "session cannot be null" );
         requireNonNull( request, "request cannot be null" );
 
         artifactRegistrations.add( request.getArtifact() );
     }
 
-    public LocalMetadataResult find( RepositorySystemSession session, LocalMetadataRequest request )
-    {
+    public LocalMetadataResult find( RepositorySystemSession session, LocalMetadataRequest request ) {
         requireNonNull( session, "session cannot be null" );
         requireNonNull( request, "request cannot be null" );
 
@@ -148,32 +135,25 @@ public class TestLocalRepositoryManager
         return result;
     }
 
-    public void add( RepositorySystemSession session, LocalMetadataRegistration request )
-    {
+    public void add( RepositorySystemSession session, LocalMetadataRegistration request ) {
         requireNonNull( session, "session cannot be null" );
         requireNonNull( request, "request cannot be null" );
 
         metadataRegistrations.add( request.getMetadata() );
     }
 
-    public Set<Artifact> getArtifactRegistration()
-    {
+    public Set<Artifact> getArtifactRegistration() {
         return artifactRegistrations;
     }
 
-    public Set<Metadata> getMetadataRegistration()
-    {
+    public Set<Metadata> getMetadataRegistration() {
         return metadataRegistrations;
     }
 
-    public void setArtifactAvailability( Artifact artifact, boolean available )
-    {
-        if ( available )
-        {
+    public void setArtifactAvailability( Artifact artifact, boolean available ) {
+        if( available ) {
             unavailableArtifacts.remove( artifact );
-        }
-        else
-        {
+        } else {
             unavailableArtifacts.add( artifact );
         }
     }

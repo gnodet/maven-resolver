@@ -19,7 +19,6 @@
  */
 /**
  * Support for downloads/uploads via the HTTP and HTTPS protocols. The current implementation is backed by
- * <a href="http://hc.apache.org/httpcomponents-client-ga/" target="_blank">Apache HttpClient</a>.
+ * <a href="http://hc.apache.org/httpcomponents-client-ga/" target= "_blank">Apache HttpClient</a>.
  */
 package org.eclipse.aether.transport.http;
-

@@ -21,4 +21,3 @@
  * Utilities to build repository and transfer listeners.
  */
 package org.eclipse.aether.util.listener;
-

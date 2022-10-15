@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.test.util;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.internal.test.util;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.test.util;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.test.util;
 
 import org.eclipse.aether.RepositorySystemSession;
 import org.eclipse.aether.artifact.Artifact;
@@ -75,15 +74,13 @@ import static java.util.Objects.requireNonNull;
  * id:type:file:///test-repo
  * </pre>
  */
-public class IniArtifactDescriptorReader
-{
+public class IniArtifactDescriptorReader {
     private final IniArtifactDataReader reader;
 
     /**
      * Use the given prefix to load the artifact descriptions from the classpath.
      */
-    public IniArtifactDescriptorReader( String prefix )
-    {
+    public IniArtifactDescriptorReader( String prefix ) {
         reader = new IniArtifactDataReader( prefix );
     }
 
@@ -93,34 +90,27 @@ public class IniArtifactDescriptorReader
      */
     public ArtifactDescriptorResult readArtifactDescriptor( RepositorySystemSession session,
                                                             ArtifactDescriptorRequest request )
-        throws ArtifactDescriptorException
+            throws ArtifactDescriptorException
     {
         requireNonNull( session, "session cannot be null" );
         requireNonNull( request, "request cannot be null" );
         ArtifactDescriptorResult result = new ArtifactDescriptorResult( request );
-        for ( Artifact artifact = request.getArtifact();; )
-        {
-            String resourceName =
-                String.format( "%s_%s_%s.ini", artifact.getGroupId(), artifact.getArtifactId(), artifact.getVersion() );
-            try
-            {
+        for( Artifact artifact = request.getArtifact();; ) {
+            String resourceName = String.format( "%s_%s_%s.ini", artifact.getGroupId(), artifact.getArtifactId(),
+                    artifact.getVersion() );
+            try {
                 ArtifactDescription data = reader.parse( resourceName );
-                if ( data.getRelocation() != null )
-                {
+                if( data.getRelocation() != null ) {
                     result.addRelocation( artifact );
                     artifact = data.getRelocation();
-                }
-                else
-                {
+                } else {
                     result.setArtifact( artifact );
                     result.setDependencies( data.getDependencies() );
                     result.setManagedDependencies( data.getManagedDependencies() );
                     result.setRepositories( data.getRepositories() );
                     return result;
                 }
-            }
-            catch ( Exception e )
-            {
+            } catch( Exception e ) {
                 throw new ArtifactDescriptorException( result, e.getMessage(), e );
             }
         }

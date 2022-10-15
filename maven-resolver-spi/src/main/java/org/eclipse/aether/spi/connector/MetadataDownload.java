@@ -1,5 +1,3 @@
-package org.eclipse.aether.spi.connector;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.spi.connector;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.spi.connector;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.spi.connector;
 
 import java.io.File;
 import java.util.Collections;
@@ -34,7 +33,7 @@ import org.eclipse.aether.transfer.TransferListener;
  * {@link #setException(MetadataTransferException)} to report the results of the transfer.
  */
 public final class MetadataDownload
-    extends MetadataTransfer
+        extends MetadataTransfer
 {
 
     private String checksumPolicy = "";
@@ -46,21 +45,19 @@ public final class MetadataDownload
     /**
      * Creates a new uninitialized download.
      */
-    public MetadataDownload()
-    {
+    public MetadataDownload() {
         // enables default constructor
     }
 
     /**
      * Creates a new download with the specified properties.
      * 
-     * @param metadata The metadata to download, may be {@code null}.
-     * @param context The context in which this download is performed, may be {@code null}.
-     * @param file The local file to download the metadata to, may be {@code null}.
+     * @param metadata       The metadata to download, may be {@code null}.
+     * @param context        The context in which this download is performed, may be {@code null}.
+     * @param file           The local file to download the metadata to, may be {@code null}.
      * @param checksumPolicy The checksum policy, may be {@code null}.
      */
-    public MetadataDownload( Metadata metadata, String context, File file, String checksumPolicy )
-    {
+    public MetadataDownload( Metadata metadata, String context, File file, String checksumPolicy ) {
         setMetadata( metadata );
         setFile( file );
         setChecksumPolicy( checksumPolicy );
@@ -68,15 +65,13 @@ public final class MetadataDownload
     }
 
     @Override
-    public MetadataDownload setMetadata( Metadata metadata )
-    {
+    public MetadataDownload setMetadata( Metadata metadata ) {
         super.setMetadata( metadata );
         return this;
     }
 
     @Override
-    public MetadataDownload setFile( File file )
-    {
+    public MetadataDownload setFile( File file ) {
         super.setFile( file );
         return this;
     }
@@ -86,8 +81,7 @@ public final class MetadataDownload
      * 
      * @return The checksum policy, never {@code null}.
      */
-    public String getChecksumPolicy()
-    {
+    public String getChecksumPolicy() {
         return checksumPolicy;
     }
 
@@ -97,8 +91,7 @@ public final class MetadataDownload
      * @param checksumPolicy The checksum policy, may be {@code null}.
      * @return This transfer for chaining, never {@code null}.
      */
-    public MetadataDownload setChecksumPolicy( String checksumPolicy )
-    {
+    public MetadataDownload setChecksumPolicy( String checksumPolicy ) {
         this.checksumPolicy = ( checksumPolicy != null ) ? checksumPolicy : "";
         return this;
     }
@@ -108,8 +101,7 @@ public final class MetadataDownload
      * 
      * @return The context id, never {@code null}.
      */
-    public String getRequestContext()
-    {
+    public String getRequestContext() {
         return context;
     }
 
@@ -119,8 +111,7 @@ public final class MetadataDownload
      * @param context The context id, may be {@code null}.
      * @return This transfer for chaining, never {@code null}.
      */
-    public MetadataDownload setRequestContext( String context )
-    {
+    public MetadataDownload setRequestContext( String context ) {
         this.context = ( context != null ) ? context : "";
         return this;
     }
@@ -131,8 +122,7 @@ public final class MetadataDownload
      * 
      * @return The remote repositories being aggregated, never {@code null}.
      */
-    public List<RemoteRepository> getRepositories()
-    {
+    public List<RemoteRepository> getRepositories() {
         return repositories;
     }
 
@@ -143,43 +133,35 @@ public final class MetadataDownload
      * @param repositories The remote repositories being aggregated, may be {@code null}.
      * @return This transfer for chaining, never {@code null}.
      */
-    public MetadataDownload setRepositories( List<RemoteRepository> repositories )
-    {
-        if ( repositories == null )
-        {
+    public MetadataDownload setRepositories( List<RemoteRepository> repositories ) {
+        if( repositories == null ) {
             this.repositories = Collections.emptyList();
-        }
-        else
-        {
+        } else {
             this.repositories = repositories;
         }
         return this;
     }
 
     @Override
-    public MetadataDownload setException( MetadataTransferException exception )
-    {
+    public MetadataDownload setException( MetadataTransferException exception ) {
         super.setException( exception );
         return this;
     }
 
     @Override
-    public MetadataDownload setListener( TransferListener listener )
-    {
+    public MetadataDownload setListener( TransferListener listener ) {
         super.setListener( listener );
         return this;
     }
 
     @Override
-    public MetadataDownload setTrace( RequestTrace trace )
-    {
+    public MetadataDownload setTrace( RequestTrace trace ) {
         super.setTrace( trace );
         return this;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getMetadata() + " - " + getFile();
     }
 

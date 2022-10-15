@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl;
 
 import org.eclipse.aether.spi.connector.checksum.ChecksumPolicy;
 import org.eclipse.aether.transfer.ChecksumFailureException;
@@ -35,14 +34,12 @@ abstract class AbstractChecksumPolicy
 
     protected final TransferResource resource;
 
-    protected AbstractChecksumPolicy( TransferResource resource )
-    {
+    protected AbstractChecksumPolicy( TransferResource resource ) {
         this.resource = resource;
     }
 
     @Override
-    public boolean onChecksumMatch( String algorithm, ChecksumKind kind )
-    {
+    public boolean onChecksumMatch( String algorithm, ChecksumKind kind ) {
         requireNonNull( algorithm, "algorithm cannot be null" );
         return true;
     }
@@ -73,8 +70,7 @@ abstract class AbstractChecksumPolicy
     }
 
     @Override
-    public void onTransferRetry()
-    {
+    public void onTransferRetry() {
     }
 
 }

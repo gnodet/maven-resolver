@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl.synccontext;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl.synccontext;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.impl.synccontext;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl.synccontext;
 
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
@@ -94,14 +93,12 @@ public final class DefaultSyncContextFactory
      * @deprecated Will be removed once ServiceLocator removed.
      */
     @Deprecated
-    public DefaultSyncContextFactory()
-    {
+    public DefaultSyncContextFactory() {
         // ctor for ServiceLoader
     }
 
     @Override
-    public void initService( final ServiceLocator locator )
-    {
+    public void initService( final ServiceLocator locator ) {
         HashMap<String, NameMapper> mappers = new HashMap<>();
         mappers.put( StaticNameMapperProvider.NAME, new StaticNameMapperProvider().get() );
         mappers.put( GAVNameMapperProvider.NAME, new GAVNameMapperProvider().get() );
@@ -119,30 +116,23 @@ public final class DefaultSyncContextFactory
     }
 
     @Override
-    public SyncContext newInstance( final RepositorySystemSession session, final boolean shared )
-    {
+    public SyncContext newInstance( final RepositorySystemSession session, final boolean shared ) {
         requireNonNull( session, "session cannot be null" );
-        NamedLockFactoryAdapter adapter =
-                (NamedLockFactoryAdapter) session.getData().computeIfAbsent(
-                        ADAPTER_KEY,
-                        () -> createAdapter( session )
-                );
+        NamedLockFactoryAdapter adapter = (NamedLockFactoryAdapter) session.getData().computeIfAbsent( ADAPTER_KEY,
+                () -> createAdapter( session ) );
         return adapter.newInstance( session, shared );
     }
 
-    private NamedLockFactoryAdapter createAdapter( final RepositorySystemSession session )
-    {
+    private NamedLockFactoryAdapter createAdapter( final RepositorySystemSession session ) {
         String nameMapperName = ConfigUtils.getString( session, DEFAULT_NAME_MAPPER_NAME, NAME_MAPPER_KEY );
         String namedLockFactoryName = ConfigUtils.getString( session, DEFAULT_FACTORY_NAME, FACTORY_KEY );
         NameMapper nameMapper = nameMappers.get( nameMapperName );
-        if ( nameMapper == null )
-        {
-            throw new IllegalArgumentException( "Unknown NameMapper name: " + nameMapperName
-                    + ", known ones: " + nameMappers.keySet() );
+        if( nameMapper == null ) {
+            throw new IllegalArgumentException( "Unknown NameMapper name: " + nameMapperName + ", known ones: "
+                    + nameMappers.keySet() );
         }
         NamedLockFactory namedLockFactory = namedLockFactories.get( namedLockFactoryName );
-        if ( namedLockFactory == null )
-        {
+        if( namedLockFactory == null ) {
             throw new IllegalArgumentException( "Unknown NamedLockFactory name: " + namedLockFactoryName
                     + ", known ones: " + namedLockFactories.keySet() );
         }
@@ -152,20 +142,14 @@ public final class DefaultSyncContextFactory
     }
 
     @PreDestroy
-    public void shutdown()
-    {
+    public void shutdown() {
         LOGGER.debug( "Shutting down created adapters..." );
-        createdAdapters.forEach( adapter ->
-                {
-                    try
-                    {
-                        adapter.shutdown();
-                    }
-                    catch ( Exception e )
-                    {
-                        LOGGER.warn( "Could not shutdown: {}", adapter, e );
-                    }
-                }
-        );
+        createdAdapters.forEach( adapter -> {
+            try {
+                adapter.shutdown();
+            } catch( Exception e ) {
+                LOGGER.warn( "Could not shutdown: {}", adapter, e );
+            }
+        } );
     }
 }

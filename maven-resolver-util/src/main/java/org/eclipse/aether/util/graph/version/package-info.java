@@ -21,4 +21,3 @@
  * Various version filters for building a dependency graph.
  */
 package org.eclipse.aether.util.graph.version;
-

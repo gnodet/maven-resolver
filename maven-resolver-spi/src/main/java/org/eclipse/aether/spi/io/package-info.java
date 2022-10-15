@@ -18,7 +18,6 @@
  * under the License.
  */
 /**
- * I/O related support infrastructure for components. 
+ * I/O related support infrastructure for components.
  */
 package org.eclipse.aether.spi.io;
-

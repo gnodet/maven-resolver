@@ -21,4 +21,3 @@
  * Various dependency filters for selecting nodes in a dependency graph.
  */
 package org.eclipse.aether.util.filter;
-

@@ -1,5 +1,3 @@
-package org.eclipse.aether.spi.connector.transport;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.spi.connector.transport;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,6 +16,7 @@ package org.eclipse.aether.spi.connector.transport;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.spi.connector.transport;
 
 import java.io.Closeable;
 
@@ -34,7 +33,7 @@ import java.io.Closeable;
  * for concurrent requests.
  */
 public interface Transporter
-    extends Closeable
+        extends Closeable
 {
 
     /**
@@ -72,7 +71,7 @@ public interface Transporter
      * @throws Exception If the existence of the specified resource could not be confirmed.
      */
     void peek( PeekTask task )
-        throws Exception;
+            throws Exception;
 
     /**
      * Downloads a resource from the repository. If the resource is downloaded to a file as given by
@@ -83,7 +82,7 @@ public interface Transporter
      * @throws Exception If the transfer failed.
      */
     void get( GetTask task )
-        throws Exception;
+            throws Exception;
 
     /**
      * Uploads a resource to the repository.
@@ -92,7 +91,7 @@ public interface Transporter
      * @throws Exception If the transfer failed.
      */
     void put( PutTask task )
-        throws Exception;
+            throws Exception;
 
     /**
      * Closes this transporter and frees any network resources associated with it. Once closed, a transporter must not

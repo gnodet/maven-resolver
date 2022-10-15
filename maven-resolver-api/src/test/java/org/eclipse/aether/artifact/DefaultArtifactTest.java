@@ -1,5 +1,3 @@
-package org.eclipse.aether.artifact;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.artifact;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,27 +16,23 @@ package org.eclipse.aether.artifact;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.artifact;
 
 import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.aether.artifact.Artifact;
-import org.eclipse.aether.artifact.ArtifactProperties;
-import org.eclipse.aether.artifact.DefaultArtifact;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  */
-public class DefaultArtifactTest
-{
+public class DefaultArtifactTest {
 
     @Test
-    public void testDefaultArtifactString()
-    {
+    public void testDefaultArtifactString() {
         Artifact a;
 
         a = new DefaultArtifact( "gid:aid:ver" );
@@ -91,20 +85,17 @@ public class DefaultArtifactTest
     }
 
     @Test( expected = IllegalArgumentException.class )
-    public void testDefaultArtifactContainsGroupAndArtifactOnly()
-    {
+    public void testDefaultArtifactContainsGroupAndArtifactOnly() {
         new DefaultArtifact( "gid:aid" );
     }
 
     @Test( expected = IllegalArgumentException.class )
-    public void testDefaultArtifactContainsGroupOnly()
-    {
+    public void testDefaultArtifactContainsGroupOnly() {
         new DefaultArtifact( "gid" );
     }
 
     @Test
-    public void testImmutability()
-    {
+    public void testImmutability() {
         Artifact a = new DefaultArtifact( "gid:aid:ext:cls:ver" );
         assertNotSame( a, a.setFile( new File( "file" ) ) );
         assertNotSame( a, a.setVersion( "otherVersion" ) );
@@ -112,8 +103,7 @@ public class DefaultArtifactTest
     }
 
     @Test
-    public void testArtifactType()
-    {
+    public void testArtifactType() {
         DefaultArtifactType type = new DefaultArtifactType( "typeId", "typeExt", "typeCls", "typeLang", true, true );
 
         Artifact a = new DefaultArtifact( "gid", "aid", null, null, null, null, type );
@@ -158,8 +148,7 @@ public class DefaultArtifactTest
     }
 
     @Test
-    public void testPropertiesCopied()
-    {
+    public void testPropertiesCopied() {
         Map<String, String> props = new HashMap<>();
         props.put( "key", "value1" );
 
@@ -176,8 +165,7 @@ public class DefaultArtifactTest
     }
 
     @Test
-    public void testIsSnapshot()
-    {
+    public void testIsSnapshot() {
         Artifact a = new DefaultArtifact( "gid:aid:ext:cls:1.0" );
         assertFalse( a.getVersion(), a.isSnapshot() );
 

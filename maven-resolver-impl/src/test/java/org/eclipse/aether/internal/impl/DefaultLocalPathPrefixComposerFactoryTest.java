@@ -1,5 +1,3 @@
-package org.eclipse.aether.internal.impl;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -9,7 +7,7 @@ package org.eclipse.aether.internal.impl;
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *  http://www.apache.org/licenses/LICENSE-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -18,6 +16,7 @@ package org.eclipse.aether.internal.impl;
  * specific language governing permissions and limitations
  * under the License.
  */
+package org.eclipse.aether.internal.impl;
 
 import org.eclipse.aether.DefaultRepositorySystemSession;
 import org.eclipse.aether.artifact.Artifact;
@@ -35,25 +34,30 @@ import static org.junit.Assert.assertNull;
 /**
  * UT for {@link DefaultLocalPathPrefixComposerFactory}.
  */
-public class DefaultLocalPathPrefixComposerFactoryTest
-{
-    private final Artifact releaseArtifact = new DefaultArtifact("org.group:artifact:1.0");
+public class DefaultLocalPathPrefixComposerFactoryTest {
+    private final Artifact releaseArtifact = new DefaultArtifact( "org.group:artifact:1.0" );
 
-    private final Artifact snapshotArtifact = new DefaultArtifact("org.group:artifact:1.0-20220228.180000-1");
+    private final Artifact snapshotArtifact = new DefaultArtifact( "org.group:artifact:1.0-20220228.180000-1" );
 
-    private final Metadata releaseMetadata = new DefaultMetadata( "org.group", "artifact", "1.0", "maven-metadata.xml", Metadata.Nature.RELEASE_OR_SNAPSHOT );
+    private final Metadata releaseMetadata = new DefaultMetadata( "org.group", "artifact", "1.0", "maven-metadata.xml",
+                                                                  Metadata.Nature.RELEASE_OR_SNAPSHOT );
 
-    private final Metadata snapshotMetadata = new DefaultMetadata( "org.group", "artifact", "1.0-SNAPSHOT", "maven-metadata.xml", Metadata.Nature.RELEASE_OR_SNAPSHOT );
+    private final Metadata snapshotMetadata = new DefaultMetadata( "org.group", "artifact", "1.0-SNAPSHOT",
+                                                                   "maven-metadata.xml",
+                                                                   Metadata.Nature.RELEASE_OR_SNAPSHOT );
 
-    private final Metadata gaMetadata = new DefaultMetadata( "org.group", "artifact", null, "maven-metadata.xml", Metadata.Nature.RELEASE_OR_SNAPSHOT );
+    private final Metadata gaMetadata = new DefaultMetadata( "org.group", "artifact", null, "maven-metadata.xml",
+                                                             Metadata.Nature.RELEASE_OR_SNAPSHOT );
 
-    private final Metadata gMetadata = new DefaultMetadata( "org.group", null, null, "maven-metadata.xml", Metadata.Nature.RELEASE_OR_SNAPSHOT );
+    private final Metadata gMetadata = new DefaultMetadata( "org.group", null, null, "maven-metadata.xml",
+                                                            Metadata.Nature.RELEASE_OR_SNAPSHOT );
 
-    private final RemoteRepository repository = new RemoteRepository.Builder( "my-repo", "default", "https://repo.maven.apache.org/maven2/" ).build();
+    private final RemoteRepository repository = new RemoteRepository.Builder( "my-repo", "default",
+                                                                              "https://repo.maven.apache.org/maven2/" )
+                                                                                      .build();
 
     @Test
-    public void defaultConfigNoSplitAllNulls()
-    {
+    public void defaultConfigNoSplitAllNulls() {
         DefaultRepositorySystemSession session = TestUtils.newSession();
 
         LocalPathPrefixComposerFactory factory = new DefaultLocalPathPrefixComposerFactory();
@@ -75,8 +79,7 @@ public class DefaultLocalPathPrefixComposerFactoryTest
     }
 
     @Test
-    public void splitEnabled()
-    {
+    public void splitEnabled() {
         DefaultRepositorySystemSession session = TestUtils.newSession();
         session.setConfigProperty( "aether.enhancedLocalRepository.split", Boolean.TRUE.toString() );
 
@@ -103,8 +106,7 @@ public class DefaultLocalPathPrefixComposerFactoryTest
     }
 
     @Test
-    public void saneConfig()
-    {
+    public void saneConfig() {
         DefaultRepositorySystemSession session = TestUtils.newSession();
         session.setConfigProperty( "aether.enhancedLocalRepository.split", Boolean.TRUE.toString() );
         session.setConfigProperty( "aether.enhancedLocalRepository.splitLocal", Boolean.TRUE.toString() );
@@ -165,8 +167,7 @@ public class DefaultLocalPathPrefixComposerFactoryTest
     }
 
     @Test
-    public void fullConfig()
-    {
+    public void fullConfig() {
         DefaultRepositorySystemSession session = TestUtils.newSession();
         session.setConfigProperty( "aether.enhancedLocalRepository.split", Boolean.TRUE.toString() );
         session.setConfigProperty( "aether.enhancedLocalRepository.splitLocal", Boolean.TRUE.toString() );

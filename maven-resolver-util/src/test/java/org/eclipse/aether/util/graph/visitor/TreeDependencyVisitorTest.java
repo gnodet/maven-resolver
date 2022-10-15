@@ -1,5 +1,3 @@
-package org.eclipse.aether.util.graph.visitor;
-
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -8,9 +6,9 @@ package org.eclipse.aether.util.graph.visitor;
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,26 +16,26 @@ package org.eclipse.aether.util.graph.visitor;
  * specific language governing permissions and limitations
  * under the License.
  */
-
-import static org.junit.Assert.*;
+package org.eclipse.aether.util.graph.visitor;
 
 import org.eclipse.aether.graph.DependencyNode;
 import org.eclipse.aether.graph.DependencyVisitor;
 import org.eclipse.aether.internal.test.util.DependencyGraphParser;
 import org.junit.Test;
 
-public class TreeDependencyVisitorTest
-{
+import static org.junit.Assert.*;
+
+public class TreeDependencyVisitorTest {
 
     private DependencyNode parse( String resource )
-        throws Exception
+            throws Exception
     {
         return new DependencyGraphParser( "visitor/tree/" ).parseResource( resource );
     }
 
     @Test
     public void testDuplicateSuppression()
-        throws Exception
+            throws Exception
     {
         DependencyNode root = parse( "cycles.txt" );
 
@@ -49,19 +47,17 @@ public class TreeDependencyVisitorTest
     }
 
     private static class RecordingVisitor
-        implements DependencyVisitor
+            implements DependencyVisitor
     {
 
         StringBuilder buffer = new StringBuilder( 256 );
 
-        public boolean visitEnter( DependencyNode node )
-        {
+        public boolean visitEnter( DependencyNode node ) {
             buffer.append( '>' ).append( node.getDependency().getArtifact().getArtifactId() ).append( ' ' );
             return true;
         }
 
-        public boolean visitLeave( DependencyNode node )
-        {
+        public boolean visitLeave( DependencyNode node ) {
             buffer.append( '<' ).append( node.getDependency().getArtifact().getArtifactId() ).append( ' ' );
             return true;
         }
