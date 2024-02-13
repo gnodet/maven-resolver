@@ -18,8 +18,7 @@
  */
 package org.eclipse.aether;
 
-import java.util.Map;
-
+import org.eclipse.aether.artifact.Artifact;
 import org.eclipse.aether.artifact.ArtifactProperties;
 import org.eclipse.aether.graph.Dependency;
 import org.eclipse.aether.graph.DependencyNode;
@@ -60,15 +59,9 @@ public interface SystemScopeHandler {
     /**
      * Returns system path string of provided artifact, or {@code null}.
      *
-     * @return the system path from passed in properties, or {@code null} if not present.
+     * @return the artifact, or {@code null} if not present.
      */
-    String getSystemPath(Map<String, String> properties);
-
-    /**
-     * Sets system path in properties. The passed in {@code systemPath} can be {@code null}, in which case this is
-     * "remove" operation (or "unset").
-     */
-    void setSystemPath(Map<String, String> properties, String systemPath);
+    String getSystemPath(Artifact artifact);
 
     /**
      * The equivalent of Resolver 1.x "system" scope.
@@ -80,17 +73,9 @@ public interface SystemScopeHandler {
         }
 
         @Override
-        public String getSystemPath(Map<String, String> properties) {
-            return properties.get(ArtifactProperties.LOCAL_PATH);
+        public String getSystemPath(Artifact artifact) {
+            return artifact.getProperties().get(ArtifactProperties.LOCAL_PATH);
         }
 
-        @Override
-        public void setSystemPath(Map<String, String> properties, String systemPath) {
-            if (systemPath == null) {
-                properties.remove(ArtifactProperties.LOCAL_PATH);
-            } else {
-                properties.put(ArtifactProperties.LOCAL_PATH, systemPath);
-            }
-        }
     };
 }

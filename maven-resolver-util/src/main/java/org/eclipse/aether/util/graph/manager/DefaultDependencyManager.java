@@ -60,7 +60,6 @@ public final class DefaultDependencyManager extends AbstractDependencyManager {
             Map<Object, String> managedVersions,
             Map<Object, String> managedScopes,
             Map<Object, Boolean> managedOptionals,
-            Map<Object, String> managedLocalPaths,
             Map<Object, Collection<Exclusion>> managedExclusions,
             SystemScopeHandler systemScopeHandler) {
         super(
@@ -70,7 +69,6 @@ public final class DefaultDependencyManager extends AbstractDependencyManager {
                 managedVersions,
                 managedScopes,
                 managedOptionals,
-                managedLocalPaths,
                 managedExclusions,
                 systemScopeHandler);
     }
@@ -80,7 +78,6 @@ public final class DefaultDependencyManager extends AbstractDependencyManager {
             Map<Object, String> managedVersions,
             Map<Object, String> managedScopes,
             Map<Object, Boolean> managedOptionals,
-            Map<Object, String> managedLocalPaths,
             Map<Object, Collection<Exclusion>> managedExclusions) {
         return new DefaultDependencyManager(
                 depth + 1,
@@ -89,7 +86,6 @@ public final class DefaultDependencyManager extends AbstractDependencyManager {
                 managedVersions,
                 managedScopes,
                 managedOptionals,
-                managedLocalPaths,
                 managedExclusions,
                 systemScopeHandler);
     }
