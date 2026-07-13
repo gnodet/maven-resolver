@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-13T18:10:00Z
+- **Timestamp:** 2026-07-13T18:35:00Z
 - **Status:** completed
-- **PRs reviewed:** 0 (follow-up only)
-- **Follow-ups posted:** 1 (PR #1714 — acknowledged fix commits)
+- **PRs reviewed:** 0 (state update only)
+- **Notes:** PR #1958 closed (superseded by #1959)
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
@@ -27,7 +27,6 @@
 | #742 | New transport: apache5x | cstamas | COMMENT (issues found) | 2026-07-13T13:00:00Z |
 | #97 | Introduce ResolverLock | cstamas | COMMENT (issues found) | 2026-07-13T13:00:00Z |
 | #17 | [MRESOLVER-43] Enhancements to the public API | ChristianSchulte | COMMENT (issues found) | 2026-07-13T13:00:00Z |
-| #1958 | Validate path components in DefaultLocalPathComposer | gnodet | COMMENT (approve) | 2026-07-13T16:05:00Z |
 | #1959 | Validate path components | cstamas | COMMENT (issues found) → follow-up (issue addressed) | 2026-07-13T17:15:00Z |
 
 ## Skipped PRs
@@ -49,3 +48,4 @@ _(none)_
 | # | Title | Resolution |
 |---|-------|-----------|
 | #1956 | Bump bouncycastleVersion from 1.84 to 1.85 | Merged 2026-07-13 (skipped — dependabot) |
+| #1958 | Validate path components in DefaultLocalPathComposer | Closed 2026-07-13 (superseded by #1959) |
