@@ -2,11 +2,11 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-13T12:27:55Z
+- **Timestamp:** 2026-07-13T12:41:14Z
 - **Status:** completed
 - **PRs reviewed:** 3
 - **Reviews posted:** 3
-- **False positives caught by verifier:** 4
+- **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
@@ -21,6 +21,9 @@
 | #1758 | Add CycleAwareDependencyGraphDumper | Jimin15 | COMMENT (issues found) | 2026-07-13T12:27:24Z |
 | #1771 | Expose transporter details per protocol | kwin | COMMENT (issues found) | 2026-07-13T12:27:42Z |
 | #63 | [MRESOLVER-126] support conversion from String to Map | kwin | COMMENT (issues found) | 2026-07-13T12:27:55Z |
+| #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | COMMENT (issues found) | 2026-07-13T12:40:40Z |
+| #1815 | Advised and Enforced Management | cstamas | COMMENT (minor issues) | 2026-07-13T12:40:57Z |
+| #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (issues found) | 2026-07-13T12:41:14Z |
 
 ## Skipped PRs
 
@@ -32,9 +35,6 @@
 
 | # | Title | Author | Priority |
 |---|-------|--------|----------|
-| #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | Large (25 files) |
-| #1815 | Advised and Enforced Management | cstamas | Large (15 files) |
-| #1762 | Expose additional transport details to TransportListener | kwin | Large (16 files) |
 | #742 | New transport: apache5x | cstamas | Very large (22 files, old) |
 | #248 | WIP [MRESOLVER-310] Preserve LRM config | slawekjaranowski | WIP, old |
 | #97 | Introduce ResolverLock | cstamas | Old |
