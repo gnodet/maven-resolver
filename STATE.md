@@ -2,11 +2,11 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-13T12:10:15Z
+- **Timestamp:** 2026-07-13T12:27:55Z
 - **Status:** completed
 - **PRs reviewed:** 3
 - **Reviews posted:** 3
-- **False positives caught by verifier:** 0
+- **False positives caught by verifier:** 4
 
 ## Reviewed PRs
 
@@ -18,6 +18,9 @@
 | #1714 | Edit version comparison | elharo | COMMENT (issues found) | 2026-07-13T12:10:00Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (issues found) | 2026-07-13T12:10:10Z |
 | #1912 | CI: Use Java 26 | cstamas | COMMENT (issues found) | 2026-07-13T12:10:15Z |
+| #1758 | Add CycleAwareDependencyGraphDumper | Jimin15 | COMMENT (issues found) | 2026-07-13T12:27:24Z |
+| #1771 | Expose transporter details per protocol | kwin | COMMENT (issues found) | 2026-07-13T12:27:42Z |
+| #63 | [MRESOLVER-126] support conversion from String to Map | kwin | COMMENT (issues found) | 2026-07-13T12:27:55Z |
 
 ## Skipped PRs
 
@@ -29,11 +32,13 @@
 
 | # | Title | Author | Priority |
 |---|-------|--------|----------|
-| #1815 | Advised and Enforced Management | cstamas | Deferred (large, 15 files) |
-| #1762 | Expose additional transport details to TransportListener | kwin | Deferred (large, 16 files) |
-| #1758 | Add CycleAwareDependencyGraphDumper | Jimin15 | Deferred |
-| #63 | [MRESOLVER-126] support conversion from String to Map | kwin | Deferred (very old) |
-| #17 | [MRESOLVER-43] Enhancements to the public API | ChristianSchulte | Deferred (very old) |
+| #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | Large (25 files) |
+| #1815 | Advised and Enforced Management | cstamas | Large (15 files) |
+| #1762 | Expose additional transport details to TransportListener | kwin | Large (16 files) |
+| #742 | New transport: apache5x | cstamas | Very large (22 files, old) |
+| #248 | WIP [MRESOLVER-310] Preserve LRM config | slawekjaranowski | WIP, old |
+| #97 | Introduce ResolverLock | cstamas | Old |
+| #17 | [MRESOLVER-43] Enhancements to the public API | ChristianSchulte | Very old |
 
 ## Escalated (human required)
 
