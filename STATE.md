@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-13T18:35:00Z
+- **Timestamp:** 2026-07-13T19:25:00Z
 - **Status:** completed
-- **PRs reviewed:** 0 (state update only)
-- **Notes:** PR #1958 closed (superseded by #1959)
+- **PRs reviewed:** 0 (follow-up only)
+- **Follow-ups posted:** 1 (PR #1762 — all 5 findings addressed in new commit)
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
@@ -23,7 +23,7 @@
 | #63 | [MRESOLVER-126] support conversion from String to Map | kwin | COMMENT (issues found) | 2026-07-13T12:27:55Z |
 | #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | COMMENT (issues found) | 2026-07-13T12:40:40Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (minor issues) | 2026-07-13T12:40:57Z |
-| #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (issues found) | 2026-07-13T12:41:14Z |
+| #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (issues found) → follow-up (5/5 fixed) | 2026-07-13T12:41:14Z |
 | #742 | New transport: apache5x | cstamas | COMMENT (issues found) | 2026-07-13T13:00:00Z |
 | #97 | Introduce ResolverLock | cstamas | COMMENT (issues found) | 2026-07-13T13:00:00Z |
 | #17 | [MRESOLVER-43] Enhancements to the public API | ChristianSchulte | COMMENT (issues found) | 2026-07-13T13:00:00Z |
