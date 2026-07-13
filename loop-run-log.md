@@ -8,3 +8,4 @@
 {"run_id":"2026-07-13T12:55:00Z","pattern":"pr-review-loop","duration_s":900,"items_found":4,"actions_taken":3,"escalations":0,"tokens_estimate":510000,"outcome":"action-taken"}
 {"run_id":"2026-07-13T15:55:00Z","pattern":"pr-review-loop","duration_s":600,"items_found":1,"actions_taken":1,"escalations":0,"tokens_estimate":152000,"outcome":"action-taken"}
 {"run_id":"2026-07-13T17:00:00Z","pattern":"pr-review-loop","duration_s":900,"items_found":1,"actions_taken":1,"escalations":0,"tokens_estimate":185000,"outcome":"action-taken"}
+{"run_id":"2026-07-13T18:10:00Z","pattern":"pr-review-loop","duration_s":120,"items_found":0,"actions_taken":1,"escalations":0,"tokens_estimate":35000,"outcome":"follow-up","note":"PR #1714 follow-up: acknowledged 2 fix commits addressing review feedback"}
