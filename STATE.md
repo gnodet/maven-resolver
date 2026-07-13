@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-13T17:15:00Z
+- **Timestamp:** 2026-07-13T18:10:00Z
 - **Status:** completed
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **PRs reviewed:** 0 (follow-up only)
+- **Follow-ups posted:** 1 (PR #1714 — acknowledged fix commits)
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
@@ -15,7 +15,7 @@
 | #1955 | Expose body for non RFC 9457 error responses | kwin | COMMENT (issues found) | 2026-07-13T11:59:36Z |
 | #1947 | Use try-with-resources in AbstractTransporter | Aayush10016 | COMMENT (approve) | 2026-07-13T11:59:57Z |
 | #1957 | Skip validation and decoration on re-entrant RepositorySystem calls | gnodet | COMMENT (approve) | 2026-07-13T12:00:12Z |
-| #1714 | Edit version comparison | elharo | COMMENT (issues found) | 2026-07-13T12:10:00Z |
+| #1714 | Edit version comparison | elharo | COMMENT (issues found) → follow-up (2/3 fixed) | 2026-07-13T12:10:00Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (issues found) | 2026-07-13T12:10:10Z |
 | #1912 | CI: Use Java 26 | cstamas | COMMENT (issues found) | 2026-07-13T12:10:15Z |
 | #1758 | Add CycleAwareDependencyGraphDumper | Jimin15 | COMMENT (issues found) | 2026-07-13T12:27:24Z |
@@ -28,7 +28,7 @@
 | #97 | Introduce ResolverLock | cstamas | COMMENT (issues found) | 2026-07-13T13:00:00Z |
 | #17 | [MRESOLVER-43] Enhancements to the public API | ChristianSchulte | COMMENT (issues found) | 2026-07-13T13:00:00Z |
 | #1958 | Validate path components in DefaultLocalPathComposer | gnodet | COMMENT (approve) | 2026-07-13T16:05:00Z |
-| #1959 | Validate path components | cstamas | COMMENT (issues found) | 2026-07-13T17:15:00Z |
+| #1959 | Validate path components | cstamas | COMMENT (issues found) → follow-up (issue addressed) | 2026-07-13T17:15:00Z |
 
 ## Skipped PRs
 
