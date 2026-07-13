@@ -1,0 +1,31 @@
+{
+  "goal": "Review open PRs on apache/maven-resolver",
+  "pattern": "pr-review-loop",
+  "level": "L2",
+  "attempts": [
+    {
+      "iteration": 1,
+      "failure": "PR #1955",
+      "action": "reviewed with maker/checker pattern",
+      "outcome": "success",
+      "tokensUsed": 110000,
+      "timestamp": "2026-07-13T11:59:36Z"
+    },
+    {
+      "iteration": 2,
+      "failure": "PR #1947",
+      "action": "reviewed with maker/checker pattern",
+      "outcome": "success",
+      "tokensUsed": 53000,
+      "timestamp": "2026-07-13T11:59:57Z"
+    },
+    {
+      "iteration": 3,
+      "failure": "PR #1957",
+      "action": "reviewed with maker/checker pattern",
+      "outcome": "success",
+      "tokensUsed": 74000,
+      "timestamp": "2026-07-13T12:00:12Z"
+    }
+  ]
+}
