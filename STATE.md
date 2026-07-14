@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-13T19:25:00Z
+- **Timestamp:** 2026-07-14T05:30:00Z
 - **Status:** completed
-- **PRs reviewed:** 0 (follow-up only)
-- **Follow-ups posted:** 1 (PR #1762 — all 5 findings addressed in new commit)
+- **PRs reviewed:** 0
+- **Notes:** 4 new dependabot PRs (#1960–#1963) skipped — bot author + .github/ infra files
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
@@ -34,6 +34,10 @@
 | # | Title | Author | Reason |
 |---|-------|--------|--------|
 | #248 | WIP [MRESOLVER-310] Preserve LRM config | slawekjaranowski | WIP, old |
+| #1960 | Bump stale.yml from 4 to 5 | dependabot | Bot + .github/ infra |
+| #1961 | Bump maven-verify.yml from 4 to 5 | dependabot | Bot + .github/ infra |
+| #1962 | Bump pr-automation.yml from 4 to 5 | dependabot | Bot + .github/ infra |
+| #1963 | Bump release-drafter.yml from 4 to 5 | dependabot | Bot + .github/ infra |
 
 ## Review Queue
 
