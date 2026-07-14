@@ -2,16 +2,19 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-14T20:26:34Z
+- **Timestamp:** 2026-07-14T20:49:40Z
 - **Status:** completed
 - **PRs reviewed:** 3
 - **Reviews posted:** 3
-- **False positives caught by verifier:** 5
+- **False positives caught by verifier:** 4
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
+| #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
+| #1912 | CI: Use Java 26 | cstamas | COMMENT (2 confirmed blockers) | 2026-07-14T20:49:30Z |
+| #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
 | #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (5 confirmed findings) | 2026-07-14T20:26:09Z |
 | #1714 | Edit version comparison | elharo | COMMENT (2 confirmed findings) | 2026-07-14T20:26:21Z |
 | #1758 | Add CycleAwareDependencyGraphDumper | Jimin15 | COMMENT (6 confirmed findings) | 2026-07-14T20:26:34Z |
@@ -28,9 +31,6 @@
 
 | # | Title | Author | Priority |
 |---|-------|--------|----------|
-| #1912 | CI: Use Java 26 | cstamas | Low (CI-only, 1 file) |
-| #1815 | Advised and Enforced Management | cstamas | Medium (large, 15 files, has AI reviews but new commit after) |
-| #1683 | Fix version comparison with case insensitive lexical order | sultan | Low (CHANGES_REQUESTED) |
 | #63 | [MRESOLVER-126] support conversion from String to Map | kwin | Deferred (very old, 2020) |
 | #17 | [MRESOLVER-43] Enhancements to the public API | ChristianSchulte | Deferred (very old, 2018) |
 
