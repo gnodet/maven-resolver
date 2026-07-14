@@ -2,46 +2,37 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-14T05:30:00Z
+- **Timestamp:** 2026-07-14T20:26:34Z
 - **Status:** completed
-- **PRs reviewed:** 0
-- **Notes:** 4 new dependabot PRs (#1960–#1963) skipped — bot author + .github/ infra files
-- **False positives caught by verifier:** 0
+- **PRs reviewed:** 3
+- **Reviews posted:** 3
+- **False positives caught by verifier:** 5
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
+| #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (5 confirmed findings) | 2026-07-14T20:26:09Z |
+| #1714 | Edit version comparison | elharo | COMMENT (2 confirmed findings) | 2026-07-14T20:26:21Z |
+| #1758 | Add CycleAwareDependencyGraphDumper | Jimin15 | COMMENT (6 confirmed findings) | 2026-07-14T20:26:34Z |
 | #1955 | Expose body for non RFC 9457 error responses | kwin | COMMENT (issues found) | 2026-07-13T11:59:36Z |
 | #1947 | Use try-with-resources in AbstractTransporter | Aayush10016 | COMMENT (approve) | 2026-07-13T11:59:57Z |
-| #1957 | Skip validation and decoration on re-entrant RepositorySystem calls | gnodet | COMMENT (approve) | 2026-07-13T12:00:12Z |
-| #1714 | Edit version comparison | elharo | COMMENT (issues found) → follow-up (2/3 fixed) | 2026-07-13T12:10:00Z |
-| #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (issues found) | 2026-07-13T12:10:10Z |
-| #1912 | CI: Use Java 26 | cstamas | COMMENT (issues found) | 2026-07-13T12:10:15Z |
-| #1758 | Add CycleAwareDependencyGraphDumper | Jimin15 | COMMENT (issues found) | 2026-07-13T12:27:24Z |
-| #1771 | Expose transporter details per protocol | kwin | COMMENT (issues found) | 2026-07-13T12:27:42Z |
-| #63 | [MRESOLVER-126] support conversion from String to Map | kwin | COMMENT (issues found) | 2026-07-13T12:27:55Z |
-| #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | COMMENT (issues found) | 2026-07-13T12:40:40Z |
-| #1815 | Advised and Enforced Management | cstamas | COMMENT (minor issues) | 2026-07-13T12:40:57Z |
-| #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (issues found) → follow-up (5/5 fixed) | 2026-07-13T12:41:14Z |
-| #742 | New transport: apache5x | cstamas | COMMENT (issues found) | 2026-07-13T13:00:00Z |
-| #97 | Introduce ResolverLock | cstamas | COMMENT (issues found) | 2026-07-13T13:00:00Z |
-| #17 | [MRESOLVER-43] Enhancements to the public API | ChristianSchulte | COMMENT (issues found) | 2026-07-13T13:00:00Z |
-| #1959 | Validate path components | cstamas | COMMENT (issues found) → follow-up (issue addressed) | 2026-07-13T17:15:00Z |
 
 ## Skipped PRs
 
 | # | Title | Author | Reason |
 |---|-------|--------|--------|
-| #248 | WIP [MRESOLVER-310] Preserve LRM config | slawekjaranowski | WIP, old |
-| #1960 | Bump stale.yml from 4 to 5 | dependabot | Bot + .github/ infra |
-| #1961 | Bump maven-verify.yml from 4 to 5 | dependabot | Bot + .github/ infra |
-| #1962 | Bump pr-automation.yml from 4 to 5 | dependabot | Bot + .github/ infra |
-| #1963 | Bump release-drafter.yml from 4 to 5 | dependabot | Bot + .github/ infra |
+| #1956 | Bump bouncycastleVersion from 1.84 to 1.85 | dependabot | Bot + dependencies label |
 
 ## Review Queue
 
-_(empty — all reviewable PRs have been covered)_
+| # | Title | Author | Priority |
+|---|-------|--------|----------|
+| #1912 | CI: Use Java 26 | cstamas | Low (CI-only, 1 file) |
+| #1815 | Advised and Enforced Management | cstamas | Medium (large, 15 files, has AI reviews but new commit after) |
+| #1683 | Fix version comparison with case insensitive lexical order | sultan | Low (CHANGES_REQUESTED) |
+| #63 | [MRESOLVER-126] support conversion from String to Map | kwin | Deferred (very old, 2020) |
+| #17 | [MRESOLVER-43] Enhancements to the public API | ChristianSchulte | Deferred (very old, 2018) |
 
 ## Escalated (human required)
 
@@ -49,7 +40,6 @@ _(none)_
 
 ## Resolved (7-day rolling window)
 
-| # | Title | Resolution |
-|---|-------|-----------|
-| #1956 | Bump bouncycastleVersion from 1.84 to 1.85 | Merged 2026-07-13 (skipped — dependabot) |
-| #1958 | Validate path components in DefaultLocalPathComposer | Closed 2026-07-13 (superseded by #1959) |
+| # | Title | Author | Resolution |
+|---|-------|--------|------------|
+| #1957 | Skip validation and decoration on re-entrant RepositorySystem calls | gnodet | Merged 2026-07-14T20:04:12Z (our approve was correct) |
