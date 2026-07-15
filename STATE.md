@@ -2,20 +2,21 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-14T21:10:00Z
-- **Status:** completed (no-op — all PRs already reviewed, no new activity)
-- **PRs reviewed:** 0
-- **Reviews posted:** 0
-- **False positives caught by verifier:** 0
+- **Timestamp:** 2026-07-15T17:51:06Z
+- **Status:** completed
+- **PRs reviewed:** 2
+- **Reviews posted:** 2
+- **False positives caught by verifier:** 2
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
+| #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | COMMENT (5 confirmed findings) | 2026-07-15T17:51:06Z |
+| #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (approve — all 5 prior findings fixed) | 2026-07-15T17:50:44Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1912 | CI: Use Java 26 | cstamas | COMMENT (2 confirmed blockers) | 2026-07-14T20:49:30Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
-| #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (5 confirmed findings) | 2026-07-14T20:26:09Z |
 | #1714 | Edit version comparison | elharo | COMMENT (2 confirmed findings) | 2026-07-14T20:26:21Z |
 | #1758 | Add CycleAwareDependencyGraphDumper | Jimin15 | COMMENT (6 confirmed findings) | 2026-07-14T20:26:34Z |
 | #1955 | Expose body for non RFC 9457 error responses | kwin | COMMENT (issues found) | 2026-07-13T11:59:36Z |
