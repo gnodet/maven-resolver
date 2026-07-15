@@ -2,18 +2,17 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-15T19:05:00Z
-- **Status:** idle (comment activity only, no code changes)
-- **PRs reviewed:** 0
-- **Reviews posted:** 0
+- **Timestamp:** 2026-07-15T19:12:15Z
+- **Status:** completed
+- **PRs reviewed:** 1
+- **Reviews posted:** 1
 - **False positives caught by verifier:** 0
-- **Notes:** Drift detected on #1912 (informational cross-ref comment) and #1955 (maintainer design discussion confirming our findings). No new code on either.
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
-| #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | COMMENT (5 confirmed findings) | 2026-07-15T17:51:06Z |
+| #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | COMMENT (approve — all 5 prior findings fixed) | 2026-07-15T19:12:15Z |
 | #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (approve — all 5 prior findings fixed) | 2026-07-15T17:50:44Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1912 | CI: Use Java 26 | cstamas | COMMENT (2 confirmed blockers) | 2026-07-14T20:49:30Z |
