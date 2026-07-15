@@ -8,3 +8,4 @@
 {"run_id":"2026-07-15T17:51:06Z","pattern":"pr-review-loop","duration_s":480,"items_found":11,"actions_taken":2,"escalations":0,"tokens_estimate":352000,"false_positives":2,"outcome":"action-taken"}
 {"run_id":"2026-07-15T19:05:00Z","pattern":"pr-review-loop","duration_s":45,"items_found":11,"actions_taken":0,"escalations":0,"tokens_estimate":8000,"false_positives":0,"outcome":"idle","notes":"comment-only drift on #1912 and #1955, no code changes"}
 {"run_id":"2026-07-15T19:12:15Z","pattern":"pr-review-loop","duration_s":210,"items_found":11,"actions_taken":1,"escalations":0,"tokens_estimate":170000,"false_positives":0,"outcome":"action-taken"}
+{"run_id":"2026-07-15T19:28:00Z","pattern":"pr-review-loop","duration_s":20,"items_found":11,"actions_taken":0,"escalations":0,"tokens_estimate":4000,"false_positives":0,"outcome":"idle","notes":"own-activity false positive on #1949"}
