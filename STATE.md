@@ -2,18 +2,17 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-17T04:00:00Z
-- **Status:** action-taken (reviewed new PR #1967, re-reviewed #1966 commits 16-17)
-- **PRs reviewed:** 2
-- **Reviews posted:** 2
+- **Timestamp:** 2026-07-17T05:15:00Z
+- **Status:** action-taken (re-reviewed #1966 commits 18-19, moved #1967 to Resolved)
+- **PRs reviewed:** 1
+- **Reviews posted:** 1
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
-| #1967 | Fix reporting of HTTP/3 in JdkTransporter | kwin | COMMENT (approve — correct fix for #1949 oversight) | 2026-07-17T04:00:00Z |
-| #1966 | Feat: new (limited) transport | cstamas | COMMENT (approve — commits 16-17, merge + test adaptation) | 2026-07-17T04:00:00Z |
+| #1966 | Feat: new (limited) transport | cstamas | COMMENT (approve — commits 18-19, test SSL guard + merge) | 2026-07-17T05:15:00Z |
 | #1965 | Use custom doclet to extract configuration metadata | kwin | COMMENT (approve — 2/3 prior findings fixed, 1 low observation on validation placement) | 2026-07-16T15:36:50Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1912 | CI: Use Java 26 | cstamas | COMMENT (2 confirmed blockers) | 2026-07-14T20:49:30Z |
@@ -44,6 +43,7 @@ _(none)_
 
 | # | Title | Author | Resolution |
 |---|-------|--------|------------|
+| #1967 | Fix reporting of HTTP/3 in JdkTransporter | kwin | Merged 2026-07-16T15:57:27Z by kwin (our approve was correct) |
 | #1762 | Expose additional transport details to TransportListener | kwin | Merged 2026-07-16T15:34:42Z by kwin (our approve was correct, cstamas also approved) |
 | #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | Merged 2026-07-16T15:30:22Z by kwin (our approve was correct, cstamas also approved) |
 | #1957 | Skip validation and decoration on re-entrant RepositorySystem calls | gnodet | Merged 2026-07-14T20:04:12Z (our approve was correct) |
