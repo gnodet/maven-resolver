@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-16T23:30:00Z
-- **Status:** action-taken (re-reviewed #1966 commit 14 — polish pass, approve)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **Timestamp:** 2026-07-17T00:35:00Z
+- **Status:** idle (no new code to review — #1949 merged, #1965 and #1762 approved by cstamas, #1966 own-activity)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
@@ -13,9 +13,8 @@
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
 | #1966 | Feat: new (limited) transport | cstamas | COMMENT (approve — commit 14 polish pass, all clean) | 2026-07-16T23:30:00Z |
-| #1965 | Use custom doclet to extract configuration metadata | kwin | COMMENT (approve — 2/3 prior findings fixed, 1 low observation on validation placement) | 2026-07-16T13:10:00Z |
-| #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | COMMENT (approve — all 5 prior findings fixed) | 2026-07-15T19:12:15Z |
-| #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (approve — all 5 prior findings fixed) | 2026-07-15T17:50:44Z |
+| #1965 | Use custom doclet to extract configuration metadata | kwin | COMMENT (approve — 2/3 prior findings fixed, 1 low observation on validation placement) | 2026-07-16T15:28:07Z |
+| #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (approve — all 5 prior findings fixed) | 2026-07-16T15:26:48Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1912 | CI: Use Java 26 | cstamas | COMMENT (2 confirmed blockers) | 2026-07-14T20:49:30Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
@@ -45,4 +44,5 @@ _(none)_
 
 | # | Title | Author | Resolution |
 |---|-------|--------|------------|
+| #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | Merged 2026-07-16T15:30:22Z by kwin (our approve was correct, cstamas also approved) |
 | #1957 | Skip validation and decoration on re-entrant RepositorySystem calls | gnodet | Merged 2026-07-14T20:04:12Z (our approve was correct) |
