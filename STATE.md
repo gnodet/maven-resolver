@@ -2,8 +2,8 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-16T11:28:00Z
-- **Status:** idle (own-activity false positive on #1965 — our reply to cstamas bumped updatedAt)
+- **Timestamp:** 2026-07-16T12:55:00Z
+- **Status:** idle (comment-only drift on #1965 — kwin closed discussion: "Let's leave here for the time being")
 - **PRs reviewed:** 0
 - **Reviews posted:** 0
 - **False positives caught by verifier:** 0
