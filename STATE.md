@@ -2,8 +2,8 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-17T07:25:00Z
-- **Status:** idle (own-activity false positive on #1968 — our review bumped updatedAt)
+- **Timestamp:** 2026-07-17T08:30:00Z
+- **Status:** idle (#1966 merged → Resolved. #1968 comment-only drift — cstamas replied to kwin's versioning concern, no code changes)
 - **PRs reviewed:** 0
 - **Reviews posted:** 0
 - **False positives caught by verifier:** 0
@@ -12,8 +12,7 @@
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
-| #1968 | fix: Some since javadoc tags were off; fixed | cstamas | COMMENT (approve — javadoc @since corrections, version discussion pending between maintainers) | 2026-07-17T06:20:00Z |
-| #1966 | Feat: new (limited) transport | cstamas | COMMENT (approve — commits 18-19, test SSL guard + merge) | 2026-07-17T05:15:00Z |
+| #1968 | fix: Some since javadoc tags were off; fixed | cstamas | COMMENT (approve — javadoc @since corrections, version discussion pending between maintainers) | 2026-07-16T17:05:35Z |
 | #1965 | Use custom doclet to extract configuration metadata | kwin | COMMENT (approve — 2/3 prior findings fixed, 1 low observation on validation placement) | 2026-07-16T15:36:50Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1912 | CI: Use Java 26 | cstamas | COMMENT (2 confirmed blockers) | 2026-07-14T20:49:30Z |
@@ -44,6 +43,7 @@ _(none)_
 
 | # | Title | Author | Resolution |
 |---|-------|--------|------------|
+| #1966 | Feat: new (limited) transport | cstamas | Merged 2026-07-16T16:56:39Z by cstamas (our approve across 7 review rounds was correct) |
 | #1967 | Fix reporting of HTTP/3 in JdkTransporter | kwin | Merged 2026-07-16T15:57:27Z by kwin (our approve was correct) |
 | #1762 | Expose additional transport details to TransportListener | kwin | Merged 2026-07-16T15:34:42Z by kwin (our approve was correct, cstamas also approved) |
 | #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | Merged 2026-07-16T15:30:22Z by kwin (our approve was correct, cstamas also approved) |
