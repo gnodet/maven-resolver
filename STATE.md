@@ -2,8 +2,8 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-16T10:55:00Z
-- **Status:** idle (own-activity false positive on #1965 — our review bumped updatedAt)
+- **Timestamp:** 2026-07-16T11:22:00Z
+- **Status:** idle (comment-only drift on #1965 — kwin replied re Maven mode tests: will move to apache/maven long-term)
 - **PRs reviewed:** 0
 - **Reviews posted:** 0
 - **False positives caught by verifier:** 0
