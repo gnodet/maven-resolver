@@ -2,17 +2,17 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-16T17:45:00Z
-- **Status:** idle (own-activity false positive on #1966 — our review bumped updatedAt)
-- **PRs reviewed:** 0
-- **Reviews posted:** 0
+- **Timestamp:** 2026-07-16T18:55:00Z
+- **Status:** action-taken (re-reviewed #1966 — all 4 findings addressed by cstamas)
+- **PRs reviewed:** 1
+- **Reviews posted:** 1
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
-| #1966 | Feat: new (limited) transport | cstamas | COMMENT (4 confirmed: connection leak, credential forwarding, HTTPS downgrade, missing 307/308) | 2026-07-16T16:40:00Z |
+| #1966 | Feat: new (limited) transport | cstamas | COMMENT (approve — all 4 prior findings fixed) | 2026-07-16T18:55:00Z |
 | #1965 | Use custom doclet to extract configuration metadata | kwin | COMMENT (approve — 2/3 prior findings fixed, 1 low observation on validation placement) | 2026-07-16T13:10:00Z |
 | #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | COMMENT (approve — all 5 prior findings fixed) | 2026-07-15T19:12:15Z |
 | #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (approve — all 5 prior findings fixed) | 2026-07-15T17:50:44Z |
