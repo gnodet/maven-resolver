@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-16T18:55:00Z
-- **Status:** action-taken (re-reviewed #1966 — all 4 findings addressed by cstamas)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **Timestamp:** 2026-07-16T20:00:00Z
+- **Status:** idle (own-activity false positive on #1966 — follow-up review #2 bumped updatedAt)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
