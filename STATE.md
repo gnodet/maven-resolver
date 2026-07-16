@@ -2,11 +2,11 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-16T10:51:53Z
-- **Status:** action-taken (re-reviewed PR #1965 — commits 3-4: maven mode restored, our previous suggestions applied)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
-- **False positives caught by verifier:** 1
+- **Timestamp:** 2026-07-16T10:55:00Z
+- **Status:** idle (own-activity false positive on #1965 — our review bumped updatedAt)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
+- **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
