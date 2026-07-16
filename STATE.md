@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-17T09:25:00Z
-- **Status:** action-taken (re-reviewed #1965 commits 6-8, moved #1968 and #1947 to Resolved)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **Timestamp:** 2026-07-17T10:30:00Z
+- **Status:** idle (no actionable drift; moved #1912 to Resolved — closed without merge)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
@@ -14,7 +14,6 @@
 |---|-------|--------|---------|-------------|
 | #1965 | Use custom doclet to extract configuration metadata | kwin | COMMENT (commits 6-8: 1 important finding — wrong tag name in error messages, 1 minor stale javadoc) | 2026-07-17T09:25:00Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
-| #1912 | CI: Use Java 26 | cstamas | COMMENT (2 confirmed blockers) | 2026-07-14T20:49:30Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
 | #1714 | Edit version comparison | elharo | COMMENT (2 confirmed findings) | 2026-07-14T20:26:21Z |
 | #1758 | Add CycleAwareDependencyGraphDumper | Jimin15 | COMMENT (6 confirmed findings) | 2026-07-14T20:26:34Z |
@@ -41,6 +40,7 @@ _(none)_
 
 | # | Title | Author | Resolution |
 |---|-------|--------|------------|
+| #1912 | CI: Use Java 26 | cstamas | Closed 2026-07-16T16:00:40Z without merge (had 2 confirmed blockers in our review) |
 | #1968 | fix: Some since javadoc tags were off; fixed | cstamas | Merged 2026-07-16T17:18:04Z by cstamas (our approve was correct, despite kwin's 2.1.0 suggestion) |
 | #1947 | Use try-with-resources in AbstractTransporter | Aayush10016 | Merged 2026-07-16T17:07:10Z by cstamas (our approve was correct) |
 | #1966 | Feat: new (limited) transport | cstamas | Merged 2026-07-16T16:56:39Z by cstamas (our approve across 7 review rounds was correct) |
