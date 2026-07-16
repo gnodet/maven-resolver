@@ -2,17 +2,17 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-16T10:40:00Z
-- **Status:** idle (own-activity false positive on #1965 — our review bumped updatedAt)
-- **PRs reviewed:** 0
-- **Reviews posted:** 0
-- **False positives caught by verifier:** 0
+- **Timestamp:** 2026-07-16T10:51:53Z
+- **Status:** action-taken (re-reviewed PR #1965 — commits 3-4: maven mode restored, our previous suggestions applied)
+- **PRs reviewed:** 1
+- **Reviews posted:** 1
+- **False positives caught by verifier:** 1
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
-| #1965 | Use custom doclet to extract configuration metadata | kwin | COMMENT (approve — both prior findings fixed, 3 new minor observations) | 2026-07-16T10:36:51Z |
+| #1965 | Use custom doclet to extract configuration metadata | kwin | COMMENT (3 confirmed findings: missing Maven mode tests, no mode validation, dead null check) | 2026-07-16T10:51:53Z |
 | #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | COMMENT (approve — all 5 prior findings fixed) | 2026-07-15T19:12:15Z |
 | #1762 | Expose additional transport details to TransportListener | kwin | COMMENT (approve — all 5 prior findings fixed) | 2026-07-15T17:50:44Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
