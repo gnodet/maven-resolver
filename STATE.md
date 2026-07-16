@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-17T01:36:00Z
-- **Status:** action-taken (re-reviewed #1966 commit 15 — trivial newline fix, #1762 merged)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **Timestamp:** 2026-07-17T02:40:00Z
+- **Status:** idle (comment-only drift on #1965 — kwin self-note about future work; #1966 own-activity)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
@@ -13,7 +13,7 @@
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
 | #1966 | Feat: new (limited) transport | cstamas | COMMENT (approve — commit 15 newline fix, all clean) | 2026-07-17T01:36:00Z |
-| #1965 | Use custom doclet to extract configuration metadata | kwin | COMMENT (approve — 2/3 prior findings fixed, 1 low observation on validation placement) | 2026-07-16T15:28:07Z |
+| #1965 | Use custom doclet to extract configuration metadata | kwin | COMMENT (approve — 2/3 prior findings fixed, 1 low observation on validation placement) | 2026-07-16T15:36:50Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1912 | CI: Use Java 26 | cstamas | COMMENT (2 confirmed blockers) | 2026-07-14T20:49:30Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
