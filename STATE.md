@@ -2,8 +2,8 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-16T14:15:00Z
-- **Status:** idle (own-activity false positive on #1965 — our review #4 bumped updatedAt)
+- **Timestamp:** 2026-07-16T15:20:00Z
+- **Status:** idle (timestamp-only drift on #1949 and #1762 — no new commits/comments/reviews)
 - **PRs reviewed:** 0
 - **Reviews posted:** 0
 - **False positives caught by verifier:** 0
