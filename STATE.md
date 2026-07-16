@@ -2,11 +2,11 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-16T16:40:00Z
-- **Status:** action-taken (reviewed new PR #1966 — URL transport)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
-- **False positives caught by verifier:** 3
+- **Timestamp:** 2026-07-16T17:45:00Z
+- **Status:** idle (own-activity false positive on #1966 — our review bumped updatedAt)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
+- **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
