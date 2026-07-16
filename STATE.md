@@ -2,16 +2,17 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-17T05:15:00Z
-- **Status:** action-taken (re-reviewed #1966 commits 18-19, moved #1967 to Resolved)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **Timestamp:** 2026-07-17T06:20:00Z
+- **Status:** action-taken (reviewed new PR #1968, re-reviewed #1966 commits 18-19)
+- **PRs reviewed:** 2
+- **Reviews posted:** 2
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
+| #1968 | fix: Some since javadoc tags were off; fixed | cstamas | COMMENT (approve — javadoc @since corrections, version discussion pending between maintainers) | 2026-07-17T06:20:00Z |
 | #1966 | Feat: new (limited) transport | cstamas | COMMENT (approve — commits 18-19, test SSL guard + merge) | 2026-07-17T05:15:00Z |
 | #1965 | Use custom doclet to extract configuration metadata | kwin | COMMENT (approve — 2/3 prior findings fixed, 1 low observation on validation placement) | 2026-07-16T15:36:50Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
