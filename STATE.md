@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-16T10:36:51Z
-- **Status:** action-taken (re-reviewed PR #1965 — author fixed both prior findings + added enum resolution support with tests)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **Timestamp:** 2026-07-16T10:40:00Z
+- **Status:** idle (own-activity false positive on #1965 — our review bumped updatedAt)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
