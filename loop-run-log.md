@@ -12,3 +12,4 @@
 {"run_id":"2026-07-16T08:25:11Z","pattern":"pr-review-loop","duration_s":360,"items_found":12,"actions_taken":1,"escalations":0,"tokens_estimate":195000,"false_positives":1,"outcome":"action-taken"}
 {"run_id":"2026-07-16T08:40:00Z","pattern":"pr-review-loop","duration_s":15,"items_found":12,"actions_taken":0,"escalations":0,"tokens_estimate":3000,"false_positives":0,"outcome":"idle","notes":"own-activity false positive on #1965"}
 {"run_id":"2026-07-16T09:55:00Z","pattern":"pr-review-loop","duration_s":15,"items_found":12,"actions_taken":0,"escalations":0,"tokens_estimate":3000,"false_positives":0,"outcome":"idle","notes":"comment-only drift on #1965, cstamas informational note"}
+{"run_id":"2026-07-16T10:12:00Z","pattern":"pr-review-loop","duration_s":15,"items_found":12,"actions_taken":0,"escalations":0,"tokens_estimate":3000,"false_positives":0,"outcome":"idle","notes":"comment-only drift on #1965, cstamas inline question"}
