@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-17T15:55:44Z
-- **Status:** action-taken (reviewed new PR #1970, moved #1973 to Resolved)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **Timestamp:** 2026-07-17T16:00:00Z
+- **Status:** idle (own-activity false positive on #1970 — our review bumped updatedAt)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
