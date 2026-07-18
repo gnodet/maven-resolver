@@ -2,8 +2,8 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-18T11:06:00Z
-- **Status:** idle (own-activity on #1975, cstamas approved #1976)
+- **Timestamp:** 2026-07-18T13:38:00Z
+- **Status:** idle (#1975 merged, ascheman replied to doc nit on #1976)
 - **PRs reviewed:** 0
 - **Reviews posted:** 0
 - **False positives caught by verifier:** 0
@@ -42,6 +42,7 @@ _(none)_
 
 | # | Title | Author | Resolution |
 |---|-------|--------|------------|
+| #1975 | Bug: in certain cases Resolver caused build failure | cstamas | Merged 2026-07-18T12:10:39Z by cstamas (merged ~1h after our approve) |
 | #1978 | Feat: config to close connection at end of tx | cstamas | Merged 2026-07-18T10:44:54Z by cstamas (merged 42s after our follow-up approve) |
 | #1977 | Do not check UrlTransporter for open connections after close | kwin | Merged 2026-07-18T10:26:46Z by kwin (merged seconds after our approve) |
 | #1970 | Make sure to always close input streams bound to responses | kwin | Merged 2026-07-17T16:22:50Z by kwin (our approve was correct, cstamas also approved) |
