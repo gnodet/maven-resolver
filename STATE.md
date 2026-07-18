@@ -2,16 +2,18 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-18T10:03:00Z
-- **Status:** action-taken (re-reviewed #1976 commit 3)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **Timestamp:** 2026-07-18T10:26:30Z
+- **Status:** action-taken (reviewed #1977 and #1978)
+- **PRs reviewed:** 2
+- **Reviews posted:** 2
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
+| #1977 | Do not check UrlTransporter for open connections after close | kwin | COMMENT (approve — clean template method, 1 nit) | 2026-07-18T10:26:25Z |
+| #1978 | Fix: the UrL test fails due connection leak detection | cstamas | COMMENT (approve — 1 javadoc polarity suggestion) | 2026-07-18T10:26:30Z |
 | #1976 | RRF: self-heal from provably broken auto-discovered prefixes files | ascheman | COMMENT (approve — suggestion addressed in commit 3) | 2026-07-18T10:03:00Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
