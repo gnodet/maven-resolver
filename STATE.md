@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-18T11:02:00Z
-- **Status:** action-taken (reviewed #1975, #1976 rebase confirmed)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **Timestamp:** 2026-07-18T11:06:00Z
+- **Status:** idle (own-activity on #1975, cstamas approved #1976)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
