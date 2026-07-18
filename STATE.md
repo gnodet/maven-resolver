@@ -2,8 +2,8 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-18T09:27:40Z
-- **Status:** action-taken (reviewed new PR #1976)
+- **Timestamp:** 2026-07-18T10:03:00Z
+- **Status:** action-taken (re-reviewed #1976 commit 3)
 - **PRs reviewed:** 1
 - **Reviews posted:** 1
 - **False positives caught by verifier:** 0
@@ -12,7 +12,7 @@
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
-| #1976 | RRF: self-heal from provably broken auto-discovered prefixes files | ascheman | COMMENT (approve — sound design, 1 suggestion) | 2026-07-18T09:27:40Z |
+| #1976 | RRF: self-heal from provably broken auto-discovered prefixes files | ascheman | COMMENT (approve — suggestion addressed in commit 3) | 2026-07-18T10:03:00Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
 | #1714 | Edit version comparison | elharo | COMMENT (2 confirmed findings) | 2026-07-14T20:26:21Z |
