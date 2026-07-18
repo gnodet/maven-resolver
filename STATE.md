@@ -2,17 +2,17 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-17T16:15:00Z
-- **Status:** idle (own-activity false positive on #1970)
-- **PRs reviewed:** 0
-- **Reviews posted:** 0
+- **Timestamp:** 2026-07-18T09:27:40Z
+- **Status:** action-taken (reviewed new PR #1976)
+- **PRs reviewed:** 1
+- **Reviews posted:** 1
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
-| #1970 | Make sure to always close input streams bound to responses | kwin | COMMENT (approve — all 4 suggestions addressed in commit 2) | 2026-07-17T16:08:17Z |
+| #1976 | RRF: self-heal from provably broken auto-discovered prefixes files | ascheman | COMMENT (approve — sound design, 1 suggestion) | 2026-07-18T09:27:40Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
 | #1714 | Edit version comparison | elharo | COMMENT (2 confirmed findings) | 2026-07-14T20:26:21Z |
@@ -40,6 +40,7 @@ _(none)_
 
 | # | Title | Author | Resolution |
 |---|-------|--------|------------|
+| #1970 | Make sure to always close input streams bound to responses | kwin | Merged 2026-07-17T16:22:50Z by kwin (our approve was correct, cstamas also approved) |
 | #1973 | Fix: be more defensive regarding request traces | cstamas | Merged 2026-07-17T12:19:08Z by cstamas (3 min after our approve — correct) |
 | #1965 | Use custom doclet to extract configuration metadata | kwin | Merged 2026-07-16T19:24:16Z by kwin (our approve across 5 review rounds was correct) |
 | #1912 | CI: Use Java 26 | cstamas | Closed 2026-07-16T16:00:40Z without merge (had 2 confirmed blockers in our review) |
