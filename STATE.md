@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-18T10:44:12Z
-- **Status:** action-taken (re-review #1978 — feedback addressed)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **Timestamp:** 2026-07-18T10:48:00Z
+- **Status:** idle (#1978 merged, cstamas comment on #1976)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
@@ -13,7 +13,6 @@
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
 | #1977 | Do not check UrlTransporter for open connections after close | kwin | COMMENT (approve — clean template method, 1 nit) | 2026-07-18T10:26:25Z |
-| #1978 | Feat: config to close connection at end of tx | cstamas | COMMENT (approve — feedback addressed in commits 3-4) | 2026-07-18T10:44:12Z |
 | #1976 | RRF: self-heal from provably broken auto-discovered prefixes files | ascheman | COMMENT (approve — suggestion addressed in commit 3) | 2026-07-18T10:03:00Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
@@ -42,6 +41,7 @@ _(none)_
 
 | # | Title | Author | Resolution |
 |---|-------|--------|------------|
+| #1978 | Feat: config to close connection at end of tx | cstamas | Merged 2026-07-18T10:44:54Z by cstamas (merged 42s after our follow-up approve) |
 | #1977 | Do not check UrlTransporter for open connections after close | kwin | Merged 2026-07-18T10:26:46Z by kwin (merged seconds after our approve) |
 | #1970 | Make sure to always close input streams bound to responses | kwin | Merged 2026-07-17T16:22:50Z by kwin (our approve was correct, cstamas also approved) |
 | #1973 | Fix: be more defensive regarding request traces | cstamas | Merged 2026-07-17T12:19:08Z by cstamas (3 min after our approve — correct) |
