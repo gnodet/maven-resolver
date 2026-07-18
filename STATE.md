@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-18T10:48:00Z
-- **Status:** idle (#1978 merged, cstamas comment on #1976)
-- **PRs reviewed:** 0
-- **Reviews posted:** 0
+- **Timestamp:** 2026-07-18T11:02:00Z
+- **Status:** action-taken (reviewed #1975, #1976 rebase confirmed)
+- **PRs reviewed:** 1
+- **Reviews posted:** 1
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
@@ -13,6 +13,7 @@
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
 | #1977 | Do not check UrlTransporter for open connections after close | kwin | COMMENT (approve — clean template method, 1 nit) | 2026-07-18T10:26:25Z |
+| #1975 | Bug: in certain cases Resolver caused build failure | cstamas | COMMENT (approve — 1 nit: double negative in comment) | 2026-07-18T11:02:00Z |
 | #1976 | RRF: self-heal from provably broken auto-discovered prefixes files | ascheman | COMMENT (approve — suggestion addressed in commit 3) | 2026-07-18T10:03:00Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
