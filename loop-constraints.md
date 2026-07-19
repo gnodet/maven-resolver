@@ -13,6 +13,7 @@
 - Max 3 PRs per run
 - No size limit on PRs to review
 - Skip PRs authored by bots (dependabot, renovate) unless they touch Java source
+- DO review PRs authored by the operator (gnodet) — override of the default "skip own PRs" rule
 
 ## Review Quality
 
