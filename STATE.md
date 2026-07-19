@@ -2,8 +2,8 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-18T13:38:00Z
-- **Status:** idle (#1975 merged, ascheman replied to doc nit on #1976)
+- **Timestamp:** 2026-07-19T18:08:00Z
+- **Status:** idle (#1976 merged, #1980 is own PR — skipped)
 - **PRs reviewed:** 0
 - **Reviews posted:** 0
 - **False positives caught by verifier:** 0
@@ -13,8 +13,7 @@
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
 | #1977 | Do not check UrlTransporter for open connections after close | kwin | COMMENT (approve — clean template method, 1 nit) | 2026-07-18T10:26:25Z |
-| #1975 | Bug: in certain cases Resolver caused build failure | cstamas | COMMENT (approve — 1 nit: double negative in comment) | 2026-07-18T11:02:00Z |
-| #1976 | RRF: self-heal from provably broken auto-discovered prefixes files | ascheman | COMMENT (approve — suggestion addressed in commit 3) | 2026-07-18T10:03:00Z |
+| #1955 | Expose body for non RFC 9457 error responses | kwin | COMMENT (issues found) | 2026-07-13T11:59:36Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
 | #1714 | Edit version comparison | elharo | COMMENT (2 confirmed findings) | 2026-07-14T20:26:21Z |
@@ -42,6 +41,7 @@ _(none)_
 
 | # | Title | Author | Resolution |
 |---|-------|--------|------------|
+| #1976 | RRF: self-heal from provably broken auto-discovered prefixes files | ascheman | Merged 2026-07-18T13:36:27Z by ascheman (our approve was correct, cstamas also approved) |
 | #1975 | Bug: in certain cases Resolver caused build failure | cstamas | Merged 2026-07-18T12:10:39Z by cstamas (merged ~1h after our approve) |
 | #1978 | Feat: config to close connection at end of tx | cstamas | Merged 2026-07-18T10:44:54Z by cstamas (merged 42s after our follow-up approve) |
 | #1977 | Do not check UrlTransporter for open connections after close | kwin | Merged 2026-07-18T10:26:46Z by kwin (merged seconds after our approve) |
