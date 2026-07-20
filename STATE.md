@@ -2,17 +2,16 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-20T06:16:39Z
-- **Status:** reviewed and merged #1980
-- **PRs reviewed:** 1
-- **Reviews posted:** 0 (manual review + merge by operator)
+- **Timestamp:** 2026-07-20T11:05:00Z
+- **Status:** idle (#1982 is .asf.yaml-only — skipped per loop constraints)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
-| #1977 | Do not check UrlTransporter for open connections after close | kwin | COMMENT (approve — clean template method, 1 nit) | 2026-07-18T10:26:25Z |
 | #1955 | Expose body for non RFC 9457 error responses | kwin | COMMENT (issues found) | 2026-07-13T11:59:36Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
@@ -25,6 +24,7 @@
 | # | Title | Author | Reason |
 |---|-------|--------|--------|
 | #1956 | Bump bouncycastleVersion from 1.84 to 1.85 | dependabot | Bot + dependencies label |
+| #1982 | Add ATR meta | cstamas | .asf.yaml-only (infra file, out of scope) |
 
 ## Review Queue
 
@@ -49,13 +49,5 @@ _(none)_
 | #1970 | Make sure to always close input streams bound to responses | kwin | Merged 2026-07-17T16:22:50Z by kwin (our approve was correct, cstamas also approved) |
 | #1973 | Fix: be more defensive regarding request traces | cstamas | Merged 2026-07-17T12:19:08Z by cstamas (3 min after our approve — correct) |
 | #1965 | Use custom doclet to extract configuration metadata | kwin | Merged 2026-07-16T19:24:16Z by kwin (our approve across 5 review rounds was correct) |
-| #1912 | CI: Use Java 26 | cstamas | Closed 2026-07-16T16:00:40Z without merge (had 2 confirmed blockers in our review) |
-| #1968 | fix: Some since javadoc tags were off; fixed | cstamas | Merged 2026-07-16T17:18:04Z by cstamas (our approve was correct, despite kwin's 2.1.0 suggestion) |
-| #1947 | Use try-with-resources in AbstractTransporter | Aayush10016 | Merged 2026-07-16T17:07:10Z by cstamas (our approve was correct) |
-| #1966 | Feat: new (limited) transport | cstamas | Merged 2026-07-16T16:56:39Z by cstamas (our approve across 7 review rounds was correct) |
-| #1967 | Fix reporting of HTTP/3 in JdkTransporter | kwin | Merged 2026-07-16T15:57:27Z by kwin (our approve was correct) |
-| #1762 | Expose additional transport details to TransportListener | kwin | Merged 2026-07-16T15:34:42Z by kwin (our approve was correct, cstamas also approved) |
-| #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | Merged 2026-07-16T15:30:22Z by kwin (our approve was correct, cstamas also approved) |
-| #1957 | Skip validation and decoration on re-entrant RepositorySystem calls | gnodet | Merged 2026-07-14T20:04:12Z (our approve was correct) |
 
 _Entries older than 7 days pruned._
