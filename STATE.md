@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-20T13:57:58Z
-- **Status:** reviewed #1983 (1 important finding: behavioral regression)
-- **PRs reviewed:** 1
-- **Reviews posted:** 1
+- **Timestamp:** 2026-07-20T14:04:31Z
+- **Status:** no action needed (no new PRs, no drift on tracked PRs)
+- **PRs reviewed:** 0
+- **Reviews posted:** 0
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
@@ -18,7 +18,6 @@
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
 | #1714 | Edit version comparison | elharo | COMMENT (2 confirmed findings) | 2026-07-14T20:26:21Z |
 | #1758 | Add CycleAwareDependencyGraphDumper | Jimin15 | COMMENT (6 confirmed findings) | 2026-07-14T20:26:34Z |
-| #1955 | Expose body for non RFC 9457 error responses | kwin | COMMENT (issues found) | 2026-07-13T11:59:36Z |
 
 ## Skipped PRs
 
@@ -52,3 +51,4 @@ _(none)_
 | #1973 | Fix: be more defensive regarding request traces | cstamas | Merged 2026-07-17T12:19:08Z by cstamas (3 min after our approve — correct) |
 
 _Entries older than 7 days pruned._
+
