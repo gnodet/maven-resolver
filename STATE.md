@@ -2,17 +2,17 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-20T14:43:18Z
-- **Status:** drift sync on #1983 (cstamas comment, no action needed)
-- **PRs reviewed:** 0
-- **Reviews posted:** 0
+- **Timestamp:** 2026-07-20T15:56:54Z
+- **Status:** drift on #1983 — kwin fixed behavioral regression (new commit), posted follow-up comment
+- **PRs reviewed:** 0 (follow-up on existing review)
+- **Reviews posted:** 0 (1 follow-up comment)
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
-| #1983 | Improve error reporting | kwin | COMMENT (1 important: behavioral regression with null defValue) | 2026-07-20T13:57:58Z |
+| #1983 | Improve error reporting | kwin | COMMENT (1 important finding → fixed by kwin in commit 2) | 2026-07-20T13:57:58Z |
 | #1955 | Expose body for non RFC 9457 error responses | kwin | COMMENT (issues found) | 2026-07-13T11:59:36Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
