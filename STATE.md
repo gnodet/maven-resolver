@@ -2,16 +2,17 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-20T11:05:00Z
-- **Status:** idle (#1982 is .asf.yaml-only — skipped per loop constraints)
-- **PRs reviewed:** 0
-- **Reviews posted:** 0
+- **Timestamp:** 2026-07-20T13:57:58Z
+- **Status:** reviewed #1983 (1 important finding: behavioral regression)
+- **PRs reviewed:** 1
+- **Reviews posted:** 1
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
+| #1983 | Improve error reporting | kwin | COMMENT (1 important: behavioral regression with null defValue) | 2026-07-20T13:57:58Z |
 | #1955 | Expose body for non RFC 9457 error responses | kwin | COMMENT (issues found) | 2026-07-13T11:59:36Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
@@ -41,6 +42,7 @@ _(none)_
 
 | # | Title | Author | Resolution |
 |---|-------|--------|------------|
+| #1982 | Add ATR meta | cstamas | Merged (infra-only, skipped review) |
 | #1980 | Fix: preserve original trace data when stamping re-entrancy marker | gnodet | Merged 2026-07-20T06:16:39Z by gnodet (reviewed and merged by operator) |
 | #1976 | RRF: self-heal from provably broken auto-discovered prefixes files | ascheman | Merged 2026-07-18T13:36:27Z by ascheman (our approve was correct, cstamas also approved) |
 | #1975 | Bug: in certain cases Resolver caused build failure | cstamas | Merged 2026-07-18T12:10:39Z by cstamas (merged ~1h after our approve) |
@@ -48,6 +50,5 @@ _(none)_
 | #1977 | Do not check UrlTransporter for open connections after close | kwin | Merged 2026-07-18T10:26:46Z by kwin (merged seconds after our approve) |
 | #1970 | Make sure to always close input streams bound to responses | kwin | Merged 2026-07-17T16:22:50Z by kwin (our approve was correct, cstamas also approved) |
 | #1973 | Fix: be more defensive regarding request traces | cstamas | Merged 2026-07-17T12:19:08Z by cstamas (3 min after our approve — correct) |
-| #1965 | Use custom doclet to extract configuration metadata | kwin | Merged 2026-07-16T19:24:16Z by kwin (our approve across 5 review rounds was correct) |
 
 _Entries older than 7 days pruned._
