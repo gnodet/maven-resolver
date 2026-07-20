@@ -2,10 +2,10 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-19T18:08:00Z
-- **Status:** idle (#1976 merged, #1980 is own PR — skipped)
-- **PRs reviewed:** 0
-- **Reviews posted:** 0
+- **Timestamp:** 2026-07-20T06:16:39Z
+- **Status:** reviewed and merged #1980
+- **PRs reviewed:** 1
+- **Reviews posted:** 0 (manual review + merge by operator)
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
@@ -41,6 +41,7 @@ _(none)_
 
 | # | Title | Author | Resolution |
 |---|-------|--------|------------|
+| #1980 | Fix: preserve original trace data when stamping re-entrancy marker | gnodet | Merged 2026-07-20T06:16:39Z by gnodet (reviewed and merged by operator) |
 | #1976 | RRF: self-heal from provably broken auto-discovered prefixes files | ascheman | Merged 2026-07-18T13:36:27Z by ascheman (our approve was correct, cstamas also approved) |
 | #1975 | Bug: in certain cases Resolver caused build failure | cstamas | Merged 2026-07-18T12:10:39Z by cstamas (merged ~1h after our approve) |
 | #1978 | Feat: config to close connection at end of tx | cstamas | Merged 2026-07-18T10:44:54Z by cstamas (merged 42s after our follow-up approve) |
@@ -56,3 +57,5 @@ _(none)_
 | #1762 | Expose additional transport details to TransportListener | kwin | Merged 2026-07-16T15:34:42Z by kwin (our approve was correct, cstamas also approved) |
 | #1949 | Support HTTP/3 in Jetty and JRE HTTP Client | kwin | Merged 2026-07-16T15:30:22Z by kwin (our approve was correct, cstamas also approved) |
 | #1957 | Skip validation and decoration on re-entrant RepositorySystem calls | gnodet | Merged 2026-07-14T20:04:12Z (our approve was correct) |
+
+_Entries older than 7 days pruned._
