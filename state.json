@@ -95,13 +95,51 @@
         }
       ],
       "review_count": 1
+    },
+    {
+      "number": 1955,
+      "title": "Expose body for non RFC 9457 error responses",
+      "author": "kwin",
+      "reviewed_at": "2026-07-23T13:29:55Z",
+      "verdict": "COMMENT",
+      "notes": "All maintainer feedback unaddressed. UncheckedIOException bug, slf4j in SPI rejected, eager stream consumption, no size limit, doesn't satisfy #1844.",
+      "interactions": [
+        {
+          "at": "2026-07-23T13:29:55Z",
+          "verdict": "COMMENT",
+          "notes": "All maintainer feedback unaddressed. UncheckedIOException bug, slf4j in SPI rejected, eager stream consumption, no size limit, doesn't satisfy #1844."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 2008,
+      "title": "Enh: Allow validator factory to abstain",
+      "author": "cstamas",
+      "reviewed_at": "2026-07-23T13:29:55Z",
+      "verdict": "COMMENT",
+      "notes": "Sound design but ConcurrentHashMap doesn't cache null (contradicts Javadoc), identityHashCode as key is unsafe. Missing tests.",
+      "interactions": [
+        {
+          "at": "2026-07-23T13:29:55Z",
+          "verdict": "COMMENT",
+          "notes": "Sound design but ConcurrentHashMap doesn't cache null (contradicts Javadoc), identityHashCode as key is unsafe. Missing tests."
+        }
+      ],
+      "review_count": 1
     }
   ],
-  "skipped_prs": [],
+  "skipped_prs": [
+    {
+      "number": 2009,
+      "reason": "Author is the operator (gnodet) \u2014 skipping self-review",
+      "since": "2026-07-23T13:21:22Z"
+    }
+  ],
   "last_run": {
-    "timestamp": "2026-07-23T13:20:45Z",
+    "timestamp": "2026-07-23T13:29:55Z",
     "prs_checked": 3,
-    "reviews_posted": 3,
+    "reviews_posted": 2,
     "tokens_estimate": 0
   },
   "paused": false,
