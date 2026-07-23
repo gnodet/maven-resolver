@@ -1,0 +1,61 @@
+{
+  "reviewed_prs": [
+    {
+      "number": 17,
+      "title": "[MRESOLVER-43] Enhancements to the public API to add support for tracking dependency management source",
+      "author": "ChristianSchulte",
+      "reviewed_at": "2026-07-23T11:36:29Z",
+      "verdict": "COMMENT",
+      "notes": "8-year-old PR, unmergeable against 2.x codebase. Copy-paste bugs, missing tests, obsolete version bump. Recommend closing.",
+      "interactions": [
+        {
+          "at": "2026-07-23T11:36:29Z",
+          "verdict": "COMMENT",
+          "notes": "8-year-old PR, unmergeable against 2.x codebase. Copy-paste bugs, missing tests, obsolete version bump. Recommend closing."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 63,
+      "title": "[MRESOLVER-126] support conversion from String to Map for config",
+      "author": "kwin",
+      "reviewed_at": "2026-07-23T11:36:29Z",
+      "verdict": "COMMENT",
+      "notes": "6-year-old PR, unmergeable. Targets removed file and refactored method. Unresolved design concern from maintainer.",
+      "interactions": [
+        {
+          "at": "2026-07-23T11:36:29Z",
+          "verdict": "COMMENT",
+          "notes": "6-year-old PR, unmergeable. Targets removed file and refactored method. Unresolved design concern from maintainer."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 1683,
+      "title": "[MNG-7559] Fix version comparison with case insensitive lexical order",
+      "author": "sultan",
+      "reviewed_at": "2026-07-23T11:36:29Z",
+      "verdict": "COMMENT",
+      "notes": "Unaddressed CHANGES_REQUESTED from maintainer. Merge conflicts with extracted GenericQualifiers.java. Would break public API.",
+      "interactions": [
+        {
+          "at": "2026-07-23T11:36:29Z",
+          "verdict": "COMMENT",
+          "notes": "Unaddressed CHANGES_REQUESTED from maintainer. Merge conflicts with extracted GenericQualifiers.java. Would break public API."
+        }
+      ],
+      "review_count": 1
+    }
+  ],
+  "skipped_prs": [],
+  "last_run": {
+    "timestamp": "2026-07-23T11:36:29Z",
+    "prs_checked": 3,
+    "reviews_posted": 3,
+    "tokens_estimate": 0
+  },
+  "paused": false,
+  "review_queue": []
+}
