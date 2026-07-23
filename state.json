@@ -159,6 +159,22 @@
         }
       ],
       "review_count": 1
+    },
+    {
+      "number": 2010,
+      "title": "Fix documentation issues across site docs",
+      "author": "elharo",
+      "reviewed_at": "2026-07-23T15:34:40Z",
+      "verdict": "COMMENT",
+      "notes": "Type error in code example (SessionBuilder vs RepositorySystemSession) and indentation inconsistency",
+      "interactions": [
+        {
+          "at": "2026-07-23T15:34:40Z",
+          "verdict": "COMMENT",
+          "notes": "Type error in code example (SessionBuilder vs RepositorySystemSession) and indentation inconsistency"
+        }
+      ],
+      "review_count": 1
     }
   ],
   "skipped_prs": [
@@ -169,9 +185,9 @@
     }
   ],
   "last_run": {
-    "timestamp": "2026-07-23T13:41:28Z",
-    "prs_checked": 2,
-    "reviews_posted": 2,
+    "timestamp": "2026-07-23T15:34:40Z",
+    "prs_checked": 1,
+    "reviews_posted": 1,
     "tokens_estimate": 0
   },
   "paused": false,
