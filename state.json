@@ -164,17 +164,22 @@
       "number": 2010,
       "title": "Fix documentation issues across site docs",
       "author": "elharo",
-      "reviewed_at": "2026-07-23T15:34:40Z",
+      "reviewed_at": "2026-07-23T15:42:54Z",
       "verdict": "COMMENT",
-      "notes": "Type error in code example (SessionBuilder vs RepositorySystemSession) and indentation inconsistency",
+      "notes": "Re-review: compile issue in code example still unfixed, grammar nit already addressed",
       "interactions": [
         {
           "at": "2026-07-23T15:34:40Z",
           "verdict": "COMMENT",
           "notes": "Type error in code example (SessionBuilder vs RepositorySystemSession) and indentation inconsistency"
+        },
+        {
+          "at": "2026-07-23T15:42:54Z",
+          "verdict": "COMMENT",
+          "notes": "Re-review: compile issue in code example still unfixed, grammar nit already addressed"
         }
       ],
-      "review_count": 1
+      "review_count": 2
     }
   ],
   "skipped_prs": [
@@ -185,7 +190,7 @@
     }
   ],
   "last_run": {
-    "timestamp": "2026-07-23T15:34:40Z",
+    "timestamp": "2026-07-23T15:42:54Z",
     "prs_checked": 1,
     "reviews_posted": 1,
     "tokens_estimate": 0
