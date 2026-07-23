@@ -1,3 +1,20 @@
 {
-  "learnings": []
+  "learnings": [
+    {
+      "id": "dec562e9-4426-4d4f-8a57-3aab583c592e",
+      "type": "accepted",
+      "source": {
+        "pr": 1714,
+        "review_date": "2026-07-23T15:34:49Z",
+        "finding_rule": "review-1714",
+        "file_pattern": "*"
+      },
+      "pattern": "PR #1714 merged after APPROVE \u2014 review aligned with maintainer",
+      "action": "flag as issue",
+      "confidence": 0.65,
+      "occurrences": 1,
+      "last_seen": "2026-07-23T15:34:49Z",
+      "suppressed": false
+    }
+  ]
 }
