@@ -164,9 +164,9 @@
       "number": 2010,
       "title": "Fix documentation issues across site docs",
       "author": "elharo",
-      "reviewed_at": "2026-07-23T15:55:19Z",
+      "reviewed_at": "2026-07-23T16:16:58Z",
       "verdict": "COMMENT",
-      "notes": "Re-review v3: compile error fixed but replaced with deprecated API; suggested SessionBuilder approach",
+      "notes": "Re-review v4: deprecated constructor still unfixed; new issues in about-checksums.md (stray parens, missing word)",
       "interactions": [
         {
           "at": "2026-07-23T15:34:40Z",
@@ -182,9 +182,14 @@
           "at": "2026-07-23T15:55:19Z",
           "verdict": "COMMENT",
           "notes": "Re-review v3: compile error fixed but replaced with deprecated API; suggested SessionBuilder approach"
+        },
+        {
+          "at": "2026-07-23T16:16:58Z",
+          "verdict": "COMMENT",
+          "notes": "Re-review v4: deprecated constructor still unfixed; new issues in about-checksums.md (stray parens, missing word)"
         }
       ],
-      "review_count": 3
+      "review_count": 4
     }
   ],
   "skipped_prs": [
@@ -195,7 +200,7 @@
     }
   ],
   "last_run": {
-    "timestamp": "2026-07-23T15:55:19Z",
+    "timestamp": "2026-07-23T16:16:58Z",
     "prs_checked": 1,
     "reviews_posted": 1,
     "tokens_estimate": 0
