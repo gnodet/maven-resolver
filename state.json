@@ -164,9 +164,9 @@
       "number": 2010,
       "title": "Fix documentation issues across site docs",
       "author": "elharo",
-      "reviewed_at": "2026-07-23T15:42:54Z",
+      "reviewed_at": "2026-07-23T15:55:19Z",
       "verdict": "COMMENT",
-      "notes": "Re-review: compile issue in code example still unfixed, grammar nit already addressed",
+      "notes": "Re-review v3: compile error fixed but replaced with deprecated API; suggested SessionBuilder approach",
       "interactions": [
         {
           "at": "2026-07-23T15:34:40Z",
@@ -177,9 +177,14 @@
           "at": "2026-07-23T15:42:54Z",
           "verdict": "COMMENT",
           "notes": "Re-review: compile issue in code example still unfixed, grammar nit already addressed"
+        },
+        {
+          "at": "2026-07-23T15:55:19Z",
+          "verdict": "COMMENT",
+          "notes": "Re-review v3: compile error fixed but replaced with deprecated API; suggested SessionBuilder approach"
         }
       ],
-      "review_count": 2
+      "review_count": 3
     }
   ],
   "skipped_prs": [
@@ -190,7 +195,7 @@
     }
   ],
   "last_run": {
-    "timestamp": "2026-07-23T15:42:54Z",
+    "timestamp": "2026-07-23T15:55:19Z",
     "prs_checked": 1,
     "reviews_posted": 1,
     "tokens_estimate": 0
