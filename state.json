@@ -47,11 +47,59 @@
         }
       ],
       "review_count": 1
+    },
+    {
+      "number": 1714,
+      "title": "Edit version comparison",
+      "author": "elharo",
+      "reviewed_at": "2026-07-23T13:20:45Z",
+      "verdict": "APPROVE",
+      "notes": "Documentation-only grammar improvements to version comparison Javadoc. All changes correct.",
+      "interactions": [
+        {
+          "at": "2026-07-23T13:20:45Z",
+          "verdict": "APPROVE",
+          "notes": "Documentation-only grammar improvements to version comparison Javadoc. All changes correct."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 1758,
+      "title": "Add CycleAwareDependencyGraphDumper to visualize cycles (resolves #1561)",
+      "author": "Jimin15",
+      "reviewed_at": "2026-07-23T13:20:45Z",
+      "verdict": "COMMENT",
+      "notes": "Correctness bug in formatCycleIndentation identity comparison. CI red. Incorrect comments, weak test assertions, wrong @since tag.",
+      "interactions": [
+        {
+          "at": "2026-07-23T13:20:45Z",
+          "verdict": "COMMENT",
+          "notes": "Correctness bug in formatCycleIndentation identity comparison. CI red. Incorrect comments, weak test assertions, wrong @since tag."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 1815,
+      "title": "Advised and Enforced Management",
+      "author": "cstamas",
+      "reviewed_at": "2026-07-23T13:20:45Z",
+      "verdict": "COMMENT",
+      "notes": "Well-designed advised/enforced management. Needs rebase (3 releases since last update) and @since 2.0.19 -> 2.0.22 tag updates.",
+      "interactions": [
+        {
+          "at": "2026-07-23T13:20:45Z",
+          "verdict": "COMMENT",
+          "notes": "Well-designed advised/enforced management. Needs rebase (3 releases since last update) and @since 2.0.19 -> 2.0.22 tag updates."
+        }
+      ],
+      "review_count": 1
     }
   ],
   "skipped_prs": [],
   "last_run": {
-    "timestamp": "2026-07-23T11:36:29Z",
+    "timestamp": "2026-07-23T13:20:45Z",
     "prs_checked": 3,
     "reviews_posted": 3,
     "tokens_estimate": 0
