@@ -11,9 +11,9 @@
       },
       "pattern": "PR #1714 merged after APPROVE \u2014 review aligned with maintainer",
       "action": "flag as issue",
-      "confidence": 0.9500000000000001,
-      "occurrences": 3,
-      "last_seen": "2026-07-23T22:23:35Z",
+      "confidence": 1.0,
+      "occurrences": 4,
+      "last_seen": "2026-07-24T11:58:31Z",
       "suppressed": false
     }
   ]
