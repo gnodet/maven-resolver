@@ -1,0 +1,100 @@
+{
+  "reviewed_prs": [
+    {
+      "number": 1983,
+      "title": "Improve error reporting",
+      "author": "kwin",
+      "verdict": "COMMENT",
+      "reviewed_at": "2026-07-24T13:23:06Z",
+      "notes": "Re-review: regression fixed; 1 low defensive-coding suggestion posted",
+      "interactions": [
+        {
+          "at": "2026-07-20T13:57:58Z",
+          "verdict": "COMMENT",
+          "notes": ""
+        },
+        {
+          "at": "2026-07-24T13:23:06Z",
+          "verdict": "COMMENT",
+          "notes": "Re-review: regression fixed; 1 low defensive-coding suggestion posted"
+        }
+      ],
+      "review_count": 2
+    },
+    {
+      "number": 1955,
+      "title": "Expose body for non RFC 9457 error responses",
+      "author": "kwin",
+      "verdict": "COMMENT",
+      "reviewed_at": "2026-07-13T11:59:36Z"
+    },
+    {
+      "number": 1815,
+      "title": "Advised and Enforced Management",
+      "author": "cstamas",
+      "verdict": "COMMENT",
+      "reviewed_at": "2026-07-14T20:49:20Z"
+    },
+    {
+      "number": 1683,
+      "title": "Fix version comparison with case insensitive lexical order",
+      "author": "sultan",
+      "verdict": "COMMENT",
+      "reviewed_at": "2026-07-14T20:49:40Z"
+    },
+    {
+      "number": 1714,
+      "title": "Edit version comparison",
+      "author": "elharo",
+      "verdict": "COMMENT",
+      "reviewed_at": "2026-07-14T20:26:21Z"
+    },
+    {
+      "number": 1758,
+      "title": "Add CycleAwareDependencyGraphDumper",
+      "author": "Jimin15",
+      "verdict": "COMMENT",
+      "reviewed_at": "2026-07-14T20:26:34Z"
+    },
+    {
+      "number": 1981,
+      "title": "Improve rendering of javadoc content",
+      "author": "kwin",
+      "reviewed_at": "2026-07-24T13:23:06Z",
+      "verdict": "COMMENT",
+      "notes": "New review: 2 confirmed high findings (code/literal swap bug)",
+      "interactions": [
+        {
+          "at": "2026-07-24T13:23:06Z",
+          "verdict": "COMMENT",
+          "notes": "New review: 2 confirmed high findings (code/literal swap bug)"
+        }
+      ],
+      "review_count": 1
+    }
+  ],
+  "skipped_prs": [
+    {
+      "number": 1956,
+      "reason": "Bot + dependencies label"
+    },
+    {
+      "number": 1982,
+      "reason": ".asf.yaml-only (infra file, out of scope)"
+    },
+    {
+      "number": 1955,
+      "reason": "Re-review skipped: no new code since July 11, same findings already posted July 13",
+      "since": "2026-07-24T13:23:06Z"
+    }
+  ],
+  "last_run": {
+    "timestamp": "2026-07-24T13:23:06Z",
+    "prs_checked": 3,
+    "reviews_posted": 2,
+    "tokens_estimate": 306000
+  },
+  "operator_login": "gnodet",
+  "review_queue": [],
+  "last_reviewed_updated_at": "2026-07-23T13:41:16Z"
+}
