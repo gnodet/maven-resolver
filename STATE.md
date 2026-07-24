@@ -2,17 +2,18 @@
 
 ## Last Run
 
-- **Timestamp:** 2026-07-20T15:56:54Z
-- **Status:** drift on #1983 — kwin fixed behavioral regression (new commit), posted follow-up comment
-- **PRs reviewed:** 0 (follow-up on existing review)
-- **Reviews posted:** 0 (1 follow-up comment)
+- **Timestamp:** 2026-07-24T13:23:06Z
+- **Status:** reviewed 2 PRs (#1983 re-review, #1981 new), skipped #1955 re-review (no new code)
+- **PRs reviewed:** 2
+- **Reviews posted:** 2
 - **False positives caught by verifier:** 0
 
 ## Reviewed PRs
 
 | # | Title | Author | Verdict | Reviewed At |
 |---|-------|--------|---------|-------------|
-| #1983 | Improve error reporting | kwin | COMMENT (1 important finding → fixed by kwin in commit 2) | 2026-07-20T13:57:58Z |
+| #1981 | Improve rendering of javadoc content | kwin | COMMENT (2 confirmed high findings — {@code}/{@literal} swap bug) | 2026-07-24T13:23:06Z |
+| #1983 | Improve error reporting | kwin | COMMENT (re-review: regression fixed, 1 low defensive-coding suggestion) | 2026-07-24T13:23:06Z |
 | #1955 | Expose body for non RFC 9457 error responses | kwin | COMMENT (issues found) | 2026-07-13T11:59:36Z |
 | #1815 | Advised and Enforced Management | cstamas | COMMENT (approve, 1 minor observation) | 2026-07-14T20:49:20Z |
 | #1683 | Fix version comparison with case insensitive lexical order | sultan | COMMENT (2 blocking + 3 minor findings) | 2026-07-14T20:49:40Z |
@@ -51,4 +52,3 @@ _(none)_
 | #1973 | Fix: be more defensive regarding request traces | cstamas | Merged 2026-07-17T12:19:08Z by cstamas (3 min after our approve — correct) |
 
 _Entries older than 7 days pruned._
-
