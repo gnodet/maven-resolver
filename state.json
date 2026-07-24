@@ -3,12 +3,67 @@
   "project": "apache/maven-resolver",
   "project_name": "Maven Resolver",
   "loop_type": "review-loop",
-  "last_run": null,
-  "reviewed_prs": [],
+  "last_run": {
+    "timestamp": "2026-07-24T15:56:31Z",
+    "prs_checked": 3,
+    "reviews_posted": 3,
+    "tokens_estimate": 0
+  },
+  "reviewed_prs": [
+    {
+      "number": 1683,
+      "title": "[MNG-7559] Fix version comparison with case insensitive lexical order",
+      "author": "sultan",
+      "reviewed_at": "2026-07-24T15:56:17Z",
+      "verdict": "COMMENT",
+      "notes": "Merge conflict with master (GenericQualifiers extraction), unaddressed maintainer rejection of new qualifiers, public API breakage from constant renumbering",
+      "interactions": [
+        {
+          "at": "2026-07-24T15:56:17Z",
+          "verdict": "COMMENT",
+          "notes": "Merge conflict with master (GenericQualifiers extraction), unaddressed maintainer rejection of new qualifiers, public API breakage from constant renumbering"
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 1758,
+      "title": "Add CycleAwareDependencyGraphDumper to visualize cycles (resolves #1561)",
+      "author": "Jimin15",
+      "reviewed_at": "2026-07-24T15:56:20Z",
+      "verdict": "REQUEST_CHANGES",
+      "notes": "Correctness bug in formatCycleIndentation identity comparison, wrong @since tag, misleading comment, weak test assertions",
+      "interactions": [
+        {
+          "at": "2026-07-24T15:56:20Z",
+          "verdict": "REQUEST_CHANGES",
+          "notes": "Correctness bug in formatCycleIndentation identity comparison, wrong @since tag, misleading comment, weak test assertions"
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 1815,
+      "title": "Advised and Enforced Management",
+      "author": "cstamas",
+      "reviewed_at": "2026-07-24T15:56:25Z",
+      "verdict": "COMMENT",
+      "notes": "Needs rebase (3 releases since last update), stale @since 2.0.19 tags need update to 2.0.22, minor defensive copy suggestion",
+      "interactions": [
+        {
+          "at": "2026-07-24T15:56:25Z",
+          "verdict": "COMMENT",
+          "notes": "Needs rebase (3 releases since last update), stale @since 2.0.19 tags need update to 2.0.22, minor defensive copy suggestion"
+        }
+      ],
+      "review_count": 1
+    }
+  ],
   "skipped_prs": [],
   "review_queue": [],
   "active_failures": [],
   "escalated": [],
   "resolved": [],
-  "created_at": "2026-07-24T13:47:44Z"
+  "created_at": "2026-07-24T13:47:44Z",
+  "last_reviewed_updated_at": "2026-07-23T13:20:34Z"
 }
