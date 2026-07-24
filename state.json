@@ -116,9 +116,9 @@
       "number": 2008,
       "title": "Enh: Allow validator factory to abstain",
       "author": "cstamas",
-      "reviewed_at": "2026-07-23T22:23:29Z",
-      "verdict": "COMMENT",
-      "notes": "Re-review: critical bugs fixed (NOOP sentinel, string-keyed Map); stale Javadoc and inconsistent null enforcement remain",
+      "reviewed_at": "2026-07-24T11:58:26Z",
+      "verdict": "APPROVE",
+      "notes": "All prior findings fixed: NOOP sentinel, Javadoc, null enforcement",
       "interactions": [
         {
           "at": "2026-07-23T13:29:55Z",
@@ -129,9 +129,14 @@
           "at": "2026-07-23T22:23:29Z",
           "verdict": "COMMENT",
           "notes": "Re-review: critical bugs fixed (NOOP sentinel, string-keyed Map); stale Javadoc and inconsistent null enforcement remain"
+        },
+        {
+          "at": "2026-07-24T11:58:26Z",
+          "verdict": "APPROVE",
+          "notes": "All prior findings fixed: NOOP sentinel, Javadoc, null enforcement"
         }
       ],
-      "review_count": 2
+      "review_count": 3
     },
     {
       "number": 1983,
@@ -200,6 +205,38 @@
         }
       ],
       "review_count": 5
+    },
+    {
+      "number": 2011,
+      "title": "Replace printStackTrace with proper error handling",
+      "author": "elharo",
+      "reviewed_at": "2026-07-24T11:58:26Z",
+      "verdict": "APPROVE",
+      "notes": "Clean PR replacing silent printStackTrace with proper error propagation",
+      "interactions": [
+        {
+          "at": "2026-07-24T11:58:26Z",
+          "verdict": "APPROVE",
+          "notes": "Clean PR replacing silent printStackTrace with proper error propagation"
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 2012,
+      "title": "Fix InterruptedException silently dropping task in SmartExecutor.Limited.submit(Runnable)",
+      "author": "elharo",
+      "reviewed_at": "2026-07-24T11:58:26Z",
+      "verdict": "APPROVE",
+      "notes": "Correct concurrency fix: restores interrupt flag and throws RejectedExecutionException",
+      "interactions": [
+        {
+          "at": "2026-07-24T11:58:26Z",
+          "verdict": "APPROVE",
+          "notes": "Correct concurrency fix: restores interrupt flag and throws RejectedExecutionException"
+        }
+      ],
+      "review_count": 1
     }
   ],
   "skipped_prs": [
@@ -210,9 +247,9 @@
     }
   ],
   "last_run": {
-    "timestamp": "2026-07-23T22:23:29Z",
-    "prs_checked": 2,
-    "reviews_posted": 1,
+    "timestamp": "2026-07-24T11:58:26Z",
+    "prs_checked": 3,
+    "reviews_posted": 3,
     "tokens_estimate": 0
   },
   "paused": false,
