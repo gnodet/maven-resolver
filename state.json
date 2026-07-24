@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "project": "apache/maven-resolver",
+  "project_name": "Maven Resolver",
+  "loop_type": "review-loop",
+  "last_run": null,
+  "reviewed_prs": [],
+  "skipped_prs": [],
+  "review_queue": [],
+  "active_failures": [],
+  "escalated": [],
+  "resolved": [],
+  "created_at": "2026-07-24T13:47:44Z"
+}
