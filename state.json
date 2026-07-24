@@ -4,9 +4,9 @@
   "project_name": "Maven Resolver",
   "loop_type": "review-loop",
   "last_run": {
-    "timestamp": "2026-07-24T16:11:14Z",
-    "prs_checked": 3,
-    "reviews_posted": 3,
+    "timestamp": "2026-07-24T16:35:15Z",
+    "prs_checked": 2,
+    "reviews_posted": 2,
     "tokens_estimate": 0
   },
   "reviewed_prs": [
@@ -105,6 +105,38 @@
         }
       ],
       "review_count": 1
+    },
+    {
+      "number": 1983,
+      "title": "Improve error reporting",
+      "author": "kwin",
+      "reviewed_at": "2026-07-24T16:35:15Z",
+      "verdict": "COMMENT",
+      "notes": "NPE risk in RuntimeException catch (null docComment), lost stack trace in run() catch, minor cosmetic items. Good continue-on-error pattern.",
+      "interactions": [
+        {
+          "at": "2026-07-24T16:35:15Z",
+          "verdict": "COMMENT",
+          "notes": "NPE risk in RuntimeException catch (null docComment), lost stack trace in run() catch, minor cosmetic items. Good continue-on-error pattern."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 1981,
+      "title": "Improve rendering of javadoc content",
+      "author": "kwin",
+      "reviewed_at": "2026-07-24T16:35:15Z",
+      "verdict": "APPROVE",
+      "notes": "Solid regex-to-visitor refactor for Javadoc tag processing. Code/literal bug fixed in follow-up commit. Minor non-blocking observations only.",
+      "interactions": [
+        {
+          "at": "2026-07-24T16:35:15Z",
+          "verdict": "APPROVE",
+          "notes": "Solid regex-to-visitor refactor for Javadoc tag processing. Code/literal bug fixed in follow-up commit. Minor non-blocking observations only."
+        }
+      ],
+      "review_count": 1
     }
   ],
   "skipped_prs": [],
@@ -113,5 +145,5 @@
   "escalated": [],
   "resolved": [],
   "created_at": "2026-07-24T13:47:44Z",
-  "last_reviewed_updated_at": "2026-07-24T13:03:16Z"
+  "last_reviewed_updated_at": "2026-07-24T16:21:05Z"
 }
