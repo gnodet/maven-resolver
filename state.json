@@ -210,33 +210,43 @@
       "number": 2011,
       "title": "Replace printStackTrace with proper error handling",
       "author": "elharo",
-      "reviewed_at": "2026-07-24T11:58:26Z",
+      "reviewed_at": "2026-07-24T12:03:38Z",
       "verdict": "APPROVE",
-      "notes": "Clean PR replacing silent printStackTrace with proper error propagation",
+      "notes": "Maintainer (cstamas) also approved; no new code changes",
       "interactions": [
         {
           "at": "2026-07-24T11:58:26Z",
           "verdict": "APPROVE",
           "notes": "Clean PR replacing silent printStackTrace with proper error propagation"
+        },
+        {
+          "at": "2026-07-24T12:03:38Z",
+          "verdict": "APPROVE",
+          "notes": "Maintainer (cstamas) also approved; no new code changes"
         }
       ],
-      "review_count": 1
+      "review_count": 2
     },
     {
       "number": 2012,
       "title": "Fix InterruptedException silently dropping task in SmartExecutor.Limited.submit(Runnable)",
       "author": "elharo",
-      "reviewed_at": "2026-07-24T11:58:26Z",
+      "reviewed_at": "2026-07-24T12:03:38Z",
       "verdict": "APPROVE",
-      "notes": "Correct concurrency fix: restores interrupt flag and throws RejectedExecutionException",
+      "notes": "Maintainer (cstamas) also approved; no new code changes",
       "interactions": [
         {
           "at": "2026-07-24T11:58:26Z",
           "verdict": "APPROVE",
           "notes": "Correct concurrency fix: restores interrupt flag and throws RejectedExecutionException"
+        },
+        {
+          "at": "2026-07-24T12:03:38Z",
+          "verdict": "APPROVE",
+          "notes": "Maintainer (cstamas) also approved; no new code changes"
         }
       ],
-      "review_count": 1
+      "review_count": 2
     }
   ],
   "skipped_prs": [
