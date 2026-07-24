@@ -1,0 +1,20 @@
+{
+  "learnings": [
+    {
+      "id": "6707cc9b-b054-4f7e-9497-d0710f3bde76",
+      "type": "accepted",
+      "source": {
+        "pr": 1983,
+        "review_date": "2026-07-24T13:14:44Z",
+        "finding_rule": "review-1983",
+        "file_pattern": "*"
+      },
+      "pattern": "PR #1983 had 1 commit(s) after review \u2014 suggestions likely applied",
+      "action": "flag as issue",
+      "confidence": 0.65,
+      "occurrences": 1,
+      "last_seen": "2026-07-24T13:14:44Z",
+      "suppressed": false
+    }
+  ]
+}
