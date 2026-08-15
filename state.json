@@ -4,9 +4,9 @@
   "project_name": "Maven Resolver",
   "loop_type": "review-loop",
   "last_run": {
-    "timestamp": "2026-07-24T16:35:15Z",
-    "prs_checked": 2,
-    "reviews_posted": 2,
+    "timestamp": "2026-08-15T14:04:26Z",
+    "prs_checked": 3,
+    "reviews_posted": 3,
     "tokens_estimate": 0
   },
   "reviewed_prs": [
@@ -110,17 +110,22 @@
       "number": 1983,
       "title": "Improve error reporting",
       "author": "kwin",
-      "reviewed_at": "2026-07-24T16:35:15Z",
-      "verdict": "COMMENT",
-      "notes": "NPE risk in RuntimeException catch (null docComment), lost stack trace in run() catch, minor cosmetic items. Good continue-on-error pattern.",
+      "reviewed_at": "2026-08-15T14:04:25Z",
+      "verdict": "REQUEST_CHANGES",
+      "notes": "Re-review: mode assignment bug (discarded valueOf result), Objects.toString on Optional produces garbage, getFullyQualifiedName drops field name. Previously flagged NPE now fixed.",
       "interactions": [
         {
           "at": "2026-07-24T16:35:15Z",
           "verdict": "COMMENT",
           "notes": "NPE risk in RuntimeException catch (null docComment), lost stack trace in run() catch, minor cosmetic items. Good continue-on-error pattern."
+        },
+        {
+          "at": "2026-08-15T14:04:25Z",
+          "verdict": "REQUEST_CHANGES",
+          "notes": "Re-review: mode assignment bug (discarded valueOf result), Objects.toString on Optional produces garbage, getFullyQualifiedName drops field name. Previously flagged NPE now fixed."
         }
       ],
-      "review_count": 1
+      "review_count": 2
     },
     {
       "number": 1981,
@@ -137,6 +142,38 @@
         }
       ],
       "review_count": 1
+    },
+    {
+      "number": 2046,
+      "title": "docs: rewrite how-resolver-works.md to STE rules",
+      "author": "elharo",
+      "reviewed_at": "2026-08-15T14:04:25Z",
+      "verdict": "REQUEST_CHANGES",
+      "notes": "6 confirmed factual inaccuracies: resolveArtifacts flattening claim, binary resource, aside tag, resolving definition, dirty graph contradiction, sequential not interleaved.",
+      "interactions": [
+        {
+          "at": "2026-08-15T14:04:25Z",
+          "verdict": "REQUEST_CHANGES",
+          "notes": "6 confirmed factual inaccuracies: resolveArtifacts flattening claim, binary resource, aside tag, resolving definition, dirty graph contradiction, sequential not interleaved."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 2041,
+      "title": "docs: rewrite expected-checksums.md to STE rules",
+      "author": "elharo",
+      "reviewed_at": "2026-08-15T14:04:25Z",
+      "verdict": "COMMENT",
+      "notes": "Both findings confirmed: Nx2ChecksumExtractor still active but undocumented (deliberate editorial choice), inconsistent config key (legacy vs canonical).",
+      "interactions": [
+        {
+          "at": "2026-08-15T14:04:25Z",
+          "verdict": "COMMENT",
+          "notes": "Both findings confirmed: Nx2ChecksumExtractor still active but undocumented (deliberate editorial choice), inconsistent config key (legacy vs canonical)."
+        }
+      ],
+      "review_count": 1
     }
   ],
   "skipped_prs": [],
@@ -145,5 +182,5 @@
   "escalated": [],
   "resolved": [],
   "created_at": "2026-07-24T13:47:44Z",
-  "last_reviewed_updated_at": "2026-07-24T16:21:05Z"
+  "last_reviewed_updated_at": "2026-08-15T13:41:31Z"
 }
