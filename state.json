@@ -4,9 +4,9 @@
   "project_name": "Maven Resolver",
   "loop_type": "review-loop",
   "last_run": {
-    "timestamp": "2026-08-20T03:04:52Z",
+    "timestamp": "2026-08-20T08:49:06Z",
     "prs_checked": 1,
-    "reviews_posted": 1,
+    "reviews_posted": 0,
     "tokens_estimate": 0
   },
   "reviewed_prs": [
@@ -220,9 +220,9 @@
       "number": 2060,
       "title": "Fix #2058: Add links to configuration page",
       "author": "Jamison929611",
-      "reviewed_at": "2026-08-20T03:04:52Z",
-      "verdict": "APPROVE",
-      "notes": "Re-review (4th pass): Both kwin concerns addressed. Javadoc args passed via shared POM properties, ordering solved via source-root discovery. Approved.",
+      "reviewed_at": "2026-08-20T08:49:06Z",
+      "verdict": "COMMENT",
+      "notes": "Maintainer @kwin still sees no javadoc links in generated output. Referenced classes are from foreign modules, not src/main/java in maven-resolver-tools. Source-root detection logic needs rework. Awaiting author.",
       "interactions": [
         {
           "at": "2026-08-18T05:46:55Z",
@@ -258,9 +258,14 @@
           "at": "2026-08-20T03:04:52Z",
           "verdict": "APPROVE",
           "notes": "Re-review (4th pass): Both kwin concerns addressed. Javadoc args passed via shared POM properties, ordering solved via source-root discovery. Approved."
+        },
+        {
+          "at": "2026-08-20T08:49:06Z",
+          "verdict": "COMMENT",
+          "notes": "Maintainer @kwin still sees no javadoc links in generated output. Referenced classes are from foreign modules, not src/main/java in maven-resolver-tools. Source-root detection logic needs rework. Awaiting author."
         }
       ],
-      "review_count": 7
+      "review_count": 8
     }
   ],
   "skipped_prs": [
@@ -275,5 +280,5 @@
   "escalated": [],
   "resolved": [],
   "created_at": "2026-07-24T13:47:44Z",
-  "last_reviewed_updated_at": "2026-08-20T02:57:56Z"
+  "last_reviewed_updated_at": "2026-08-20T08:47:37Z"
 }
