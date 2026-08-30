@@ -108,49 +108,64 @@
       "number": 2087,
       "title": "Validate coordinate components used in path and URI composition",
       "author": "slachiewicz",
-      "reviewed_at": "2026-08-30T23:27:19Z",
+      "reviewed_at": "2026-08-30T23:59:00Z",
       "verdict": "APPROVE",
-      "notes": "Security hardening: coordinate path validation. @since tag fix suggested.",
+      "notes": "Re-review: @since tag fix confirmed. No new issues. Skipped re-posting (already approved).",
       "interactions": [
         {
           "at": "2026-08-30T23:27:19Z",
           "verdict": "APPROVE",
           "notes": "Security hardening: coordinate path validation. @since tag fix suggested."
+        },
+        {
+          "at": "2026-08-30T23:59:00Z",
+          "verdict": "APPROVE",
+          "notes": "Re-review: @since tag fix confirmed. No new issues. Skipped re-posting (already approved)."
         }
       ],
-      "review_count": 1
+      "review_count": 2
     },
     {
       "number": 2090,
       "title": "Apply session authentication by repository provenance",
       "author": "slachiewicz",
-      "reviewed_at": "2026-08-30T23:27:19Z",
-      "verdict": "COMMENT",
-      "notes": "Security hardening: auth scoping. @since tag fix in 2 locations.",
+      "reviewed_at": "2026-08-30T23:59:00Z",
+      "verdict": "APPROVE",
+      "notes": "Re-review: both @since tags fixed to 2.0.23. Upgraded from COMMENT to APPROVE.",
       "interactions": [
         {
           "at": "2026-08-30T23:27:19Z",
           "verdict": "COMMENT",
           "notes": "Security hardening: auth scoping. @since tag fix in 2 locations."
+        },
+        {
+          "at": "2026-08-30T23:59:00Z",
+          "verdict": "APPROVE",
+          "notes": "Re-review: both @since tags fixed to 2.0.23. Upgraded from COMMENT to APPROVE."
         }
       ],
-      "review_count": 1
+      "review_count": 2
     },
     {
       "number": 2092,
       "title": "Port resolver 2.x path/lock/auth fixes to 1.9.x line",
       "author": "slachiewicz",
-      "reviewed_at": "2026-08-30T23:27:19Z",
-      "verdict": "COMMENT",
-      "notes": "1.9.x backport: duplicate license headers + forward-port obligations noted.",
+      "reviewed_at": "2026-08-30T23:59:00Z",
+      "verdict": "APPROVE",
+      "notes": "Re-review: duplicate license headers fixed. Upgraded from COMMENT to APPROVE. Forward-port sequencing noted.",
       "interactions": [
         {
           "at": "2026-08-30T23:27:19Z",
           "verdict": "COMMENT",
           "notes": "1.9.x backport: duplicate license headers + forward-port obligations noted."
+        },
+        {
+          "at": "2026-08-30T23:59:00Z",
+          "verdict": "APPROVE",
+          "notes": "Re-review: duplicate license headers fixed. Upgraded from COMMENT to APPROVE. Forward-port sequencing noted."
         }
       ],
-      "review_count": 1
+      "review_count": 2
     }
   ],
   "skipped_prs": [
@@ -169,56 +184,13 @@
     }
   ],
   "last_run": {
-    "timestamp": "2026-08-30T23:37:56Z",
-    "prs_checked": 0,
-    "reviews_posted": 0,
+    "timestamp": "2026-08-30T23:59:00Z",
+    "prs_checked": 3,
+    "reviews_posted": 2,
     "tokens_estimate": 0
   },
   "operator_login": "gnodet",
   "review_queue": [],
-  "last_reviewed_updated_at": "2026-08-30T23:14:59Z",
-  "deferred_prs": [
-    {
-      "number": 2088,
-      "reason": "ci_failing",
-      "deferred_at": "2026-08-30T23:15:38Z",
-      "last_checked": "2026-08-30T23:15:38Z",
-      "check_count": 1
-    },
-    {
-      "number": 2089,
-      "reason": "ci_failing",
-      "deferred_at": "2026-08-30T23:15:38Z",
-      "last_checked": "2026-08-30T23:15:38Z",
-      "check_count": 1
-    },
-    {
-      "number": 2091,
-      "reason": "ci_failing",
-      "deferred_at": "2026-08-30T23:15:38Z",
-      "last_checked": "2026-08-30T23:15:38Z",
-      "check_count": 1
-    },
-    {
-      "number": 2087,
-      "reason": "ci_pending",
-      "deferred_at": "2026-08-30T23:37:56Z",
-      "last_checked": "2026-08-30T23:37:56Z",
-      "check_count": 1
-    },
-    {
-      "number": 2090,
-      "reason": "ci_pending",
-      "deferred_at": "2026-08-30T23:37:56Z",
-      "last_checked": "2026-08-30T23:37:56Z",
-      "check_count": 1
-    },
-    {
-      "number": 2092,
-      "reason": "ci_pending",
-      "deferred_at": "2026-08-30T23:37:56Z",
-      "last_checked": "2026-08-30T23:37:56Z",
-      "check_count": 1
-    }
-  ]
+  "last_reviewed_updated_at": "2026-08-30T23:42:24Z",
+  "deferred_prs": []
 }
