@@ -169,9 +169,9 @@
     }
   ],
   "last_run": {
-    "timestamp": "2026-08-30T23:27:19Z",
-    "prs_checked": 3,
-    "reviews_posted": 3,
+    "timestamp": "2026-08-30T23:37:56Z",
+    "prs_checked": 0,
+    "reviews_posted": 0,
     "tokens_estimate": 0
   },
   "operator_login": "gnodet",
@@ -197,6 +197,27 @@
       "reason": "ci_failing",
       "deferred_at": "2026-08-30T23:15:38Z",
       "last_checked": "2026-08-30T23:15:38Z",
+      "check_count": 1
+    },
+    {
+      "number": 2087,
+      "reason": "ci_pending",
+      "deferred_at": "2026-08-30T23:37:56Z",
+      "last_checked": "2026-08-30T23:37:56Z",
+      "check_count": 1
+    },
+    {
+      "number": 2090,
+      "reason": "ci_pending",
+      "deferred_at": "2026-08-30T23:37:56Z",
+      "last_checked": "2026-08-30T23:37:56Z",
+      "check_count": 1
+    },
+    {
+      "number": 2092,
+      "reason": "ci_pending",
+      "deferred_at": "2026-08-30T23:37:56Z",
+      "last_checked": "2026-08-30T23:37:56Z",
       "check_count": 1
     }
   ]
