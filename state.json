@@ -1,200 +1,402 @@
 {
-  "reviewed_prs": [
-    {
-      "number": 1683,
-      "title": "Fix version comparison",
-      "author": "sultan",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-07-14T20:49:40Z",
-      "review_count": 1
-    },
-    {
-      "number": 1714,
-      "title": "Edit version comparison",
-      "author": "elharo",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-07-14T20:26:21Z",
-      "review_count": 1
-    },
-    {
-      "number": 1758,
-      "title": "Add CycleAwareDependencyGraphDumper",
-      "author": "Jimin15",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-07-14T20:26:34Z",
-      "review_count": 1
-    },
-    {
-      "number": 1815,
-      "title": "Advised and Enforced Management",
-      "author": "cstamas",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-07-14T20:49:20Z",
-      "review_count": 1
-    },
-    {
-      "number": 1955,
-      "title": "Expose body for non RFC 9457 error responses",
-      "author": "kwin",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-07-13T11:59:36Z",
-      "review_count": 1
-    },
-    {
-      "number": 1981,
-      "title": "Improve rendering of javadoc content",
-      "author": "kwin",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-07-24T13:23:06Z",
-      "review_count": 1
-    },
-    {
-      "number": 1983,
-      "title": "Improve error reporting",
-      "author": "kwin",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-07-24T13:23:06Z",
-      "review_count": 2
-    },
-    {
-      "number": 2046,
-      "title": "docs: rewrite how-resolver-works.md",
-      "author": "elharo",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-08-30T19:11:37Z",
-      "review_count": 1
-    },
-    {
-      "number": 2060,
-      "title": "Fix #2058: Add links to configuration page",
-      "author": "Jamison929611",
-      "verdict": "APPROVE",
-      "reviewed_at": "2026-08-30T19:11:37Z",
-      "review_count": 1
-    },
-    {
-      "number": 2079,
-      "title": "fix: validate post-transformation path shapes",
-      "author": "gnodet",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-08-31T08:40:59Z",
-      "review_count": 1
-    },
-    {
-      "number": 2080,
-      "title": "fix: earn trust labels",
-      "author": "gnodet",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-08-31T07:57:19Z",
-      "review_count": 1
-    },
-    {
-      "number": 2081,
-      "title": "fix: bound response reads",
-      "author": "gnodet",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-08-31T07:58:04Z",
-      "review_count": 1
-    },
-    {
-      "number": 2082,
-      "title": "fix: prevent remote signals",
-      "author": "gnodet",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-08-31T07:57:43Z",
-      "review_count": 1
-    },
-    {
-      "number": 2084,
-      "title": "fix: deploy-side integrity must fail closed",
-      "author": "gnodet",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-08-31T08:53:53Z",
-      "review_count": 1
-    },
-    {
-      "number": 2085,
-      "title": "fix: bind credentials to origin",
-      "author": "gnodet",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-08-31T08:41:12Z",
-      "review_count": 1
-    },
-    {
-      "number": 2086,
-      "title": "fix: harden opt-in transport",
-      "author": "gnodet",
-      "verdict": "COMMENT",
-      "reviewed_at": "2026-08-31T08:41:22Z",
-      "review_count": 1
-    },
-    {
-      "number": 2087,
-      "title": "Validate coordinate components",
-      "author": "slachiewicz",
-      "verdict": "APPROVE",
-      "reviewed_at": "2026-08-31T00:00:00Z",
-      "review_count": 2
-    },
-    {
-      "number": 2088,
-      "title": "Resolve file transport locations",
-      "author": "slachiewicz",
-      "verdict": "APPROVE",
-      "reviewed_at": "2026-08-31T00:05:18Z",
-      "review_count": 1
-    },
-    {
-      "number": 2089,
-      "title": "Validate repository key path segment",
-      "author": "slachiewicz",
-      "verdict": "APPROVE",
-      "reviewed_at": "2026-08-31T00:05:21Z",
-      "review_count": 1
-    },
-    {
-      "number": 2090,
-      "title": "Carry repository provenance",
-      "author": "slachiewicz",
-      "verdict": "APPROVE",
-      "reviewed_at": "2026-08-31T00:00:00Z",
-      "review_count": 2
-    },
-    {
-      "number": 2091,
-      "title": "Compose named lock keys",
-      "author": "slachiewicz",
-      "verdict": "APPROVE",
-      "reviewed_at": "2026-08-31T00:05:29Z",
-      "review_count": 1
-    },
-    {
-      "number": 2092,
-      "title": "Backport path composition",
-      "author": "slachiewicz",
-      "verdict": "APPROVE",
-      "reviewed_at": "2026-08-31T00:00:00Z",
-      "review_count": 2
-    }
-  ],
-  "skipped_prs": [
-    {
-      "number": 1956,
-      "reason": "Bot + dependencies label"
-    },
-    {
-      "number": 1982,
-      "reason": ".asf.yaml-only"
-    }
-  ],
-  "operator_login": "gnodet",
-  "last_reviewed_updated_at": "2026-08-31T08:35:40Z",
-  "review_queue": [],
+  "version": "1.0",
+  "project": "",
   "last_run": {
-    "timestamp": "2026-08-31T08:54:03Z",
+    "timestamp": "2026-08-31T09:13:03Z",
     "prs_checked": 1,
     "reviews_posted": 1,
     "tokens_estimate": 0
   },
-  "deferred_prs": []
+  "reviewed_prs": [
+    {
+      "number": 130,
+      "title": "Fix #83: correctly detect changes in resources referring to properties",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-27T03:00:02Z",
+      "verdict": "APPROVE",
+      "notes": "bug: Re-review, no new commits since last APPROVE. Skipped re-posting.",
+      "interactions": [
+        {
+          "at": "2026-08-26T18:04:53Z",
+          "verdict": "APPROVE",
+          "notes": "bug: 3rd review pass (rebased follow-up). Budget bypass gap closed, depth-truncation detection added, 3 new tests. Low-severity cosmetic items only."
+        },
+        {
+          "at": "2026-08-27T03:00:02Z",
+          "verdict": "APPROVE",
+          "notes": "bug: Re-review, no new commits since last APPROVE. Skipped re-posting."
+        }
+      ],
+      "review_count": 2
+    },
+    {
+      "number": 129,
+      "title": "Fix #82: make swallowed IO errors fail toward affected instead of under-building",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-28T11:00:40Z",
+      "verdict": "APPROVE",
+      "notes": "Re-review: 3 new commits clean \u2014 schema drift guard, test fix for CodeRabbit feedback, merge from main",
+      "interactions": [
+        {
+          "at": "2026-08-26T18:12:58Z",
+          "verdict": "APPROVE",
+          "notes": "bug: 6 IO error catch blocks aligned to conservative direction. Orphaned byteman file noted. CI green."
+        },
+        {
+          "at": "2026-08-26T18:29:18Z",
+          "verdict": "APPROVE",
+          "notes": "bug: 2nd review pass. New commit a04a082d guards POSIX permission tests with assumeTrue for root-in-Docker. CI green."
+        },
+        {
+          "at": "2026-08-27T03:00:02Z",
+          "verdict": "APPROVE",
+          "notes": "bug: Re-review after rebase. Clean 3-commit structure, all prior concerns addressed, CI green."
+        },
+        {
+          "at": "2026-08-27T09:49:50Z",
+          "verdict": "APPROVE",
+          "notes": "bug: Re-review after new commit dd53cb2. Distinct TRANSITIVE_DEPENDENCY_UNRESOLVED reason string added."
+        },
+        {
+          "at": "2026-08-27T17:31:30Z",
+          "verdict": "APPROVE",
+          "notes": "bug: Re-review after rebase. Conservative error-handling correct. Evidence string inconsistency and rebase ancestry noted."
+        },
+        {
+          "at": "2026-08-28T11:00:40Z",
+          "verdict": "APPROVE",
+          "notes": "Re-review: 3 new commits clean \u2014 schema drift guard, test fix for CodeRabbit feedback, merge from main"
+        }
+      ],
+      "review_count": 6
+    },
+    {
+      "number": 136,
+      "title": "Fix #95: shallow-clone test coverage, shallow detection, actionable warnings",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-27T09:49:50Z",
+      "verdict": "APPROVE",
+      "notes": "bug: Re-review after new commit 0f28df7. warnIfShallow added to catch blocks. Merge conflict with main noted.",
+      "interactions": [
+        {
+          "at": "2026-08-26T18:13:00Z",
+          "verdict": "APPROVE",
+          "notes": "bug: Shallow clone detection+warnings, comprehensive tests. CI green."
+        },
+        {
+          "at": "2026-08-27T09:49:50Z",
+          "verdict": "APPROVE",
+          "notes": "bug: Re-review after new commit 0f28df7. warnIfShallow added to catch blocks. Merge conflict with main noted."
+        }
+      ],
+      "review_count": 2
+    },
+    {
+      "number": 135,
+      "title": "Fix #85: validate fetch remote against configured remotes, handle slash-containing branch names",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-26T18:13:02Z",
+      "verdict": "APPROVE",
+      "notes": "bug: Security fix - prevents crafted baseBranch from fetching arbitrary URLs. Defense-in-depth validation. CI green.",
+      "interactions": [
+        {
+          "at": "2026-08-26T18:13:02Z",
+          "verdict": "APPROVE",
+          "notes": "bug: Security fix - prevents crafted baseBranch from fetching arbitrary URLs. Defense-in-depth validation. CI green."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 147,
+      "title": "Fix #94: consolidate the v2 schema, validate reports against it, document the compatibility policy",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-26T18:23:51Z",
+      "verdict": "APPROVE",
+      "notes": "bug: Resolves conflict markers in v2 schema, adds schema validation tests with custom parser, removes deprecated UPSTREAM_DEPENDENCY constant, documents compatibility policy. CI green.",
+      "interactions": [
+        {
+          "at": "2026-08-26T18:23:51Z",
+          "verdict": "APPROVE",
+          "notes": "bug: Resolves conflict markers in v2 schema, adds schema validation tests with custom parser, removes deprecated UPSTREAM_DEPENDENCY constant, documents compatibility policy. CI green."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 149,
+      "title": "Fix #123: javadoc for the published core API",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-27T03:00:02Z",
+      "verdict": "APPROVE",
+      "notes": "documentation: Comprehensive javadoc for published core API classes. Suggested label change: +documentation -bug.",
+      "interactions": [
+        {
+          "at": "2026-08-26T19:35:03Z",
+          "verdict": "COMMENT",
+          "notes": "documentation: Thorough javadoc for core API. One gap: EXPLAIN constant missing javadoc (suggestion posted). Label should be documentation not bug."
+        },
+        {
+          "at": "2026-08-26T21:56:03Z",
+          "verdict": "APPROVE",
+          "notes": "documentation: 2nd review pass. EXPLAIN constant javadoc gap resolved. Class-level docs improved. All core API fully documented."
+        },
+        {
+          "at": "2026-08-27T03:00:02Z",
+          "verdict": "APPROVE",
+          "notes": "documentation: Comprehensive javadoc for published core API classes. Suggested label change: +documentation -bug."
+        }
+      ],
+      "review_count": 3
+    },
+    {
+      "number": 150,
+      "title": "Fix #86: troubleshooting guide for the two questions every adopter asks",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-26T21:56:03Z",
+      "verdict": "APPROVE",
+      "notes": "documentation: 2nd review pass. All 3 prior issues fixed: report mode scope, Scalpel prefix, POM error message. disableTriggers description also improved.",
+      "interactions": [
+        {
+          "at": "2026-08-26T20:10:02Z",
+          "verdict": "COMMENT",
+          "notes": "documentation: Excellent guide. One inaccuracy: report mode scope (trim+report \u2192 report only). Two minor formatting issues. 3/6 reviewer findings were false positives (features in concurrent PRs)."
+        },
+        {
+          "at": "2026-08-26T21:56:03Z",
+          "verdict": "APPROVE",
+          "notes": "documentation: 2nd review pass. All 3 prior issues fixed: report mode scope, Scalpel prefix, POM error message. disableTriggers description also improved."
+        }
+      ],
+      "review_count": 2
+    },
+    {
+      "number": 152,
+      "title": "Fix #122: substantiate the Camel test-jar example with measured numbers",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-27T16:15:58Z",
+      "verdict": "APPROVE",
+      "notes": "documentation: Re-review after commit 1c04ac2. Coordinate-aware reproduction command and explicit transitive-includes-direct relationship.",
+      "interactions": [
+        {
+          "at": "2026-08-27T09:42:19Z",
+          "verdict": "APPROVE",
+          "notes": "documentation: Replaced unverifiable README claims with measured numbers and Camel commit reference. Suggested removing misapplied bug label."
+        },
+        {
+          "at": "2026-08-27T16:15:58Z",
+          "verdict": "APPROVE",
+          "notes": "documentation: Re-review after commit 1c04ac2. Coordinate-aware reproduction command and explicit transitive-includes-direct relationship."
+        }
+      ],
+      "review_count": 2
+    },
+    {
+      "number": 25819,
+      "title": "",
+      "author": "",
+      "reviewed_at": "2026-08-27T16:13:27Z",
+      "verdict": "APPROVE",
+      "notes": "CAMEL-24423: Security fix filtering Camel-internal headers from Tika metadata. APPROVE with backport suggestion for 4.22.x/4.18.x",
+      "interactions": [
+        {
+          "at": "2026-08-27T16:13:27Z",
+          "verdict": "APPROVE",
+          "notes": "CAMEL-24423: Security fix filtering Camel-internal headers from Tika metadata. APPROVE with backport suggestion for 4.22.x/4.18.x"
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 153,
+      "title": "Fix #98: cache scalpel regex patterns and cap match input length",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-27T16:59:50Z",
+      "verdict": "APPROVE",
+      "notes": "bug: Security fix for ReDoS via unbounded regex matching. Caches compiled patterns and caps input length. TDD approach, all CI green.",
+      "interactions": [
+        {
+          "at": "2026-08-27T16:59:50Z",
+          "verdict": "APPROVE",
+          "notes": "bug: Security fix for ReDoS via unbounded regex matching. Caches compiled patterns and caps input length. TDD approach, all CI green."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 154,
+      "title": "Fix #104: generate a CycloneDX SBOM on release",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-28T07:10:59Z",
+      "verdict": "APPROVE",
+      "notes": "Adds opt-in CycloneDX SBOM generation via dedicated Maven profile; suggested removing incorrect bug label",
+      "interactions": [
+        {
+          "at": "2026-08-28T07:10:59Z",
+          "verdict": "APPROVE",
+          "notes": "Adds opt-in CycloneDX SBOM generation via dedicated Maven profile; suggested removing incorrect bug label"
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 155,
+      "title": "Fix #105: size-cap git blob reads for old-POM comparison",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-28T16:52:51Z",
+      "verdict": "APPROVE",
+      "notes": "Re-review: both previous findings addressed (backward-compat overload added, captureStderr extracted to shared utility); minor Javadoc placement note",
+      "interactions": [
+        {
+          "at": "2026-08-28T07:30:57Z",
+          "verdict": "COMMENT",
+          "notes": "Well-structured TDD fix capping blob reads; suggested backward-compatible API overloads and test helper dedup"
+        },
+        {
+          "at": "2026-08-28T16:52:51Z",
+          "verdict": "APPROVE",
+          "notes": "Re-review: both previous findings addressed (backward-compat overload added, captureStderr extracted to shared utility); minor Javadoc placement note"
+        }
+      ],
+      "review_count": 2
+    },
+    {
+      "number": 156,
+      "title": "chore: pin comment consistency; document deliberately-empty test resolver overrides",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-30T11:43:33Z",
+      "verdict": "COMMENT",
+      "notes": "chore: Re-review after new commit. Updated comment wording good; one addRepository(Repository,boolean) overload in ScalpelLifecycleParticipantTest still missing documentation.",
+      "interactions": [
+        {
+          "at": "2026-08-28T20:42:00Z",
+          "verdict": "APPROVE",
+          "notes": "Comment-only chore; corrects checkout pin comment v7\u2192v7.0.1, adds empty-method docs; noted one missed overload in ScalpelLifecycleParticipantTest"
+        },
+        {
+          "at": "2026-08-30T11:43:33Z",
+          "verdict": "COMMENT",
+          "notes": "chore: Re-review after new commit. Updated comment wording good; one addRepository(Repository,boolean) overload in ScalpelLifecycleParticipantTest still missing documentation."
+        }
+      ],
+      "review_count": 2
+    },
+    {
+      "number": 157,
+      "title": "test: bidirectional schema drift guard (emitted fields vs schema properties)",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-28T22:26:45Z",
+      "verdict": "APPROVE",
+      "notes": "Test-only PR closing schema drift gap; hardcoded fields match schema; suggested programmatic derivation for future",
+      "interactions": [
+        {
+          "at": "2026-08-28T22:26:45Z",
+          "verdict": "APPROVE",
+          "notes": "Test-only PR closing schema drift gap; hardcoded fields match schema; suggested programmatic derivation for future"
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 158,
+      "title": "Fix #99: phase timing and operation-count instrumentation",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-29T06:27:22Z",
+      "verdict": "APPROVE",
+      "notes": "feature: Well-tested instrumentation adding phase timing and operation counting. Minor JSON formatting nit confirmed. Label misclassification noted (bug\u2192enhancement).",
+      "interactions": [
+        {
+          "at": "2026-08-29T06:27:22Z",
+          "verdict": "APPROVE",
+          "notes": "feature: Well-tested instrumentation adding phase timing and operation counting. Minor JSON formatting nit confirmed. Label misclassification noted (bug\u2192enhancement)."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 159,
+      "title": "chore: review sweep - warning order, report-contract hygiene, unmatchedPomPaths on early returns",
+      "author": "paoloantinori",
+      "reviewed_at": "2026-08-30T13:57:35Z",
+      "verdict": "APPROVE",
+      "notes": "bug+chore: Real bug fix (unmatchedPomPaths dropped on early returns) bundled with 5 hygiene items. FQN Set nit, category validation consistency, and AffectedModule test gap noted.",
+      "interactions": [
+        {
+          "at": "2026-08-30T13:57:35Z",
+          "verdict": "APPROVE",
+          "notes": "bug+chore: Real bug fix (unmatchedPomPaths dropped on early returns) bundled with 5 hygiene items. FQN Set nit, category validation consistency, and AffectedModule test gap noted."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 25936,
+      "title": "",
+      "author": "",
+      "reviewed_at": "2026-08-31T09:10:22Z",
+      "verdict": "APPROVE",
+      "notes": "Vertex AI global region URL fix \u2014 correct hostname for global region",
+      "interactions": [
+        {
+          "at": "2026-08-31T09:10:22Z",
+          "verdict": "APPROVE",
+          "notes": "Vertex AI global region URL fix \u2014 correct hostname for global region"
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 25932,
+      "title": "",
+      "author": "",
+      "reviewed_at": "2026-08-31T09:10:22Z",
+      "verdict": "COMMENT",
+      "notes": "Upgrade guide for camel-spring-boot 4.23 defaults \u2014 2 factual inaccuracies (aud/azp, Reader/FileReader)",
+      "interactions": [
+        {
+          "at": "2026-08-31T09:10:22Z",
+          "verdict": "COMMENT",
+          "notes": "Upgrade guide for camel-spring-boot 4.23 defaults \u2014 2 factual inaccuracies (aud/azp, Reader/FileReader)"
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 25937,
+      "title": "",
+      "author": "",
+      "reviewed_at": "2026-08-31T09:10:22Z",
+      "verdict": "APPROVE",
+      "notes": "CAMEL-24436/24450/24452/24456: CORS+credential scoping backport to 4.22.x \u2014 cherry-pick of 4 reviewed fixes",
+      "interactions": [
+        {
+          "at": "2026-08-31T09:10:22Z",
+          "verdict": "APPROVE",
+          "notes": "CAMEL-24436/24450/24452/24456: CORS+credential scoping backport to 4.22.x \u2014 cherry-pick of 4 reviewed fixes"
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 2083,
+      "title": "fix: atomic file publication and authenticated IPC lock daemon",
+      "author": "gnodet",
+      "reviewed_at": "2026-08-31T09:12:56Z",
+      "verdict": "COMMENT",
+      "notes": "",
+      "interactions": [
+        {
+          "at": "2026-08-31T09:12:56Z",
+          "verdict": "COMMENT",
+          "notes": ""
+        }
+      ],
+      "review_count": 1
+    }
+  ],
+  "skipped_prs": [],
+  "review_queue": [],
+  "paused": false,
+  "created_at": "2026-08-26T18:04:53Z",
+  "last_reviewed_updated_at": "2026-08-30T13:46:37Z"
 }
