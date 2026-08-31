@@ -205,8 +205,8 @@
       "title": "Optimize TrackingFileManager unit tests and fix potential lock leaks",
       "author": "slachiewicz",
       "verdict": "APPROVE",
-      "reviewed_at": "2026-08-31T18:17:20Z",
-      "review_count": 1
+      "reviewed_at": "2026-08-31T18:40:43Z",
+      "review_count": 2
     }
   ],
   "skipped_prs": [
@@ -225,10 +225,10 @@
   ],
   "deferred_prs": [],
   "operator_login": "gnodet",
-  "last_reviewed_updated_at": "2026-08-31T18:17:20Z",
+  "last_reviewed_updated_at": "2026-08-31T18:40:43Z",
   "review_queue": [],
   "last_run": {
-    "timestamp": "2026-08-31T18:17:20Z",
+    "timestamp": "2026-08-31T18:40:43Z",
     "prs_checked": 1,
     "reviews_posted": 1,
     "tokens_estimate": 0
