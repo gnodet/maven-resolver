@@ -166,6 +166,54 @@
         }
       ],
       "review_count": 2
+    },
+    {
+      "number": 2088,
+      "title": "Resolve file transport locations with path operations instead of substring matching",
+      "author": "slachiewicz",
+      "reviewed_at": "2026-08-31T00:05:39Z",
+      "verdict": "APPROVE",
+      "notes": "Security hardening: FileTransporter path containment. Fixes 2 bypass vectors.",
+      "interactions": [
+        {
+          "at": "2026-08-31T00:05:39Z",
+          "verdict": "APPROVE",
+          "notes": "Security hardening: FileTransporter path containment. Fixes 2 bypass vectors."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 2089,
+      "title": "Validate the repository key used as a local repository path segment",
+      "author": "slachiewicz",
+      "reviewed_at": "2026-08-31T00:05:39Z",
+      "verdict": "APPROVE",
+      "notes": "Security hardening: repository key path validation. Closes dot-segment gap.",
+      "interactions": [
+        {
+          "at": "2026-08-31T00:05:39Z",
+          "verdict": "APPROVE",
+          "notes": "Security hardening: repository key path validation. Closes dot-segment gap."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 2091,
+      "title": "Compose named lock keys one segment per coordinate field",
+      "author": "slachiewicz",
+      "reviewed_at": "2026-08-31T00:05:39Z",
+      "verdict": "APPROVE",
+      "notes": "Security hardening: lock name sanitization. Two-layer defense (fieldToSegment + containment check).",
+      "interactions": [
+        {
+          "at": "2026-08-31T00:05:39Z",
+          "verdict": "APPROVE",
+          "notes": "Security hardening: lock name sanitization. Two-layer defense (fieldToSegment + containment check)."
+        }
+      ],
+      "review_count": 1
     }
   ],
   "skipped_prs": [
@@ -184,13 +232,13 @@
     }
   ],
   "last_run": {
-    "timestamp": "2026-08-30T23:59:00Z",
+    "timestamp": "2026-08-31T00:05:39Z",
     "prs_checked": 3,
-    "reviews_posted": 2,
+    "reviews_posted": 3,
     "tokens_estimate": 0
   },
   "operator_login": "gnodet",
   "review_queue": [],
-  "last_reviewed_updated_at": "2026-08-30T23:42:24Z",
+  "last_reviewed_updated_at": "2026-08-30T23:42:22Z",
   "deferred_prs": []
 }
