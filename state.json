@@ -4669,49 +4669,65 @@
       "review_count": 1
     },
     {
-      "number": 2080,
-      "title": "fix: earn trust labels through verification and bind tracking to URL",
-      "author": "gnodet",
-      "reviewed_at": "2026-08-31T07:58:16Z",
-      "verdict": "COMMENT",
-      "notes": "Security audit: trust-label laundering fixes. @since 2.0.22\u21922.0.23 in 2 locations + missing @since.",
+      "number": 25943,
+      "title": "",
+      "author": "",
+      "reviewed_at": "2026-08-31T08:39:26Z",
+      "verdict": "APPROVE",
+      "notes": "AGENTS.md: adoc anchor and generated-catalog-sync guidance",
       "interactions": [
         {
-          "at": "2026-08-31T07:58:16Z",
-          "verdict": "COMMENT",
-          "notes": "Security audit: trust-label laundering fixes. @since 2.0.22\u21922.0.23 in 2 locations + missing @since."
+          "at": "2026-08-31T08:39:26Z",
+          "verdict": "APPROVE",
+          "notes": "AGENTS.md: adoc anchor and generated-catalog-sync guidance"
         }
       ],
       "review_count": 1
     },
     {
-      "number": 2081,
-      "title": "fix: bound response reads and sanitize remote-derived strings",
+      "number": 2079,
+      "title": "fix: validate post-transformation path shapes and assert containment at resolve sinks",
       "author": "gnodet",
-      "reviewed_at": "2026-08-31T07:58:16Z",
+      "reviewed_at": "2026-08-31T08:41:33Z",
       "verdict": "COMMENT",
-      "notes": "Security audit: bounded reads + sanitization. UrlTransporter missing clampRemoteLastModified (f026 gap). @since fixes.",
+      "notes": "Security audit: path validation at resolve sinks. @since fixes needed.",
       "interactions": [
         {
-          "at": "2026-08-31T07:58:16Z",
+          "at": "2026-08-31T08:41:33Z",
           "verdict": "COMMENT",
-          "notes": "Security audit: bounded reads + sanitization. UrlTransporter missing clampRemoteLastModified (f026 gap). @since fixes."
+          "notes": "Security audit: path validation at resolve sinks. @since fixes needed."
         }
       ],
       "review_count": 1
     },
     {
-      "number": 2082,
-      "title": "fix: prevent remote signals from weakening operator-configured policy",
+      "number": 2085,
+      "title": "fix: bind credentials to origin and reject TLS downgrade redirects",
       "author": "gnodet",
-      "reviewed_at": "2026-08-31T07:58:16Z",
+      "reviewed_at": "2026-08-31T08:41:33Z",
       "verdict": "COMMENT",
-      "notes": "Security audit: policy weakening prevention. @since 2.0.22\u21922.0.23 in 4 locations. Duplicate helper method noted.",
+      "notes": "Security audit: credential origin binding + TLS downgrade. 12 @since tags need fixing.",
       "interactions": [
         {
-          "at": "2026-08-31T07:58:16Z",
+          "at": "2026-08-31T08:41:33Z",
           "verdict": "COMMENT",
-          "notes": "Security audit: policy weakening prevention. @since 2.0.22\u21922.0.23 in 4 locations. Duplicate helper method noted."
+          "notes": "Security audit: credential origin binding + TLS downgrade. 12 @since tags need fixing."
+        }
+      ],
+      "review_count": 1
+    },
+    {
+      "number": 2086,
+      "title": "fix: harden opt-in transport and lock backends against unauthenticated infrastructure",
+      "author": "gnodet",
+      "reviewed_at": "2026-08-31T08:41:33Z",
+      "verdict": "COMMENT",
+      "notes": "Security audit: transport/lock backend hardening. @since fixes + bonus ConfigUtils bugfix.",
+      "interactions": [
+        {
+          "at": "2026-08-31T08:41:33Z",
+          "verdict": "COMMENT",
+          "notes": "Security audit: transport/lock backend hardening. @since fixes + bonus ConfigUtils bugfix."
         }
       ],
       "review_count": 1
@@ -4820,10 +4836,10 @@
     }
   ],
   "operator_login": "gnodet",
-  "last_reviewed_updated_at": "2026-08-31T06:19:06Z",
+  "last_reviewed_updated_at": "2026-08-31T07:47:50Z",
   "review_queue": [],
   "last_run": {
-    "timestamp": "2026-08-31T07:58:16Z",
+    "timestamp": "2026-08-31T08:41:33Z",
     "prs_checked": 3,
     "reviews_posted": 3,
     "tokens_estimate": 0
