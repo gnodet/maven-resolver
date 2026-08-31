@@ -4685,49 +4685,17 @@
       "review_count": 1
     },
     {
-      "number": 2079,
-      "title": "fix: validate post-transformation path shapes and assert containment at resolve sinks",
+      "number": 2084,
+      "title": "fix: deploy-side integrity must fail closed",
       "author": "gnodet",
-      "reviewed_at": "2026-08-31T08:41:33Z",
+      "reviewed_at": "2026-08-31T08:54:03Z",
       "verdict": "COMMENT",
-      "notes": "Security audit: path validation at resolve sinks. @since fixes needed.",
+      "notes": "Security audit: deploy-side integrity. 6 @since tags need fixing. Duplicate signature helpers noted.",
       "interactions": [
         {
-          "at": "2026-08-31T08:41:33Z",
+          "at": "2026-08-31T08:54:03Z",
           "verdict": "COMMENT",
-          "notes": "Security audit: path validation at resolve sinks. @since fixes needed."
-        }
-      ],
-      "review_count": 1
-    },
-    {
-      "number": 2085,
-      "title": "fix: bind credentials to origin and reject TLS downgrade redirects",
-      "author": "gnodet",
-      "reviewed_at": "2026-08-31T08:41:33Z",
-      "verdict": "COMMENT",
-      "notes": "Security audit: credential origin binding + TLS downgrade. 12 @since tags need fixing.",
-      "interactions": [
-        {
-          "at": "2026-08-31T08:41:33Z",
-          "verdict": "COMMENT",
-          "notes": "Security audit: credential origin binding + TLS downgrade. 12 @since tags need fixing."
-        }
-      ],
-      "review_count": 1
-    },
-    {
-      "number": 2086,
-      "title": "fix: harden opt-in transport and lock backends against unauthenticated infrastructure",
-      "author": "gnodet",
-      "reviewed_at": "2026-08-31T08:41:33Z",
-      "verdict": "COMMENT",
-      "notes": "Security audit: transport/lock backend hardening. @since fixes + bonus ConfigUtils bugfix.",
-      "interactions": [
-        {
-          "at": "2026-08-31T08:41:33Z",
-          "verdict": "COMMENT",
-          "notes": "Security audit: transport/lock backend hardening. @since fixes + bonus ConfigUtils bugfix."
+          "notes": "Security audit: deploy-side integrity. 6 @since tags need fixing. Duplicate signature helpers noted."
         }
       ],
       "review_count": 1
@@ -4836,12 +4804,12 @@
     }
   ],
   "operator_login": "gnodet",
-  "last_reviewed_updated_at": "2026-08-31T07:47:50Z",
+  "last_reviewed_updated_at": "2026-08-31T08:35:40Z",
   "review_queue": [],
   "last_run": {
-    "timestamp": "2026-08-31T08:41:33Z",
-    "prs_checked": 3,
-    "reviews_posted": 3,
+    "timestamp": "2026-08-31T08:54:03Z",
+    "prs_checked": 1,
+    "reviews_posted": 1,
     "tokens_estimate": 0
   }
 }
