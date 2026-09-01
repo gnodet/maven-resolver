@@ -4,7 +4,7 @@
   "project_name": "Maven Resolver",
   "loop_type": "review-loop",
   "last_run": {
-    "timestamp": "2026-08-28T09:20:34Z",
+    "timestamp": "2026-09-01T21:05:35Z",
     "prs_checked": 1,
     "reviews_posted": 1,
     "tokens_estimate": 0
@@ -355,6 +355,23 @@
       ],
       "review_count": 1,
       "head_sha": "b7a3b86fb6bc067708516773d7d2754e1e329e90"
+    },
+    {
+      "number": 2108,
+      "title": "Fix listener error swallowing (#1990), SyncContext double-close (#1992), and test flakiness (#1350)",
+      "author": "slachiewicz",
+      "reviewed_at": "2026-09-01T21:05:35Z",
+      "verdict": "REQUEST_CHANGES",
+      "notes": "2 HIGH resource leaks (try-with-resources removal), misleading test (single SyncContext for shared/exclusive), JUL/SLF4J inconsistency, FQN imports",
+      "interactions": [
+        {
+          "at": "2026-09-01T21:05:35Z",
+          "verdict": "REQUEST_CHANGES",
+          "notes": "2 HIGH resource leaks (try-with-resources removal), misleading test (single SyncContext for shared/exclusive), JUL/SLF4J inconsistency, FQN imports"
+        }
+      ],
+      "review_count": 1,
+      "head_sha": "bf8c37d5fa69ed7d792459f4d7eab75887415dcc"
     }
   ],
   "skipped_prs": [
@@ -369,5 +386,5 @@
   "escalated": [],
   "resolved": [],
   "created_at": "2026-07-24T13:47:44Z",
-  "last_reviewed_updated_at": "2026-08-28T06:46:44Z"
+  "last_reviewed_updated_at": "2026-09-01T20:49:32Z"
 }
