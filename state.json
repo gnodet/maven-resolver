@@ -389,6 +389,23 @@
       ],
       "review_count": 1,
       "head_sha": "f2c15debf7fb968b0054de9a583c51a189a544c1"
+    },
+    {
+      "number": 2115,
+      "title": "bug: LRM may be created for non-existent directories",
+      "author": "cstamas",
+      "reviewed_at": "2026-09-02T08:06:11Z",
+      "verdict": "COMMENT",
+      "notes": "Draft. Identical fix to #2111 but without comment or tests. Recommended closing in favor of #2111.",
+      "interactions": [
+        {
+          "at": "2026-09-02T08:06:11Z",
+          "verdict": "COMMENT",
+          "notes": "Draft. Identical fix to #2111 but without comment or tests. Recommended closing in favor of #2111."
+        }
+      ],
+      "review_count": 1,
+      "head_sha": "8cc3c2fa79d0bfa53bfccaa4326bfae5a00aaf61"
     }
   ],
   "skipped_prs": [
