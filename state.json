@@ -4,10 +4,10 @@
   "project_name": "Maven Resolver",
   "loop_type": "review-loop",
   "last_run": {
-    "timestamp": "2026-09-04T12:06:41Z",
-    "prs_checked": 1,
-    "reviews_posted": 1,
-    "tokens_estimate": 77815
+    "timestamp": "2026-09-04T20:56:46Z",
+    "prs_checked": 2,
+    "reviews_posted": 2,
+    "tokens_estimate": 207004
   },
   "reviewed_prs": [
     {
@@ -423,6 +423,40 @@
       ],
       "review_count": 1,
       "head_sha": "c4ff36fc14719702d042abd344f23d9acb164dcd"
+    },
+    {
+      "number": 2119,
+      "title": "[1.9.x] Bring five changes over from master",
+      "author": "slachiewicz",
+      "reviewed_at": "2026-09-04T20:56:43Z",
+      "verdict": "APPROVE",
+      "notes": "Clean backport of 5 security/correctness fixes to 1.9.x. Master-to-1.9.x adaptation carefully done. 1 medium: session-aware not-found logging leads master (PR #2112 not merged yet). Suggested milestone: 1.9.28.",
+      "interactions": [
+        {
+          "at": "2026-09-04T20:56:43Z",
+          "verdict": "APPROVE",
+          "notes": "Clean backport of 5 security/correctness fixes to 1.9.x. Master-to-1.9.x adaptation carefully done. 1 medium: session-aware not-found logging leads master (PR #2112 not merged yet). Suggested milestone: 1.9.28."
+        }
+      ],
+      "review_count": 1,
+      "head_sha": "d2357395e48b41e99b1a6a09a7a0b92a47365cb2"
+    },
+    {
+      "number": 2120,
+      "title": "Present the IPC token when attaching to a running daemon, and validate Redisson YAML addresses",
+      "author": "slachiewicz",
+      "reviewed_at": "2026-09-04T20:56:43Z",
+      "verdict": "APPROVE",
+      "notes": "Security hardening: IPC reconnect token + Redisson address validation. Properly tested. Low nits only (stale Javadoc, raw token in log, reflection fallback). Suggested milestone: 2.0.23.",
+      "interactions": [
+        {
+          "at": "2026-09-04T20:56:43Z",
+          "verdict": "APPROVE",
+          "notes": "Security hardening: IPC reconnect token + Redisson address validation. Properly tested. Low nits only (stale Javadoc, raw token in log, reflection fallback). Suggested milestone: 2.0.23."
+        }
+      ],
+      "review_count": 1,
+      "head_sha": "2d50e5cf23a0983f3d20cf13c131a56f346154c7"
     }
   ],
   "skipped_prs": [
@@ -437,49 +471,49 @@
   "escalated": [],
   "resolved": [],
   "created_at": "2026-07-24T13:47:44Z",
-  "last_reviewed_updated_at": "2026-09-04T11:58:36Z",
+  "last_reviewed_updated_at": "2026-09-04T20:28:11Z",
   "deferred_prs": [
     {
       "number": 2110,
       "reason": "ci_failing",
       "deferred_at": "2026-09-01T23:02:07Z",
       "last_checked": "2026-09-01T23:02:07Z",
-      "check_count": 2
+      "check_count": 3
     },
     {
       "number": 2112,
       "reason": "ci_pending",
       "deferred_at": "2026-09-01T23:02:07Z",
       "last_checked": "2026-09-01T23:02:07Z",
-      "check_count": 2
+      "check_count": 3
     },
     {
       "number": 2113,
       "reason": "ci_pending",
       "deferred_at": "2026-09-01T23:02:07Z",
       "last_checked": "2026-09-01T23:02:07Z",
-      "check_count": 2
+      "check_count": 3
     },
     {
       "number": 2108,
       "reason": "ci_failing",
       "deferred_at": "2026-09-04T12:00:39Z",
       "last_checked": "2026-09-04T12:00:39Z",
-      "check_count": 1
+      "check_count": 2
     },
     {
       "number": 2114,
       "reason": "no_ci",
       "deferred_at": "2026-09-04T12:00:39Z",
       "last_checked": "2026-09-04T12:00:39Z",
-      "check_count": 1
+      "check_count": 2
     },
     {
       "number": 2116,
       "reason": "ci_failing",
       "deferred_at": "2026-09-04T12:00:39Z",
       "last_checked": "2026-09-04T12:00:39Z",
-      "check_count": 1
+      "check_count": 2
     },
     {
       "number": 2117,
