@@ -326,6 +326,27 @@ class EnhancedLocalRepositoryManager extends SimpleLocalRepositoryManager {
                     result.setRepository(repository);
                     return true;
                 }
+                // Same-ID-different-URL fallback: if the tracking file contains a URL-qualified entry for the
+                // same repository ID but with a different URL hash (e.g. real Central tracked as
+                // "central-<sha1(realUrl)>=" but the current build overrides central to "file:target/null"),
+                // the exact lookup misses because sha1(realUrl) != sha1(file:target/null). Match by repo-ID
+                // prefix: any entry starting with "filename>repoId-" is accepted as originating from the same
+                // logical repository.
+                String repoIdPrefix = getKey(path, legacyKey + "-");
+                for (Object key : props.keySet()) {
+                    String k = key.toString();
+                    if (k.startsWith(repoIdPrefix) && !k.equals(getKey(path, trackingKey))) {
+                        LOGGER.debug(
+                                "Accepting locally cached artifact {} via same-id tracking entry '{}'"
+                                        + " (current URL-qualified key would be '{}')",
+                                path.getFileName(),
+                                k,
+                                getKey(path, trackingKey));
+                        result.setAvailable(true);
+                        result.setRepository(repository);
+                        return true;
+                    }
+                }
             }
         }
         return false;

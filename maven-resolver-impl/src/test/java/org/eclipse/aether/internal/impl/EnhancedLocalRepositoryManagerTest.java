@@ -421,7 +421,7 @@ public class EnhancedLocalRepositoryManagerTest {
     }
 
     @Test
-    void testUrlQualifiedTrackingDistinguishesSameIdDifferentUrl() throws Exception {
+    void testUrlQualifiedTrackingSameIdDifferentUrlAcceptedViaFallback() throws Exception {
         manager = newUrlQualifiedTrackingManager();
         addRemoteArtifact(artifact);
 
@@ -431,14 +431,37 @@ public class EnhancedLocalRepositoryManagerTest {
         assertTrue(result.isAvailable());
         assertEquals(repository, result.getRepository());
 
-        // an impostor sharing the trusted id but pointing at a different URL is a different origin:
-        // the cached bytes must not be accepted as "came from" it (and vice versa, bytes cached from
-        // the impostor would not satisfy the trusted repository)
-        RemoteRepository impostor =
-                new RemoteRepository.Builder(repository.getId(), "default", "https://impostor.invalid/repo").build();
-        request = new LocalArtifactRequest(artifact, Arrays.asList(impostor), testContext);
+        // a repository sharing the same id but pointing at a different URL is accepted via the
+        // prefix-based fallback: the tracking file contains "artifact>central-<sha1-A>=" and the
+        // request repository produces "central-<sha1-B>"; the fallback matches on the shared
+        // repo ID prefix "central-" and accepts the locally cached artifact, avoiding a forced
+        // re-download that would fail for fake/file-based repository URLs (the IT pattern)
+        RemoteRepository sameIdDifferentUrl =
+                new RemoteRepository.Builder(repository.getId(), "default", "https://other.example/repo").build();
+        request = new LocalArtifactRequest(artifact, Arrays.asList(sameIdDifferentUrl), testContext);
         result = manager.find(session, request);
-        assertFalse(result.isAvailable());
+        assertTrue(result.isAvailable());
+        assertEquals(sameIdDifferentUrl, result.getRepository());
+    }
+
+    @Test
+    void testUrlQualifiedTrackingAcceptsSameIdDifferentUrlEntries() throws Exception {
+        manager = newUrlQualifiedTrackingManager();
+
+        // Simulate the IT scenario: artifact was downloaded from real Central
+        // and tracked with nid_hurl key "central-<sha1(realCentralUrl)>="
+        addRemoteArtifact(artifact);
+
+        // Now resolve with "central" pointing at file:target/null (IT override)
+        RemoteRepository itCentral =
+                new RemoteRepository.Builder(repository.getId(), "default", "file:target/null").build();
+        LocalArtifactRequest request = new LocalArtifactRequest(artifact, Arrays.asList(itCentral), testContext);
+        LocalArtifactResult result = manager.find(session, request);
+
+        // The prefix-based fallback matches: "central-<sha1-real>" starts with "central-",
+        // so the artifact is accepted even though the URL hash differs
+        assertTrue(result.isAvailable());
+        assertEquals(itCentral, result.getRepository());
     }
 
     @Test
