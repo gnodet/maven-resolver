@@ -302,6 +302,52 @@ class EnhancedLocalRepositoryManager extends SimpleLocalRepositoryManager {
                 return true;
             }
         }
+        // Backward compatibility / same-id-different-URL fallback: when the tracking key function is
+        // URL-qualified (nid_hurl), the exact lookup above can miss in two situations:
+        //
+        //  1. Legacy entries: the tracking file was written by an older resolver using ID-only keys
+        //     (nid format, e.g. "artifact>central=").
+        //  2. URL mismatch: the artifact was downloaded from a repository with the same ID but a different
+        //     URL (e.g. real Central "central-<sha1-of-real-url>=" vs an IT override
+        //     "central-<sha1-of-file:target/null>=").
+        //
+        // In both cases the artifact IS present and WAS downloaded from a repository with the same logical
+        // identity (same repo ID). Accept it: the entry will be upgraded on the next download.
+        for (RemoteRepository repository : result.getRequest().getRepositories()) {
+            String trackingKey = getTrackingRepositoryKey(repository, context);
+            // Try the system-wide (ID-only) key function first — handles legacy nid entries
+            String legacyKey = getRepositoryKey(repository, context);
+            if (!legacyKey.equals(trackingKey) && props.get(getKey(path, legacyKey)) != null) {
+                LOGGER.debug(
+                        "Accepting locally cached artifact {} via legacy tracking key '{}'"
+                                + " (current key function would produce '{}')",
+                        path.getFileName(),
+                        legacyKey,
+                        trackingKey);
+                result.setAvailable(true);
+                result.setRepository(repository);
+                return true;
+            }
+            // Try prefix-based match — handles same-id-different-URL nid_hurl entries
+            // (e.g. tracking file has "central-<sha1-A>=" but current repo URL produces "central-<sha1-B>")
+            // Use "filename>repoId-" as prefix to avoid false matches with repos whose ID shares a prefix
+            // (e.g. "central" must not match "centralbackup-<sha1>")
+            String repoIdPrefix = getKey(path, legacyKey + "-");
+            for (Object key : props.keySet()) {
+                String k = key.toString();
+                if (k.startsWith(repoIdPrefix) && !k.equals(getKey(path, trackingKey))) {
+                    LOGGER.debug(
+                            "Accepting locally cached artifact {} via same-id tracking entry '{}'"
+                                    + " (current URL-qualified key would be '{}')",
+                            path.getFileName(),
+                            k,
+                            getKey(path, trackingKey));
+                    result.setAvailable(true);
+                    result.setRepository(repository);
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
